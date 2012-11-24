@@ -50,15 +50,30 @@ ul {
     margin-bottom: 7px;
 }
 
-.footer-menu {
+/* Footer
+   ----------------------- */
+
+.copyright {
+    float: right;
+}
+
+.main-footer {
     margin-top: 15px;
-    padding: 0;
     border-top: 1px solid #ccc;
+}
+
+.main-footer li,
+.main-footer p {
+    font-size: 12px;
+    line-height: 30px;
+}
+
+.footer-menu {
+    padding: 0;
 }
 
 .footer-menu li {
     display: inline;
-    line-height: 30px;
     list-style: none;
 }
 
@@ -104,7 +119,7 @@ ul {
 }
 
 .script-visible:focus {
-    outline:1px solid #ccc;
+    outline: 1px solid #ccc;
 }
 
 /* ----------------------------------------------------------
