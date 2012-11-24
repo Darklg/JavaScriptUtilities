@@ -20,9 +20,11 @@ function $_(id) {
    ----------------------- */
 
 /* From the amazing Dustin Diaz : http://www.dustindiaz.com/smallest-domready-ever */
+// «!document.body» check ensures that IE fires domReady correctly
 
-function domReady(func) {
-    /in/.test(document.readyState) ? setTimeout('domReady(' + func + ')', 9) : func();
+function domReady(func) { 
+    if(/in/.test(document.readyState) || !document.body) setTimeout(function(){domReady(func)}, 9)
+    else func()
 }
 
 /* ----------------------------------------------------------
