@@ -8,7 +8,42 @@
     </head>
     <body>
         <h1>JSkarDestin — Vanilla JS</h1>
-        <ul>
+
+        <h2>Events</h2>
+
+        <h3>$_(id)</h3>
+        <p>Shorthand for document.getElementById()</p>
+        <code class="script-visible" contenteditable>$_</code>
+
+        <h3>domReady(function)</h3>
+        <p>Execute a function when the DOM is ready. (<a target="_blank" href="http://www.dustindiaz.com/smallest-domready-ever">Thanks to Dustin Diaz</a>)</p>
+        <script class="script-visible" contenteditable>domReady(function(){
+    console.log('DOM is ready !');
+});</script>
+
+        <h2>Classes</h2>
+
+        <h3>addClass(element, className)</h3>
+        <p>Add a class to an element</p>
+        <script class="script-visible" contenteditable>domReady(function(){
+    addClass($_('addclass-test'), 'color-red');
+});</script>
+        <div class="script-result"><div id="addclass-test">I should be red</div></div>
+
+        <h3>hasClass(element, className)</h3>
+        <p>Test if an element has a particular class</p>
+        <code class="script-visible" contenteditable>domReady(function(){
+    var testHasClass = hasClass($_('addclass-test'), 'color-red');
+});</code>
+
+        <h3>removeClass(element, className)</h3>
+        <p>Remove a class from an element</p>
+        <script class="script-visible" contenteditable>domReady(function(){
+    removeClass($_('removeclass-test'), 'color-red');
+});</script>
+        <div class="script-result"><div id="removeclass-test" class="color-red">I shouldn't be red</div></div>
+
+        <ul class="footer-menu">
             <li>
                 <a href="vanilla-js.html">Vanilla JS</a>
             </li>
