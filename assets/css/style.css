@@ -6,3 +6,114 @@
 * {
     margin: 0 auto;
 }
+
+/* Base style
+   ----------------------- */
+
+html {
+    text-align: center;
+}
+
+body {
+    width: 780px;
+    margin: 15px auto;
+    text-align: left;
+    font: 62.5% sans-serif;
+}
+
+h1 {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+h2 {
+    margin: 30px 0 15px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+h3 {
+    margin: 15px 0 7px;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+p,
+li {
+    font-size: 13px;
+    line-height: 18px;
+}
+
+p,
+ul {
+    margin-bottom: 7px;
+}
+
+.footer-menu {
+    margin-top: 15px;
+    padding: 0;
+    border-top: 1px solid #ccc;
+}
+
+.footer-menu li {
+    display: inline;
+    line-height: 30px;
+    list-style: none;
+}
+
+.footer-menu li + li:before {
+    content: ' — ';
+}
+
+.footer-menu a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-menu a:hover {
+    text-decoration: underline;
+}
+
+/* Demo style
+   ----------------------- */
+
+.script-result {
+    border: 1px solid #f0f0f0;
+    background-color: #fafafa;
+}
+
+.script-result,
+.script-visible {
+    padding: 5px;
+    font-size: 13px;
+}
+
+/* Script style
+   ----------------------- */
+
+.script-visible {
+    display: block;
+    margin: 7px 0;
+    border: 1px solid #ccc;
+    font-family: Courier;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;
+    background-color: #f0f0f0;
+}
+
+.script-visible:focus {
+    outline:1px solid #ccc;
+}
+
+/* ----------------------------------------------------------
+   Demos
+   ------------------------------------------------------- */
+
+/* Classes
+   ----------------------- */
+
+.color-red {
+    color: red;
+}
