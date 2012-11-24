@@ -1,4 +1,4 @@
 JSkarDestin
 ===========
 
-JS utilities for Vanilla JS, Mootools &amp; jQuery
+JavaScript utilities for Vanilla JS, Mootools &amp; jQuery
