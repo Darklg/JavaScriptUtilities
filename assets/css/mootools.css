@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+/* ----------------------------------------------------------
+   Fake Placeholder
+   ------------------------------------------------------- */
+
+.with-placeholder {
+    color: #ccc;
+}
+
+/* ----------------------------------------------------------
+   Fake Select
+   ------------------------------------------------------- */
+
+.fakeselect-wrapper,
+.fakeselect-wrapper select,
+.fakeselect-cover {
+    height: 25px;
+    line-height: 25px;
+}
+
+.fakeselect-wrapper {
+    width: 150px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #fff;
+    -webkit-background-clip: border;
+    -moz-background-clip: border;
+    background-clip: border;
+}
+
+.fakeselect-wrapper:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 0;
+    height: 0;
+    margin-top: -2px;
+    border-top: 4px solid #333;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+.fakeselect-cover {
+    padding: 0 15px 0 5px;
+    overflow: hidden;
+    text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.fakeselect-wrapper select {
+    cursor: pointer;
+}

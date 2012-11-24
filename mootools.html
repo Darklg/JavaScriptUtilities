@@ -4,19 +4,32 @@
         <meta charset="UTF-8" />
         <title>JSkarDestin — Mootools</title>
         <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/mootools.css" />
         <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
         <script src="assets/js/mootools/mootools-jskardestin.js"></script>
     </head>
     <body>
         <h1>JSkarDestin — Mootools</h1>
-
         <h2>Fake Placeholder</h2>
-        <p>Emulate "placeholder" attribute if not available</p>
+        <p>Emulate "placeholder" attribute if not available.</p>
         <script class="script-visible" contenteditable>window.addEvent('domready',function(){
     new FakePlaceholder($$('[placeholder]'));
 });</script>
-        <div class="script-result"><input type="text" name="default" placeholder="It works !" /></div>
-
+        <div class="script-result">
+            <input type="text" name="default" placeholder="It works !" />
+        </div>
+        <h2>Fake Select</h2>
+        <p>Fake selects with native UI for options/values.</p>
+        <script class="script-visible" contenteditable>window.addEvent('domready',function(){
+    new FakeSelect($$('select.fake-select'));
+});</script>
+        <div class="script-result">
+            <select name="fake-select-test" id="fake-select-test" class="fake-select">
+                <option value="" disabled selected style="display:none;">Sélectionner</option>
+                <option value="0">One value</option>
+                <option value="1">Another Value</option>
+            </select>
+        </div>
         <footer class="main-footer">
             <p class="copyright">By <a href="http://darklg.me/">Darklg</a> — Licence MIT</p>
             <ul class="footer-menu">
