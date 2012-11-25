@@ -83,13 +83,13 @@ function removeClass(element, className) {
    ----------------------- */
 
 function InArray(needle, haystack) {
-    var _return = false;
-    for(var i in haystack) {
-        if(haystack[i] === needle) {
-            _return = true;
-        }
+    var i = 0,
+        length = haystack.length;
+
+    for(;i < length; i++) {
+        if(haystack[i] === needle) return true;
     }
-    return _return;
+    return false;
 }
 
 /* Trim
