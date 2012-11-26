@@ -20,7 +20,6 @@ var FakeUpload = new Class({
         'position': 'absolute',
         'top': 0,
         'right': 0
-
     },
     initialize: function(opt) {
         var mthis = this;
