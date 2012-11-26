@@ -1,8 +1,8 @@
 /*
-* JavaScriptUtilities
-* (c) 2012 Kevin Rocher
-* JavaScriptUtilities may be freely distributed under the MIT license.
-*/
+ * JavaScriptUtilities
+ * (c) 2012 Kevin Rocher
+ * JavaScriptUtilities may be freely distributed under the MIT license.
+ */
 
 /* ----------------------------------------------------------
    $_ : Get Element
@@ -21,11 +21,16 @@ function $_(id) {
 
 /* From the amazing Dustin Diaz : http://www.dustindiaz.com/smallest-domready-ever */
 // «!document.body» check ensures that IE fires domReady correctly
-
-function domReady(func) { 
-    if(/in/.test(document.readyState) || !document.body) setTimeout(function(){domReady(func)}, 9)
-    else func()
-}
+window.domReady = function(func) {
+    if(/in/.test(document.readyState) || !document.body) {
+        setTimeout(function() {
+            domReady(func);
+        }, 9);
+    }
+    else {
+        func();
+    }
+};
 
 /* ----------------------------------------------------------
    Classes
@@ -34,38 +39,38 @@ function domReady(func) {
 /* Add a class
    ----------------------- */
 
-function addClass(element, className) {
-    if(!hasClass(element, className)) {
-        var elementClasses = getClassNames(element);
+Element.addClass = function(element, className) {
+    if(!Element.hasClass(element, className)) {
+        var elementClasses = Element.getClassNames(element);
         elementClasses.push(className);
         element.className = elementClasses.join(' ');
     }
-}
+};
 
 /* Test if has a class
    ----------------------- */
 
-function hasClass(element, className) {
-    return InArray(className, getClassNames(element));
-}
+Element.hasClass = function(element, className) {
+    return Array.contains(className, Element.getClassNames(element));
+};
 
 /* Get class names
    ----------------------- */
 
-function getClassNames(element) {
+Element.getClassNames = function(element) {
     var classNames = [];
     var elementClassName = element.className;
     if(elementClassName !== '') {
         classNames = elementClassName.split(' ');
     }
     return classNames;
-}
+};
 
 /* Remove a class
    ----------------------- */
 
-function removeClass(element, className) {
-    var elementClasses = getClassNames(element);
+Element.removeClass = function(element, className) {
+    var elementClasses = Element.getClassNames(element);
     var newElementClasses = [];
     for(var i in elementClasses) {
         if(elementClasses[i] !== className) {
@@ -73,7 +78,7 @@ function removeClass(element, className) {
         }
     }
     element.className = newElementClasses.join(' ');
-}
+};
 
 /* ----------------------------------------------------------
    Miscellaneous
@@ -82,19 +87,19 @@ function removeClass(element, className) {
 /* In array
    ----------------------- */
 
-function InArray(needle, haystack) {
+Array.contains = function(needle, haystack) {
     var i = 0,
         length = haystack.length;
 
-    for(;i < length; i++) {
+    for(; i < length; i++) {
         if(haystack[i] === needle) return true;
     }
     return false;
-}
+};
 
 /* Trim
    ----------------------- */
 
-function trim(text) {
+String.trim = function(text) {
     return text.replace(/^\s+|\s+$/g, "");
-}
+};
