@@ -9,9 +9,11 @@
         <script src="assets/js/mootools/mootools-dk-jsu.js"></script>
         <script src="assets/js/mootools/classes/fake-placeholder.js"></script>
         <script src="assets/js/mootools/classes/fake-select.js"></script>
+        <script src="assets/js/mootools/classes/fake-upload.js"></script>
     </head>
     <body>
         <h1>JavaScriptUtilities — Mootools</h1>
+
         <h2>Fake Placeholder</h2>
         <p>Emulate "placeholder" attribute if not available.</p>
         <script class="script-visible" contenteditable>window.addEvent('domready',function(){
@@ -20,6 +22,7 @@
         <div class="script-result">
             <input type="text" name="default" placeholder="It works !" />
         </div>
+
         <h2>Fake Select</h2>
         <p>Fake selects with native UI for options/values.</p>
         <script class="script-visible" contenteditable>window.addEvent('domready',function(){
@@ -32,6 +35,19 @@
                 <option value="1">Another Value</option>
             </select>
         </div>
+
+        <h2>Fake upload field</h2>
+        <p>Fake upload field with native UI for directory selection.</p>
+        <script class="script-visible" contenteditable>window.addEvent('domready',function(){
+    new FakeUpload({
+        elementz : $$('input.fake-upload'),
+        defaultTxt : 'Browse ...'
+    });
+});</script>
+        <div class="script-result">
+            <input type="file" name="fake-upload-test" class="fake-upload" />
+        </div>
+
         <footer class="main-footer">
             <p class="copyright">By <a href="http://darklg.me/">Darklg</a> — Licence MIT — <a href="http://github.com/Darklg/JavaScriptUtilities">Fork me on Github</a></p>
             <ul class="footer-menu">
