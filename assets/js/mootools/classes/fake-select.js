@@ -22,7 +22,8 @@ var FakeSelect = new Class({
         var mthis = this;
         this.elementz = elementz;
         elementz.each(function(el) {
-            if(!el.get('data-fakeselect')) {
+            if(!el.get('data-fakeselect') || el.get('tag').toLowerCase() != 'select') {
+                el.set('data-fakeselect',1);
                 mthis.setWrapper(el);
                 mthis.setEvents(el);
             }
