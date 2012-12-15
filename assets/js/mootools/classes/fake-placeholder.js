@@ -48,7 +48,7 @@ var FakePlaceholder = new Class({
         if(el.getParent('form')) {
             el.getParent('form').addEvent('submit', function() {
                 if(tel.get('value') == tel.get('data-fakeplaceholder')) {
-                    tel.set('value', '');
+                    mthis.hidePlaceholder(tel);
                 }
             });
         }
