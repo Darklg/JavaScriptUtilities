@@ -6,9 +6,19 @@
         <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
         <script src="assets/js/jquery/jquery-1.7.2.min.js"></script>
         <script src="assets/js/jquery/jquery-dk-jsu.js"></script>
+        <script src="assets/js/jquery/plugins/fake-placeholder.js"></script>
     </head>
     <body>
         <h1>JavaScriptUtilities — jQuery</h1>
+
+        <h2>Fake Placeholder</h2>
+        <p>Emulate "placeholder" attribute if not available.</p>
+        <script class="script-visible" contenteditable>jQuery(document).on('ready',function(){
+    jQuery('[placeholder]').FakePlaceholder();
+});</script>
+        <div class="script-result">
+            <input type="text" name="default" placeholder="It works !" />
+        </form>
 
         <footer class="main-footer">
             <p class="copyright">By <a href="http://darklg.me/">Darklg</a> — Licence MIT — <a href="http://github.com/Darklg/JavaScriptUtilities">Fork me on Github</a></p>
