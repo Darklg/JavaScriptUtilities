@@ -7,6 +7,7 @@
         <script src="assets/js/jquery/jquery-1.7.2.min.js"></script>
         <script src="assets/js/jquery/jquery-dk-jsu.js"></script>
         <script src="assets/js/jquery/plugins/fake-placeholder.js"></script>
+        <script src="assets/js/jquery/plugins/fake-select.js"></script>
     </head>
     <body>
         <h1>JavaScriptUtilities — jQuery</h1>
@@ -18,6 +19,19 @@
 });</script>
         <div class="script-result">
             <input type="text" name="default" placeholder="It works !" />
+        </div>
+
+        <h2>Fake Select</h2>
+        <p>Fake selects with native UI for options/values.</p>
+        <script class="script-visible" contenteditable>jQuery(document).on('ready',function(){
+    jQuery('select.fake-select').FakeSelect();
+});</script>
+        <div class="script-result">
+            <select name="fake-select-test" id="fake-select-test" class="fake-select">
+                <option value="" disabled selected style="display:none;">Sélectionner</option>
+                <option value="0">One value</option>
+                <option value="1">Another Value</option>
+            </select>
         </div>
 
         <footer class="main-footer">
