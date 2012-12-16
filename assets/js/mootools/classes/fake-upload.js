@@ -9,7 +9,10 @@
    ------------------------------------------------------- */
 
 /*
-new FakeUpload($$('input.fake-upload'));
+new FakeUpload({
+    elementz : $$('input.fake-upload'),
+    defaultTxt : 'Browse ...'
+});
 */
 
 var FakeUpload = new Class({
