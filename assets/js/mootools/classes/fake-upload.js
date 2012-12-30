@@ -88,7 +88,7 @@ var FakeUpload = new Class({
                 mthis.setDefaultStatus(cover);
             }
             else {
-                cover.set('html', newValue).removeClass('fake-upload-default-txt');
+                cover.set('html', newValue).removeClass(mthis.defaultClass);
             }
         });
         // Move the input element for a good behavior
