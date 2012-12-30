@@ -8,6 +8,7 @@
         <script src="assets/js/jquery/jquery-dk-jsu.js"></script>
         <script src="assets/js/jquery/plugins/fake-placeholder.js"></script>
         <script src="assets/js/jquery/plugins/fake-select.js"></script>
+        <script src="assets/js/jquery/plugins/fake-upload.js"></script>
     </head>
     <body>
         <h1>JavaScriptUtilities — jQuery</h1>
@@ -34,6 +35,22 @@
             </select>
         </div>
 
+        <h2>Fake upload field</h2>
+        <p>Fake upload field with native UI for directory selection.</p>
+        <script class="script-visible" contenteditable>jQuery(document).on('ready',function(){
+    jQuery('input.fake-upload').FakeUpload({
+        defaultTxt : 'Browse ...'
+    });
+    jQuery('input.fakae-upload').FakeUpload({
+        defaultTxt : 'Parcourir ...'
+    });
+});</script>
+        <div class="script-result">
+            <input type="file" name="fake-upload-test" class="fake-upload" />
+        </div>
+        <div class="script-result">
+            <input type="file" name="fake-upcummiguload-test" class="fakae-upload" />
+        </div>
         <footer class="main-footer">
             <p class="copyright">By <a href="http://darklg.me/">Darklg</a> — Licence MIT — <a href="http://github.com/Darklg/JavaScriptUtilities">Fork me on Github</a></p>
             <ul class="footer-menu">
