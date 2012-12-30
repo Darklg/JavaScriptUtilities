@@ -50,7 +50,8 @@ if(!jQuery.fn.FakeSelect) {
                     'right': 0
                 });
                 this.el.wrap(this.wrapper);
-                this.el.parent().append(this.cover);
+                this.wrapper = this.el.parent();
+                this.wrapper.append(this.cover);
             },
             setEvents: function() {
                 var mthis = this;
