@@ -7,9 +7,11 @@
 /* ----------------------------------------------------------
    Fake Placeholder
    ------------------------------------------------------- */
+
 /*
 jQuery('[placeholder]').FakePlaceholder();
 */
+
 if(!jQuery.fn.FakePlaceholder) {
     (function($) {
         var FakePlaceholder = {
