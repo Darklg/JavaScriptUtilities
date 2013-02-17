@@ -5,10 +5,12 @@
 
 html {
     text-align: center;
+    padding:0 20px;
 }
 
 body {
-    width: 780px;
+    max-width: 780px;
+    min-width: 480px;
     margin: 15px auto;
     text-align: left;
     font: 62.5% sans-serif;
