@@ -9,6 +9,7 @@
         <script src="assets/js/mootools/classes/fake-placeholder.js"></script>
         <script src="assets/js/mootools/classes/fake-select.js"></script>
         <script src="assets/js/mootools/classes/fake-upload.js"></script>
+        <script src="assets/js/mootools/classes/dk-jsu-slider.js"></script>
     </head>
     <body>
         <h1>JavaScriptUtilities — Mootools</h1>
@@ -45,6 +46,20 @@
 });</script>
         <div class="script-result">
             <input type="file" name="fake-upload-test" class="fake-upload" />
+        </div>
+
+
+        <h2>Slider</h2>
+        <p>A simple slider.</p>
+        <script class="script-visible" contenteditable>window.addEvent('domready',function(){
+    new dkJSUSlider({
+        'slider': $('target-slider')
+    });
+});</script>
+        <div id="target-slider">
+            <div><img src="http://placehold.it/300x200" height="200" width="300" alt="" /></div>
+            <div><img src="http://placehold.it/300x200/333/fff" alt="" /></div>
+            <div><img src="http://placehold.it/300x200/903/fff" alt="" /></div>
         </div>
 
         <footer class="main-footer">
