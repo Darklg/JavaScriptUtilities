@@ -4,14 +4,14 @@
    ----------------------- */
 
 html {
+    padding: 0 20px;
     text-align: center;
-    padding:0 20px;
 }
 
 body {
+    margin: 15px auto;
     max-width: 780px;
     min-width: 480px;
-    margin: 15px auto;
     text-align: left;
     font: 62.5% sans-serif;
 }
