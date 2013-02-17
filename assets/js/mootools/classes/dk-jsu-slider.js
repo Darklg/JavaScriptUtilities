@@ -10,7 +10,6 @@
 
 /*
 TODO :
-- Autoslide
 - Use existing pagination
  */
 
@@ -21,8 +20,8 @@ new dkJSUSlider({
 */
 var dkJSUSlider = new Class({
     opt: {
-        autoScroll: true,
-        autoScrollDuration: 5000,
+        autoSlide: true,
+        autoSlideDuration: 5000,
         showNavigation: true,
         showPagination: true,
         createNavigation: true,
@@ -48,7 +47,7 @@ var dkJSUSlider = new Class({
             }).tween("opacity", [0, 1]);
         }
     },
-    autoScrollTimeout: false,
+    autoSlideTimeout: false,
     canSlide: 1,
     defaultPagiStyles: {
         'position': 'absolute',
@@ -152,27 +151,27 @@ var dkJSUSlider = new Class({
             });
         }
 
-        if(opt.autoScroll) {
-            _this.autoScrollEvent();
+        if(opt.autoSlide) {
+            _this.autoSlideEvent();
 
-            // Autoscroll stops on mouse enter and restarts on leave
+            // autoSlide stops on mouse enter and restarts on leave
             this.slider.addEvents({
                 mouseenter: function() {
-                    clearTimeout(_this.autoScrollTimeout);
+                    clearTimeout(_this.autoSlideTimeout);
                 },
                 mouseleave: function() {
-                    _this.autoScrollEvent();
+                    _this.autoSlideEvent();
                 }
             });
         }
     },
-    autoScrollEvent: function() {
+    autoSlideEvent: function() {
         var _this = this,
             opt = this.opt;
-        _this.autoScrollTimeout = setTimeout(function() {
+        _this.autoSlideTimeout = setTimeout(function() {
             _this.gotoSlide('next');
-            _this.autoScrollEvent();
-        }, opt.autoScrollDuration);
+            _this.autoSlideEvent();
+        }, opt.autoSlideDuration);
     },
     gotoSlide: function(nb) {
         var _this = this,
