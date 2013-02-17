@@ -21,6 +21,8 @@ new dkJSUSlider({
 */
 var dkJSUSlider = new Class({
     opt: {
+        autoScroll: true,
+        autoScrollDuration: 5000,
         showNavigation: true,
         showPagination: true,
         createNavigation: true,
@@ -46,11 +48,12 @@ var dkJSUSlider = new Class({
             }).tween("opacity", [0, 1]);
         }
     },
+    autoScrollTimeout: false,
+    canSlide: 1,
     defaultPagiStyles: {
         'position': 'absolute',
         'z-index': 3
     },
-    canSlide: 1,
     navigation: false,
     pagination: false,
     pagers: [],
@@ -76,7 +79,7 @@ var dkJSUSlider = new Class({
         this.slides[0].setStyles({
             'z-index': 1
         });
-        if(this.pagers[0]) {
+        if(this.opt.showPagination && this.pagers[0]) {
             this.pagers[0].addClass('current');
         }
     },
@@ -102,20 +105,20 @@ var dkJSUSlider = new Class({
             'position': 'absolute',
             'top': 0,
             'left': 0,
+            'height': '100%',
+            'width': '100%',
             'z-index': 0
         });
 
-        if(opt.createNavigation) {
+        if(opt.showNavigation && opt.createNavigation) {
             // Set Navigation
             this.navigation = new Element('div.navigation');
             this.navigation.set('html', '<div class="prev">prev</div><div class="next">next</div>');
             this.navigation.setStyles(_this.defaultPagiStyles);
             this.slider.adopt(this.navigation);
         }
-        if(opt.createPagination) {
+        if(opt.showPagination && opt.createPagination) {
             // Set Pagination
-            var tmpPagi = false;
-
             this.pagination = new Element('div.pagination');
             for(var i = 0; i < opt.nbSlides; i++) {
                 this.pagers[i] = new Element('span').set('html', '&bull;').set('data-i', i);
@@ -123,14 +126,13 @@ var dkJSUSlider = new Class({
             }
             this.pagination.setStyles(_this.defaultPagiStyles);
             this.slider.adopt(this.pagination);
-
         }
     },
     setEvents: function() {
         var _this = this,
             opt = this.opt;
 
-        if(this.navigation) {
+        if(opt.showNavigation && this.navigation) {
             this.navigation.getElements('.next').addEvent('click', function(e) {
                 e.preventDefault();
                 _this.gotoSlide('next');
@@ -141,7 +143,7 @@ var dkJSUSlider = new Class({
             });
         }
 
-        if(this.pagination) {
+        if(opt.showPagination && this.pagination) {
             this.pagers.each(function(el) {
                 el.addEvent('click', function(e) {
                     e.preventDefault();
@@ -149,6 +151,28 @@ var dkJSUSlider = new Class({
                 });
             });
         }
+
+        if(opt.autoScroll) {
+            _this.autoScrollEvent();
+
+            // Autoscroll stops on mouse enter and restarts on leave
+            this.slider.addEvents({
+                mouseenter: function() {
+                    clearTimeout(_this.autoScrollTimeout);
+                },
+                mouseleave: function() {
+                    _this.autoScrollEvent();
+                }
+            });
+        }
+    },
+    autoScrollEvent: function() {
+        var _this = this,
+            opt = this.opt;
+        _this.autoScrollTimeout = setTimeout(function() {
+            _this.gotoSlide('next');
+            _this.autoScrollEvent();
+        }, opt.autoScrollDuration);
     },
     gotoSlide: function(nb) {
         var _this = this,
@@ -194,8 +218,8 @@ var dkJSUSlider = new Class({
             });
             this.canSlide = 1;
         }
-        this.opt.currentSlide = nb;
-        if(this.pagers[nb]) {
+        opt.currentSlide = nb;
+        if(opt.showPagination && this.pagers[nb]) {
             this.pagers.each(function(el) {
                 el.removeClass('current');
             });
