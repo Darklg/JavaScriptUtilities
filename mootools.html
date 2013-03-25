@@ -5,14 +5,26 @@
         <title>JavaScriptUtilities — Mootools</title>
         <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
         <script src="assets/js/mootools/mootools-1.4.5.min.js"></script>
+        <script src="assets/js/mootools/mootools-more-1.4.0.1.js"></script>
         <script src="assets/js/mootools/mootools-dk-jsu.js"></script>
         <script src="assets/js/mootools/classes/fake-placeholder.js"></script>
         <script src="assets/js/mootools/classes/fake-select.js"></script>
         <script src="assets/js/mootools/classes/fake-upload.js"></script>
         <script src="assets/js/mootools/classes/dk-jsu-slider.js"></script>
+        <script src="assets/js/mootools/classes/dk-smooth-scroll.js"></script>
     </head>
     <body>
         <h1>JavaScriptUtilities — Mootools</h1>
+
+        <h2>Smooth Scroll</h2>
+        <p>Scroll smoothly to your target. (Dependencies : MooTools More With FX.Scroll)</p>
+        <script class="script-visible" contenteditable>window.addEvent('domready',function(){
+    new dkSmoothScroll($$('[href^=#]'));
+});</script>
+        <div class="script-result">
+            <a href="#smooth-test">Try me!</a><br />
+            <div id="smooth-test"></div>
+        </div>
 
         <h2>Fake Placeholder</h2>
         <p>Emulate "placeholder" attribute if not available.</p>
