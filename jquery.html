@@ -9,9 +9,20 @@
         <script src="assets/js/jquery/plugins/fake-placeholder.js"></script>
         <script src="assets/js/jquery/plugins/fake-select.js"></script>
         <script src="assets/js/jquery/plugins/fake-upload.js"></script>
+        <script src="assets/js/jquery/plugins/dk-smooth-scroll.js"></script>
     </head>
     <body>
         <h1>JavaScriptUtilities — jQuery</h1>
+
+        <h2>Smooth Scroll</h2>
+        <p>Scroll smoothly to your target.</p>
+        <script class="script-visible" contenteditable>jQuery(document).on('ready',function(){
+    jQuery('[href^=#]').dkSmoothScroll();
+});</script>
+        <div class="script-result">
+            <a href="#smooth-test">Try me!</a><br />
+            <div id="smooth-test"></div>
+        </div>
 
         <h2>Fake Placeholder</h2>
         <p>Emulate "placeholder" attribute if not available.</p>
