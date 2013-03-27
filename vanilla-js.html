@@ -21,6 +21,19 @@
     console.log('DOM is ready !');
 });</script>
 
+        <h2>Show / Hide / Toggle</h2>
+        <h3>Element.toggleDisplay(element)</h3>
+        <p>Toggle the display of an element</p>
+        <script class="script-visible" contenteditable>window.domReady(function(){
+    $_('button-toggle-test').onclick = function(){
+        Element.toggleDisplay($_('toggle-test'));
+    };
+});</script>
+<div class="script-result">
+    <button id="button-toggle-test">Test toggleDisplay()</button>
+    <div id="toggle-test" style="display:none;">You can see me !</div>
+</div>
+
         <h2>Classes</h2>
 
         <h3>Element.addClass(element, className)</h3>

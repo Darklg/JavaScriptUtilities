@@ -37,11 +37,35 @@ window.domReady = function(func) {
 };
 
 /* ----------------------------------------------------------
-   Classes
+   Elements
    ------------------------------------------------------- */
 
-/* Add a class
+/* Show / Hide / Toggle */
+
+Element.hide = function(element) {
+    element.style.display = 'none';
+};
+
+Element.show = function(element) {
+    element.style.display = '';
+};
+
+Element.toggleDisplay = function(element) {
+    var els = element.style;
+    if (els.display === 'none') {
+        Element.show(element);
+    }
+    else {
+        Element.hide(element);
+    }
+};
+
+
+/* Classes
    ----------------------- */
+
+
+/* Add a class */
 
 Element.addClass = function(element, className) {
     if(!Element.hasClass(element, className)) {
@@ -51,15 +75,13 @@ Element.addClass = function(element, className) {
     }
 };
 
-/* Test if has a class
-   ----------------------- */
+/* Test if has a class */
 
 Element.hasClass = function(element, className) {
     return Array.contains(className, Element.getClassNames(element));
 };
 
-/* Get class names
-   ----------------------- */
+/* Get class names */
 
 Element.getClassNames = function(element) {
     var classNames = [];
@@ -70,8 +92,7 @@ Element.getClassNames = function(element) {
     return classNames;
 };
 
-/* Remove a class
-   ----------------------- */
+/* Remove a class */
 
 Element.removeClass = function(element, className) {
     var elementClasses = Element.getClassNames(element);
