@@ -107,3 +107,11 @@ Array.contains = function(needle, haystack) {
 String.trim = function(text) {
     return text.replace(/^\s+|\s+$/g, "");
 };
+
+/* Console log fix
+   ----------------------- */
+
+if (typeof(console) === 'undefined') {
+    var console = {};
+    console.log = console.error = console.info = console.debug = console.warn = console.trace = console.dir = console.dirxml = console.group = console.groupEnd = console.time = console.timeEnd = console.assert = console.profile = function(){};
+}
