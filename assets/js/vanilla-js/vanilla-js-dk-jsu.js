@@ -64,15 +64,15 @@ Element.toggleDisplay = function(element) {
 /* Classes
    ----------------------- */
 
+/* Get class names */
 
-/* Add a class */
-
-Element.addClass = function(element, className) {
-    if(!Element.hasClass(element, className)) {
-        var elementClasses = Element.getClassNames(element);
-        elementClasses.push(className);
-        element.className = elementClasses.join(' ');
+Element.getClassNames = function(element) {
+    var classNames = [];
+    var elementClassName = element.className;
+    if (elementClassName !== '') {
+        classNames = elementClassName.split(' ');
     }
+    return classNames;
 };
 
 /* Test if has a class */
@@ -81,15 +81,14 @@ Element.hasClass = function(element, className) {
     return Array.contains(className, Element.getClassNames(element));
 };
 
-/* Get class names */
+/* Add a class */
 
-Element.getClassNames = function(element) {
-    var classNames = [];
-    var elementClassName = element.className;
-    if(elementClassName !== '') {
-        classNames = elementClassName.split(' ');
+Element.addClass = function(element, className) {
+    if (!Element.hasClass(element, className)) {
+        var elementClasses = Element.getClassNames(element);
+        elementClasses.push(className);
+        element.className = elementClasses.join(' ');
     }
-    return classNames;
 };
 
 /* Remove a class */
@@ -97,12 +96,23 @@ Element.getClassNames = function(element) {
 Element.removeClass = function(element, className) {
     var elementClasses = Element.getClassNames(element);
     var newElementClasses = [];
-    for(var i in elementClasses) {
-        if(elementClasses[i] !== className) {
+    for (var i in elementClasses) {
+        if (elementClasses[i] !== className) {
             newElementClasses.push(elementClasses[i]);
         }
     }
     element.className = newElementClasses.join(' ');
+};
+
+/* Toggle a class */
+
+Element.toggleClass = function(element, className) {
+    if (!Element.hasClass(element, className)) {
+        Element.addClass(element, className);
+    }
+    else {
+        Element.removeClass(element, className);
+    }
 };
 
 /* ----------------------------------------------------------
