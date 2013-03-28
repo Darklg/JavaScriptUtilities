@@ -112,7 +112,7 @@ Element.toggleClass = function(element, className) {
 };
 
 /* ----------------------------------------------------------
-   Miscellaneous
+   Arrays
    ------------------------------------------------------- */
 
 /* In array
@@ -127,6 +127,27 @@ Array.contains = function(needle, haystack) {
     }
     return false;
 };
+
+/* Each
+   ----------------------- */
+
+Array.each = function(arrayToParse, callback) {
+    var i = 0,
+        length = arrayToParse.length;
+    for (; i < length; i++) {
+        callback(arrayToParse[i]);
+    }
+};
+
+if (!Array.prototype.each) {
+    Array.prototype.each = function(callback) {
+        Array.each(this, callback);
+    };
+}
+
+/* ----------------------------------------------------------
+   Miscellaneous
+   ------------------------------------------------------- */
 
 /* Trim
    ----------------------- */
