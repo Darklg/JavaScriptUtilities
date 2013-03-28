@@ -4,10 +4,6 @@
  * JavaScriptUtilities may be freely distributed under the MIT license.
  */
 
-var Array = {},
-    String = {},
-    Element = {};
-
 /* ----------------------------------------------------------
    $_ : Get Element
    ------------------------------------------------------- */
