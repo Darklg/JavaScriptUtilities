@@ -275,3 +275,34 @@ ul {
 .dk-jsu-slider .pagination span:hover {
     color: #369;
 }
+
+/* Tabs
+   ----------------------- */
+
+/* Triggers */
+
+.dk-jsu-triggers a {
+    display: inline-block;
+    padding: 3px;
+    border: 1px dotted #ccc;
+    text-decoration: none;
+    color: #999;
+    *display: inline;
+    *zoom: 1;
+}
+
+.dk-jsu-triggers .is-current {
+    border: 1px dashed #999;
+    color: #333;
+    background-color: #f0f0f0;
+}
+
+/* Targets */
+
+.dk-jsu-targets > * {
+    display: none;
+}
+
+.dk-jsu-targets > .is-current {
+    display: block;
+}

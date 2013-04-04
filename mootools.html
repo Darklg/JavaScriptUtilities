@@ -12,6 +12,7 @@
         <script src="assets/js/mootools/classes/fake-upload.js"></script>
         <script src="assets/js/mootools/classes/dk-jsu-slider.js"></script>
         <script src="assets/js/mootools/classes/dk-smooth-scroll.js"></script>
+        <script src="assets/js/mootools/classes/dk-jsu-tabs.js"></script>
     </head>
     <body>
         <h1>JavaScriptUtilities — Mootools</h1>
@@ -58,6 +59,29 @@
 });</script>
         <div class="script-result">
             <input type="file" name="fake-upload-test" class="fake-upload" />
+        </div>
+
+        <h2>Tabs</h2>
+        <p>Simple tabs management</p>
+        <script class="script-visible" contenteditable>window.addEvent('domready',function(){
+    new dkJSUTabs({
+        triggers : $$('.dk-jsu-triggers > a'),
+        targets : $$('.dk-jsu-targets > p'),
+    });
+});</script>
+        <div class="script-result">
+            <div class="demo-dk-jsu-tabs">
+                <div class="dk-jsu-triggers">
+                    <a href="#">Trigger #1</a>
+                    <a href="#">Trigger #2</a>
+                    <a href="#">Trigger #3</a>
+                </div>
+                <div class="dk-jsu-targets">
+                    <p>Result for target 1</p>
+                    <p>Result for target 2</p>
+                    <p>Result for target 3</p>
+                </div>
+            </div>
         </div>
 
 
