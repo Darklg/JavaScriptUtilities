@@ -10,6 +10,7 @@
         <script src="assets/js/jquery/plugins/fake-select.js"></script>
         <script src="assets/js/jquery/plugins/fake-upload.js"></script>
         <script src="assets/js/jquery/plugins/dk-smooth-scroll.js"></script>
+        <script src="assets/js/jquery/plugins/dk-jsu-tabs.js"></script>
     </head>
     <body>
         <h1>JavaScriptUtilities — jQuery</h1>
@@ -62,6 +63,29 @@
         <div class="script-result">
             <input type="file" name="fake-upcummiguload-test" class="fakae-upload" />
         </div>
+
+        <h2>Tabs</h2>
+        <p>Simple tabs management</p>
+        <script class="script-visible" contenteditable>jQuery(document).on('ready',function(){
+    jQuery('.dk-jsu-triggers > a').dkJSUTabs({
+        targets : jQuery('.dk-jsu-targets > p')
+    });
+});</script>
+        <div class="script-result">
+            <div class="demo-dk-jsu-tabs">
+                <div class="dk-jsu-triggers">
+                    <a href="#">Trigger #1</a>
+                    <a href="#">Trigger #2</a>
+                    <a href="#">Trigger #3</a>
+                </div>
+                <div class="dk-jsu-targets">
+                    <p>Result for target 1</p>
+                    <p>Result for target 2</p>
+                    <p>Result for target 3</p>
+                </div>
+            </div>
+        </div>
+
         <footer class="main-footer">
             <p class="copyright">By <a href="http://darklg.me/">Darklg</a> — Licence MIT — <a href="http://github.com/Darklg/JavaScriptUtilities">Fork me on Github</a></p>
             <ul class="footer-menu">
