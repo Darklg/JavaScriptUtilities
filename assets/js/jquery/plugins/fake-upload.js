@@ -60,7 +60,6 @@ if(!jQuery.fn.FakeUpload) {
                 this.el.css(this.defaultStyles);
                 this.el.css({
                     'height': 100,
-                    'width': '100%',
                     'z-index': 2,
                     'cursor': 'pointer',
                     'filter': 'alpha(opacity=01)',
