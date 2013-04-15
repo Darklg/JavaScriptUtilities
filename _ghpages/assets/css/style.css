@@ -1,0 +1,308 @@
+@charset "UTF-8";
+
+/* Base style
+   ----------------------- */
+
+html {
+    padding: 0 20px;
+    text-align: center;
+}
+
+body {
+    margin: 15px auto;
+    max-width: 780px;
+    min-width: 480px;
+    text-align: left;
+    font: 62.5% sans-serif;
+}
+
+h1 {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+h2 {
+    margin: 30px 0 15px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+h3 {
+    margin: 15px 0 7px;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+p,
+li {
+    font-size: 13px;
+    line-height: 18px;
+}
+
+p,
+ul {
+    margin-bottom: 7px;
+}
+
+/* Footer
+   ----------------------- */
+
+.copyright {
+    float: right;
+}
+
+.main-footer {
+    margin-top: 15px;
+    border-top: 1px solid #ccc;
+}
+
+.main-footer li,
+.main-footer p {
+    font-size: 12px;
+    line-height: 30px;
+}
+
+.footer-menu {
+    padding: 0;
+}
+
+.footer-menu li {
+    display: inline;
+    list-style: none;
+}
+
+.footer-menu li + li:before {
+    content: ' — ';
+}
+
+.footer-menu a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-menu a:hover {
+    text-decoration: underline;
+}
+
+/* Demo style
+   ----------------------- */
+
+.script-result {
+    border: 1px solid #f0f0f0;
+    background-color: #fafafa;
+}
+
+.script-result,
+.script-visible {
+    padding: 5px;
+    font-size: 13px;
+}
+
+/* Script style
+   ----------------------- */
+
+.script-visible {
+    display: block;
+    margin: 7px 0;
+    border: 1px solid #ccc;
+    font-family: Courier;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;
+    background-color: #f0f0f0;
+}
+
+.script-visible:focus {
+    outline: 1px solid #ccc;
+}
+
+/* ----------------------------------------------------------
+   Demos
+   ------------------------------------------------------- */
+
+/* Classes
+   ----------------------- */
+
+.color-red {
+    color: red;
+}
+
+/* ----------------------------------------------------------
+   Plugins jQuery & Mootools
+   ------------------------------------------------------- */
+
+/* Fake Placeholder
+   ----------------------- */
+
+.with-placeholder {
+    color: #ccc;
+}
+
+/* Fake Select
+   ----------------------- */
+
+.fakeselect-wrapper,
+.fakeselect-wrapper select,
+.fakeselect-cover {
+    height: 25px;
+    line-height: 25px;
+}
+
+.fakeselect-wrapper {
+    width: 150px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #fff;
+    -webkit-background-clip: border;
+    -moz-background-clip: border;
+    background-clip: border;
+}
+
+.fakeselect-wrapper:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 0;
+    height: 0;
+    margin-top: -2px;
+    border-top: 4px solid #333;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+.fakeselect-cover {
+    padding: 0 15px 0 5px;
+    overflow: hidden;
+    text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.fakeselect-wrapper select {
+    cursor: pointer;
+}
+
+/* Fake Upload
+   ----------------------- */
+
+.fakeupload-wrapper,
+.fakeupload-wrapper input,
+.fakeupload-cover {
+    height: 25px;
+    line-height: 25px;
+}
+
+.fakeupload-wrapper {
+    width: 350px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.fakeupload-cover {
+    padding: 0 5px;
+    overflow: hidden;
+    text-align: left;
+    white-space: nowrap;
+    color: #333;
+    text-overflow: ellipsis;
+}
+
+.fake-upload-default-txt {
+    font-style: italic;
+    color: #888;
+}
+
+/* Slider
+   ----------------------- */
+
+.dk-jsu-slider {
+    width: 300px;
+    height: 200px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+/* Navigation */
+
+.dk-jsu-slider .navigation {
+    top: 50%;
+    right: 10px;
+    left: 10px;
+    height: 16px;
+    margin-top: -8px;
+    line-height: 16px;
+}
+
+.dk-jsu-slider .navigation .prev,
+.dk-jsu-slider .navigation .next {
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.dk-jsu-slider .navigation .prev {
+    float: left;
+}
+
+.dk-jsu-slider .navigation .next {
+    float: right;
+}
+
+/* Pagination */
+
+.dk-jsu-slider .pagination {
+    right: 10px;
+    bottom: 10px;
+    font-size: 20px;
+    line-height: 10px;
+}
+
+.dk-jsu-slider .pagination span {
+    display: inline-block;
+    margin-left: 3px;
+    vertical-align: middle;
+    cursor: pointer;
+    *display: inline;
+    *zoom: 1;
+}
+
+.dk-jsu-slider .pagination .current,
+.dk-jsu-slider .pagination span:hover {
+    color: #369;
+}
+
+/* Tabs
+   ----------------------- */
+
+/* Triggers */
+
+.dk-jsu-triggers a {
+    display: inline-block;
+    padding: 3px;
+    border: 1px dotted #ccc;
+    text-decoration: none;
+    color: #999;
+    *display: inline;
+    *zoom: 1;
+}
+
+.dk-jsu-triggers .is-current {
+    border: 1px dashed #999;
+    color: #333;
+    background-color: #f0f0f0;
+}
+
+/* Targets */
+
+.dk-jsu-targets > * {
+    display: none;
+}
+
+.dk-jsu-targets > .is-current {
+    display: block;
+}
