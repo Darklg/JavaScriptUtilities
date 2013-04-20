@@ -22,7 +22,7 @@ function $_(id) {
 /* From the amazing Dustin Diaz : http://www.dustindiaz.com/smallest-domready-ever */
 // «!document.body» check ensures that IE fires domReady correctly
 window.domReady = function(func) {
-    if(/in/.test(document.readyState) || !document.body) {
+    if (/in/.test(document.readyState) || !document.body) {
         setTimeout(function() {
             domReady(func);
         }, 9);
@@ -55,7 +55,6 @@ Element.toggleDisplay = function(element) {
         Element.hide(element);
     }
 };
-
 
 /* Classes
    ----------------------- */
@@ -122,8 +121,8 @@ Array.contains = function(needle, haystack) {
     var i = 0,
         length = haystack.length;
 
-    for(; i < length; i++) {
-        if(haystack[i] === needle) return true;
+    for (; i < length; i++) {
+        if (haystack[i] === needle) return true;
     }
     return false;
 };
@@ -161,5 +160,5 @@ String.trim = function(text) {
 
 if (typeof(console) === 'undefined') {
     var console = {};
-    console.log = console.error = console.info = console.debug = console.warn = console.trace = console.dir = console.dirxml = console.group = console.groupEnd = console.time = console.timeEnd = console.assert = console.profile = function(){};
+    console.log = console.error = console.info = console.debug = console.warn = console.trace = console.dir = console.dirxml = console.group = console.groupEnd = console.time = console.timeEnd = console.assert = console.profile = function() {};
 }
