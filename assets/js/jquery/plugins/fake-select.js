@@ -22,7 +22,7 @@ if(!jQuery.fn.FakeSelect) {
             },
             init: function(el) {
                 this.el = el;
-                if(el.data('fakeselect') != 1 || el.tagName.toLowerCase() != 'select') {
+                if(el.data('fakeselect') != 1 && el.get(0).tagName.toLowerCase() == 'select') {
                     el.data('fakeselect', 1);
                     this.setWrapper();
                     this.setEvents();
