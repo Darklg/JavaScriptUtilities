@@ -24,7 +24,7 @@ if (!jQuery.fn.dkSmoothScroll) {
                     if(target.length > 0){
                         e.preventDefault();
                         var offsettop = target.offset().top;
-                        jQuery(document.body).animate({
+                        jQuery('html, body').animate({
                             'scrollTop': offsettop
                         }, 500);
                     }
