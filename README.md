@@ -1,7 +1,7 @@
 JavaScriptUtilities
 ===========
 
-JavaScript utilities for Vanilla JS, Mootools &amp; jQuery
+JavaScriptUtilities is a library of plugins & useful functions for Vanilla JS, Mootools & jQuery
 
 ## Licence MIT
 
