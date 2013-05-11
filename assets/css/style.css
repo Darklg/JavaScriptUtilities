@@ -374,3 +374,9 @@ ul {
     text-align: center;
     font-size: 14px;
 }
+
+/* Lightbox image */
+
+.lightbox[data-lb="image"] img {
+    max-width: 100%;
+}

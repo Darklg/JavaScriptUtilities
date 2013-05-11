@@ -58,6 +58,18 @@ var dkJSULightbox = new Class({
         });
     },
     openLink: function(link) {
+        var url = document.createElement('a');
+        url.href = link.href;
+        var urlExtension = url.pathname.split('.').pop().toLowerCase();
+
+        // Detect image
+        if (urlExtension == 'jpg') {
+            this.openImage(link.href);
+            return;
+        }
+
+        // Detect external URL
+
         this.openRelativeURL(link.href);
     },
     openRelativeURL: function(url) {
@@ -77,6 +89,10 @@ var dkJSULightbox = new Class({
     },
     openMessage: function(msg) {
         this.loadContentInLightbox('<p>' + msg + '</p>', 'message');
+        this.openLightbox();
+    },
+    openImage: function(url) {
+        this.loadContentInLightbox('<img src="' + url + '" alt="" />', 'image');
         this.openLightbox();
     },
     loadContentInLightbox: function(content, type) {
