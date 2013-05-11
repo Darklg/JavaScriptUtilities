@@ -179,8 +179,8 @@ ul {
     padding: 0 15px 0 5px;
     overflow: hidden;
     text-align: left;
-    white-space: nowrap;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .fakeselect-wrapper select {
@@ -207,9 +207,9 @@ ul {
     padding: 0 5px;
     overflow: hidden;
     text-align: left;
+    text-overflow: ellipsis;
     white-space: nowrap;
     color: #333;
-    text-overflow: ellipsis;
 }
 
 .fake-upload-default-txt {
@@ -310,6 +310,10 @@ ul {
 /* Lightbox
    ----------------------- */
 
+.lb-is-hidden {
+    display: none;
+}
+
 .lightbox-content,
 .lightbox-filter,
 .lightbox {
@@ -333,6 +337,8 @@ ul {
     filter: alpha(opacity=20);
 }
 
+/* Lightbox AJAX */
+
 .lightbox-content {
     top: 50%;
     left: 50%;
@@ -354,6 +360,17 @@ ul {
     box-shadow: 0 0 3px rgba(0,0,0,.5);
 }
 
-.lb-is-hidden {
-    display: none;
+/* Lightbox message */
+
+.lightbox[data-lb="message"] .lightbox-content {
+    width: 300px;
+    height: 70px;
+    margin-top: -35px;
+    margin-left: -150px;
+}
+
+.lightbox[data-lb="message"] p {
+    margin: 0;
+    text-align: center;
+    font-size: 14px;
 }

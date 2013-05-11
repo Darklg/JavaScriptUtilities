@@ -8,7 +8,6 @@
    Lightbox
 ---------------------------------------------------------- */
 
-
 /*
 TODO : buttons close
 TODO : class & zindex perso
@@ -75,6 +74,10 @@ var dkJSULightbox = new Class({
                 mthis.openLightbox();
             }
         }).send();
+    },
+    openMessage: function(msg) {
+        this.loadContentInLightbox('<p>' + msg + '</p>', 'message');
+        this.openLightbox();
     },
     loadContentInLightbox: function(content, type) {
         this.lightbox.set('data-lb', type);
