@@ -69,8 +69,16 @@ var dkJSULightbox = new Class({
         }
 
         // Detect external URL
+        if(url.hostname != window.location.hostname){
+            this.openExternalURL(link.href);
+            return;
+        }
 
         this.openRelativeURL(link.href);
+    },
+    openExternalURL: function(url){
+        this.loadContentInLightbox('<iframe src="'+url+'" />', 'iframe');
+        this.openLightbox();
     },
     openRelativeURL: function(url) {
         var mthis = this;
