@@ -9,7 +9,6 @@
 ---------------------------------------------------------- */
 
 /*
-TODO : buttons close
 TODO : class & zindex perso
 TODO : small screens
 TODO : Press echap : close lightbox
@@ -54,6 +53,12 @@ var dkJSULightbox = new Class({
         });
         // Click on filter : close lightbox
         this.lightboxfilter.addEvent('click', function(e) {
+            e.preventDefault();
+            mthis.closeLightbox();
+        });
+        // Click on close button : close lightbox
+        this.lightbox.addEvent('click:relay(.btn-close-lightbox)', function(e){
+            e.preventDefault();
             mthis.closeLightbox();
         });
     },
