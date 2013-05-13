@@ -57,7 +57,7 @@ var dkJSULightbox = new Class({
             mthis.closeLightbox();
         });
         // Click on close button : close lightbox
-        this.lightbox.addEvent('click:relay(.btn-close-lightbox)', function(e){
+        this.lightbox.addEvent('click:relay(.btn-close-lightbox)', function(e) {
             e.preventDefault();
             mthis.closeLightbox();
         });
@@ -66,6 +66,7 @@ var dkJSULightbox = new Class({
         var url = document.createElement('a');
         url.href = link.href;
         var urlExtension = url.pathname.split('.').pop().toLowerCase();
+        var url_params = this.getUrlParams(url.search);
 
         // Detect image
         if (urlExtension == 'jpg') {
@@ -73,16 +74,22 @@ var dkJSULightbox = new Class({
             return;
         }
 
+        // Detect Youtube
+        if ((url.hostname == 'youtube.com' || url.hostname == 'www.youtube.com') && url_params.v) {
+            this.openVideo(url_params.v);
+            return;
+        }
+
         // Detect external URL
-        if(url.hostname != window.location.hostname){
+        if (url.hostname != window.location.hostname) {
             this.openExternalURL(link.href);
             return;
         }
 
         this.openRelativeURL(link.href);
     },
-    openExternalURL: function(url){
-        this.loadContentInLightbox('<iframe src="'+url+'" />', 'iframe');
+    openExternalURL: function(url) {
+        this.loadContentInLightbox('<iframe src="' + url + '" />', 'iframe');
         this.openLightbox();
     },
     openRelativeURL: function(url) {
@@ -108,6 +115,11 @@ var dkJSULightbox = new Class({
         this.loadContentInLightbox('<img src="' + url + '" alt="" />', 'image');
         this.openLightbox();
     },
+    openVideo: function(video_id) {
+        var content = '<iframe width="580" height="377" src="http://www.youtube.com/embed/' + video_id + '" frameborder="0" allowfullscreen></iframe>';
+        this.loadContentInLightbox(content, 'youtube');
+        this.openLightbox();
+    },
     loadContentInLightbox: function(content, type) {
         this.lightbox.set('data-lb', type);
         this.lightboxcontent.set('html', content);
@@ -117,5 +129,15 @@ var dkJSULightbox = new Class({
     },
     closeLightbox: function() {
         this.lightbox.addClass('lb-is-hidden');
+    },
+    getUrlParams: function(params) {
+        // src: http://geekswithblogs.net/PhubarBaz/archive/2011/11/21/getting-query-parameters-in-javascript.aspx
+        var result = {};
+        params = params.slice(1).split("&");
+        for (var i = 0; i < params.length; i++) {
+            var tmp = params[i].split("=");
+            result[tmp[0]] = unescape(tmp[1]);
+        }
+        return result;
     }
 });
