@@ -9,7 +9,7 @@
    ------------------------------------------------------- */
 
 /*
-new FakeSelect($$('select.fake-select'));
+new FakeSelect($$('select.fake-select'), options);
 */
 
 var FakeSelect = new Class({
@@ -18,20 +18,29 @@ var FakeSelect = new Class({
         'top': 0,
         'left': 0
     },
-    initialize: function(elementz) {
+    defaultOptions: {
+        'CSSClasses': ''
+    },
+    initialize: function(elementz, opt) {
         var mthis = this;
         this.elementz = elementz;
+        this.getOptions(opt);
         elementz.each(function(el) {
-            if(!el.get('data-fakeselect') || el.get('tag').toLowerCase() != 'select') {
-                el.set('data-fakeselect',1);
+            if (!el.get('data-fakeselect') || el.get('tag').toLowerCase() != 'select') {
+                el.set('data-fakeselect', 1);
                 mthis.setWrapper(el);
                 mthis.setEvents(el);
             }
         });
     },
+    getOptions: function(opt) {
+        this.opt = Object.merge({}, this.defaultOptions, opt);
+    },
     setWrapper: function(el) {
-        var mthis = this;
+        var mthis = this,
+            opt = this.opt;
         var wrapper = new Element('div.fakeselect-wrapper');
+        wrapper.addClass(opt.CSSClasses);
         wrapper.setStyles({
             'position': 'relative'
         });
