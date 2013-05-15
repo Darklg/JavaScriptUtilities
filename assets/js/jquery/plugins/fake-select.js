@@ -9,28 +9,36 @@
    ------------------------------------------------------- */
 
 /*
-jQuery('select.fake-select').FakeSelect();
+jQuery('select.fake-select').FakeSelect(options);
 */
 
-if(!jQuery.fn.FakeSelect) {
+if (!jQuery.fn.FakeSelect) {
     (function($) {
         var FakeSelect = {
+            defaultOptions: {
+                'CSSClasses': ''
+            },
             defaultStyles: {
                 'position': 'absolute',
                 'top': 0,
                 'left': 0
             },
-            init: function(el) {
+            init: function(el, opt) {
                 this.el = el;
-                if(el.data('fakeselect') != 1 && el.get(0).tagName.toLowerCase() == 'select') {
+                if (el.data('fakeselect') != 1 && el.get(0).tagName.toLowerCase() == 'select') {
                     el.data('fakeselect', 1);
+                    this.getOptions(opt);
                     this.setWrapper();
                     this.setEvents();
                 }
             },
+            getOptions: function(opt) {
+                this.opt = $.extend({}, this.defaultOptions, opt);
+            },
             setWrapper: function() {
-                var mthis = this;
-                this.wrapper = $('<div class="fakeselect-wrapper"></div>');
+                var mthis = this,
+                    opt = this.opt;
+                this.wrapper = $('<div class="fakeselect-wrapper ' + opt.CSSClasses + '"></div>');
                 this.wrapper.css({
                     'position': 'relative'
                 });
@@ -64,9 +72,9 @@ if(!jQuery.fn.FakeSelect) {
                 this.cover.html(this.el.children(':selected').text());
             }
         };
-        $.fn.FakeSelect = function() {
+        $.fn.FakeSelect = function(opt) {
             this.each(function() {
-                $.extend({}, FakeSelect).init($(this));
+                $.extend({}, FakeSelect).init($(this), opt);
             });
             return this;
         };
