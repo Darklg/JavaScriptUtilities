@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+/* ----------------------------------------------------------
+  Fake Upload
+---------------------------------------------------------- */
+
+.fakeupload-wrapper,
+.fakeupload-wrapper input,
+.fakeupload-cover {
+    height: 25px;
+    line-height: 25px;
+}
+
+.fakeupload-wrapper {
+    width: 350px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.fakeupload-cover {
+    padding: 0 5px;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333;
+}
+
+.fake-upload-default-txt {
+    font-style: italic;
+    color: #888;
+}
