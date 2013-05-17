@@ -45,6 +45,13 @@ ul {
     margin-bottom: 7px;
 }
 
+.shm-dependency {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
 /* Footer
    ----------------------- */
 
@@ -83,6 +90,35 @@ ul {
 
 .footer-menu a:hover {
     text-decoration: underline;
+}
+
+/* Section
+   ----------------------- */
+
+.section-header .more {
+    float: right;
+}
+
+.shm-dependency {
+    display: inline-block;
+    padding: 1px 2px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    text-decoration: none;
+    font-size: 11px;
+    color: #999;
+    -webkit-background-clip: border;
+    -moz-background-clip: border;
+    background-clip: border;
+    *display: inline;
+    *zoom: 1;
+}
+
+.shm-dependency:hover {
+    border: 1px solid #333;
+    color: #333;
 }
 
 /* Demo style
