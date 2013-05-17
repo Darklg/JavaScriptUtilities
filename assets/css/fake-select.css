@@ -52,3 +52,8 @@
 .fakeselect-wrapper select {
     cursor: pointer;
 }
+
+.fakeselect-wrapper select[disabled] ~ .fakeselect-cover,
+.fakeselect-wrapper select[disabled] {
+    cursor: not-allowed;
+}
