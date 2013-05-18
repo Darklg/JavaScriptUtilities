@@ -112,8 +112,14 @@ var dkJSULightbox = new Class({
         this.openLightbox();
     },
     openImage: function(url) {
-        this.loadContentInLightbox('<img src="' + url + '" alt="" />', 'image');
-        this.openLightbox();
+        var mthis = this;
+        var myImages = new Asset.image(url, {
+            onLoad: function() {
+                mthis.loadContentInLightbox('<img src="' + url + '" alt="" />', 'image');
+                mthis.openLightbox();
+            }
+        });
+
     },
     openVideo: function(video_id) {
         var content = '<iframe width="580" height="377" src="http://www.youtube.com/embed/' + video_id + '" frameborder="0" allowfullscreen></iframe>';

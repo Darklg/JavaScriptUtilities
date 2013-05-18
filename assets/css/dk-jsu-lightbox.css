@@ -4,8 +4,24 @@
   Lightbox
 ---------------------------------------------------------- */
 
-.lb-is-hidden {
-    display: none;
+.lightbox.lb-is-hidden {
+    visibility: hidden;
+    opacity: 0.0;
+    filter: alpha(opacity=0);
+}
+
+.lightbox {
+    visibility: visible;
+    opacity: 0.99;
+    filter: alpha(opacity=99);
+}
+
+.lightbox-filter,
+.lightbox {
+    -webkit-transition: opacity 0.3s ease;
+    -moz-transition: opacity 0.3s ease;
+    -o-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 .lightbox-content,
@@ -27,8 +43,8 @@
 }
 
 .lightbox-filter:hover {
-    background-color: rgba(0,0,0,.20);
-    filter: alpha(opacity=20);
+    background-color: rgba(0,0,0,.25);
+    filter: alpha(opacity=25);
 }
 
 /* Lightbox AJAX */
