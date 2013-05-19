@@ -126,7 +126,13 @@ var dkJSULightbox = new Class({
         this.loadContentInLightbox(content, 'youtube');
         this.openLightbox();
     },
-    loadContentInLightbox: function(content, type) {
+    loadContentInLightbox: function(content, type, style) {
+        style = style || {};
+        // Reset lightbox style
+        this.lightboxcontent.set('style', '');
+        // Load additional style
+        this.lightboxcontent.setStyles(style);
+
         this.lightbox.set('data-lb', type);
         this.lightboxcontent.set('html', content);
     },
