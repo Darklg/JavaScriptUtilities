@@ -87,6 +87,16 @@
 
 /* Lightbox image */
 
+.lightbox[data-lb="image"] .lightbox-content {
+    padding: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-background-clip: border;
+    -moz-background-clip: border;
+    background-clip: border;
+}
+
 .lightbox[data-lb="image"] img {
     max-width: 100%;
 }

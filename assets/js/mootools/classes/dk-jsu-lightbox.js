@@ -12,8 +12,8 @@
 TODO : class & zindex perso
 TODO : small screens
 TODO : Press echap : close lightbox
-
 TODO : deduplicate ( if has class dkjsu, return false )
+TODO : Stop lightbox launch if already opening
  */
 
 /*
@@ -113,9 +113,40 @@ var dkJSULightbox = new Class({
     },
     openImage: function(url) {
         var mthis = this;
+        var imageURL = new Image();
+        imageURL.src = url;
         var myImages = new Asset.image(url, {
             onLoad: function() {
-                mthis.loadContentInLightbox('<img src="' + url + '" alt="" />', 'image');
+                // Getting image size
+                var imageWidth = imageURL.width,
+                    imageHeight = imageURL.height,
+                    imageRatio = imageWidth / imageHeight;
+
+                // Getting window size
+                var windowWidth = window.getWidth() - 10,
+                    windowHeight = window.getHeight() - 10,
+                    windowRatio = windowWidth / windowHeight;
+
+                // Setting new image size
+                if (windowRatio > imageRatio) {
+                    if (imageHeight > windowHeight) {
+                        imageHeight = windowHeight;
+                        imageWidth = imageRatio * imageHeight;
+                    }
+                }
+                else {
+                    if (imageWidth > windowWidth) {
+                        imageWidth = windowWidth;
+                        imageHeight = imageWidth / imageRatio;
+                    }
+                }
+                // Loading image with CSS style
+                mthis.loadContentInLightbox('<img style="display:block;" width="' + imageWidth + '" height="' + imageHeight + '" src="' + url + '" alt="" />', 'image', {
+                    'width': imageWidth,
+                    'height': imageHeight,
+                    'margin-left': 0 - (imageWidth / 2),
+                    'margin-top': 0 - (imageHeight / 2)
+                });
                 mthis.openLightbox();
             }
         });
