@@ -108,3 +108,10 @@
     height: 377px;
     border: 0;
 }
+
+/* Lightbox vimeo */
+
+.lightbox[data-lb="vimeo"] .lightbox-content {
+    height: 328px;
+    margin-top: -174px;
+}

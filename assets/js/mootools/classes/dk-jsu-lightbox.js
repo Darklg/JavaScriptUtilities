@@ -66,6 +66,7 @@ var dkJSULightbox = new Class({
         var url = document.createElement('a');
         url.href = link.href;
         var urlExtension = url.pathname.split('.').pop().toLowerCase();
+        var urlPathname = url.pathname.replace('/', '');
         var url_params = this.getUrlParams(url.search);
 
         // Detect image
@@ -76,7 +77,12 @@ var dkJSULightbox = new Class({
 
         // Detect Youtube
         if ((url.hostname == 'youtube.com' || url.hostname == 'www.youtube.com') && url_params.v) {
-            this.openVideo(url_params.v);
+            this.openVideo(url_params.v, 'youtube');
+            return;
+        }
+        // Detect Vimeo
+        if ((url.hostname == 'vimeo.com' || url.hostname == 'www.vimeo.com') && this.isNumber(urlPathname)) {
+            this.openVideo(urlPathname, 'vimeo');
             return;
         }
 
@@ -152,9 +158,17 @@ var dkJSULightbox = new Class({
         });
 
     },
-    openVideo: function(video_id) {
-        var content = '<iframe width="580" height="377" src="http://www.youtube.com/embed/' + video_id + '" frameborder="0" allowfullscreen></iframe>';
-        this.loadContentInLightbox(content, 'youtube');
+    openVideo: function(video_id, video_type) {
+        var content = '';
+        switch (video_type) {
+            case 'youtube':
+                content = '<iframe width="580" height="377" src="http://www.youtube.com/embed/' + video_id + '" frameborder="0" allowfullscreen></iframe>';
+                break;
+            case 'vimeo':
+                content = '<iframe src="http://player.vimeo.com/video/' + video_id + '?autoplay=1" width="580" height="326" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+                break;
+        }
+        this.loadContentInLightbox(content, video_type);
         this.openLightbox();
     },
     loadContentInLightbox: function(content, type, style) {
@@ -182,5 +196,9 @@ var dkJSULightbox = new Class({
             result[tmp[0]] = unescape(tmp[1]);
         }
         return result;
+    },
+    isNumber: function(n) {
+        // src: http://stackoverflow.com/a/1830844 <3
+        return !isNaN(parseFloat(n)) && isFinite(n);
     }
 });
