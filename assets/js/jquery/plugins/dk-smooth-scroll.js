@@ -1,12 +1,12 @@
 /*
- * JavaScriptUtilities
- * (c) 2012 Kevin Rocher
- * JavaScriptUtilities may be freely distributed under the MIT license.
+ * Plugin Name: Smooth Scroll
+ * Version: 1.0
+ * JavaScriptUtilities Smooth Scroll may be freely distributed under the MIT license.
  */
 
 /* ----------------------------------------------------------
-   Smooth Scroll
-   ------------------------------------------------------- */
+   Smooth Scroll
+---------------------------------------------------------- */
 
 /*
 jQuery('[href^=#]').dkSmoothScroll();

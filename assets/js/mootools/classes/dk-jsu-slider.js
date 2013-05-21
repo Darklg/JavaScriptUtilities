@@ -1,12 +1,12 @@
 /*
- * JavaScriptUtilities
- * (c) 2012 Kevin Rocher
- * JavaScriptUtilities may be freely distributed under the MIT license.
+ * Plugin Name: Slider
+ * Version: 1.0
+ * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
 
 /* ----------------------------------------------------------
-   Slider
-   ------------------------------------------------------- */
+   Slider
+---------------------------------------------------------- */
 
 /*
 TODO :

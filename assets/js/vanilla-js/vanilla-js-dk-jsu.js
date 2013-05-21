@@ -1,7 +1,7 @@
 /*
- * JavaScriptUtilities
- * (c) 2012 Kevin Rocher
- * JavaScriptUtilities may be freely distributed under the MIT license.
+ * Plugin Name: Vanilla-JS
+ * Version: 1.0
+ * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
 
 /* ----------------------------------------------------------

@@ -1,12 +1,12 @@
 /*
- * JavaScriptUtilities
- * (c) 2012 Kevin Rocher
- * JavaScriptUtilities may be freely distributed under the MIT license.
+ * Plugin Name: Fake Select
+ * Version: 1.0
+ * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
 
 /* ----------------------------------------------------------
-   Fake Select
-   ------------------------------------------------------- */
+   Fake Select
+---------------------------------------------------------- */
 
 /*
 new FakeSelect($$('select.fake-select'), options);

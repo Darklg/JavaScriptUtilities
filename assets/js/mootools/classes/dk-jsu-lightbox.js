@@ -1,11 +1,11 @@
 /*
- * JavaScriptUtilities
- * (c) 2012 Kevin Rocher
- * JavaScriptUtilities may be freely distributed under the MIT license.
+ * Plugin Name: Lightbox
+ * Version: 1.0
+ * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
  */
 
 /* ----------------------------------------------------------
-   Lightbox
+   Lightbox
 ---------------------------------------------------------- */
 
 /*
