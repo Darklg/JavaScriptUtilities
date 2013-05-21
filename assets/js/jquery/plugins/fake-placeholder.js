@@ -1,12 +1,12 @@
 /*
- * JavaScriptUtilities
- * (c) 2012 Kevin Rocher
- * JavaScriptUtilities may be freely distributed under the MIT license.
+ * Plugin Name: Fake Placeholder
+ * Version: 1.0
+ * JavaScriptUtilities Fake Placeholder may be freely distributed under the MIT license.
  */
 
 /* ----------------------------------------------------------
-   Fake Placeholder
-   ------------------------------------------------------- */
+   Fake Placeholder
+---------------------------------------------------------- */
 
 /*
 jQuery('[placeholder]').FakePlaceholder();

@@ -1,12 +1,12 @@
 /*
- * JavaScriptUtilities
- * (c) 2012 Kevin Rocher
- * JavaScriptUtilities may be freely distributed under the MIT license.
+ * Plugin Name: Tabs
+ * Version: 1.0
+ * JavaScriptUtilities Tabs may be freely distributed under the MIT license.
  */
 
 /* ----------------------------------------------------------
-   Tabs
-   ------------------------------------------------------- */
+   Tabs
+---------------------------------------------------------- */
 
 /*
 new dkJSUTabs({
