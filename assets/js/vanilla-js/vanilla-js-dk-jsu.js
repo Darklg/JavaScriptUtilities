@@ -1,25 +1,25 @@
 /*
  * Plugin Name: Vanilla-JS
- * Version: 1.0
+ * Version: 1.0.1
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
 
 /* ----------------------------------------------------------
-   $_ : Get Element
-   ------------------------------------------------------- */
+   $_ : Get Element
+---------------------------------------------------------- */
 
 function $_(id) {
     return document.getElementById(id);
 }
 
 /* ----------------------------------------------------------
-   Events
-   ------------------------------------------------------- */
+   Events
+---------------------------------------------------------- */
 
 /* Domready
-   ----------------------- */
+   ----------------------- */
 
-/* From the amazing Dustin Diaz : http://www.dustindiaz.com/smallest-domready-ever */
+/* From the amazing Dustin Diaz : http://www.dustindiaz.com/smallest-domready-ever */
 // «!document.body» check ensures that IE fires domReady correctly
 window.domReady = function(func) {
     if (/in/.test(document.readyState) || !document.body) {
@@ -33,10 +33,10 @@ window.domReady = function(func) {
 };
 
 /* ----------------------------------------------------------
-   Elements
-   ------------------------------------------------------- */
+   Elements
+---------------------------------------------------------- */
 
-/* Show / Hide / Toggle */
+/* Show / Hide / Toggle */
 
 Element.hide = function(element) {
     element.style.display = 'none';
@@ -57,9 +57,9 @@ Element.toggleDisplay = function(element) {
 };
 
 /* Classes
-   ----------------------- */
+   ----------------------- */
 
-/* Get class names */
+/* Get class names */
 
 Element.getClassNames = function(element) {
     var classNames = [];
@@ -70,15 +70,22 @@ Element.getClassNames = function(element) {
     return classNames;
 };
 
-/* Test if has a class */
+/* Test if has a class */
 
 Element.hasClass = function(element, className) {
+    if(element.classList){
+        return element.classList.contains(className);
+    }
     return Array.contains(className, Element.getClassNames(element));
 };
 
-/* Add a class */
+/* Add a class */
 
 Element.addClass = function(element, className) {
+    if(element.classList){
+        element.classList.add(className);
+        return;
+    }
     if (!Element.hasClass(element, className)) {
         var elementClasses = Element.getClassNames(element);
         elementClasses.push(className);
@@ -86,9 +93,13 @@ Element.addClass = function(element, className) {
     }
 };
 
-/* Remove a class */
+/* Remove a class */
 
 Element.removeClass = function(element, className) {
+    if(element.classList){
+        element.classList.remove(className);
+        return;
+    }
     var elementClasses = Element.getClassNames(element);
     var newElementClasses = [];
     for (var i in elementClasses) {
@@ -99,7 +110,7 @@ Element.removeClass = function(element, className) {
     element.className = newElementClasses.join(' ');
 };
 
-/* Toggle a class */
+/* Toggle a class */
 
 Element.toggleClass = function(element, className) {
     if (!Element.hasClass(element, className)) {
@@ -111,11 +122,11 @@ Element.toggleClass = function(element, className) {
 };
 
 /* ----------------------------------------------------------
-   Arrays
-   ------------------------------------------------------- */
+   Arrays
+---------------------------------------------------------- */
 
 /* In array
-   ----------------------- */
+   ----------------------- */
 
 Array.contains = function(needle, haystack) {
     var i = 0,
@@ -128,7 +139,7 @@ Array.contains = function(needle, haystack) {
 };
 
 /* Each
-   ----------------------- */
+   ----------------------- */
 
 Array.each = function(arrayToParse, callback) {
     var i = 0,
@@ -145,18 +156,18 @@ if (!Array.prototype.each) {
 }
 
 /* ----------------------------------------------------------
-   Miscellaneous
-   ------------------------------------------------------- */
+   Miscellaneous
+---------------------------------------------------------- */
 
 /* Trim
-   ----------------------- */
+   ----------------------- */
 
 String.trim = function(text) {
     return text.replace(/^\s+|\s+$/g, "");
 };
 
 /* Console log fix
-   ----------------------- */
+   ----------------------- */
 
 if (typeof(console) === 'undefined') {
     var console = {};
@@ -164,7 +175,7 @@ if (typeof(console) === 'undefined') {
 }
 
 /* AJAX
-   ----------------------- */
+   ----------------------- */
 
 var jsuAJAX = function(args) {
     var xmlHttpReq = false,
