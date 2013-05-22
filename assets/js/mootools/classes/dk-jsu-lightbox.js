@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Lightbox
- * Version: 1.0
+ * Version: 1.0.1
  * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
  */
 
@@ -185,6 +185,12 @@ var dkJSULightbox = new Class({
         this.lightbox.removeClass('lb-is-hidden');
     },
     closeLightbox: function() {
+        var lightbox = this.lightbox,
+            lbType = lightbox.get('data-lb');
+        // If video lightbox, deleting content to stop video
+        if (['vimeo', 'youtube'].indexOf(lbType) !== -1) {
+            this.loadContentInLightbox('', lbType);
+        }
         this.lightbox.addClass('lb-is-hidden');
     },
     getUrlParams: function(params) {
