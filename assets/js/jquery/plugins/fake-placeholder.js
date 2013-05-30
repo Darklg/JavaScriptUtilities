@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Placeholder
- * Version: 1.0
+ * Version: 1.0.1
  * JavaScriptUtilities Fake Placeholder may be freely distributed under the MIT license.
  */
 
@@ -65,7 +65,7 @@ if(!jQuery.fn.FakePlaceholder) {
         };
         $.fn.FakePlaceholder = function() {
             this.each(function() {
-                $.extend({}, FakePlaceholder).init($(this));
+                $.extend(true, {}, FakePlaceholder).init($(this));
             });
             return this;
         };
