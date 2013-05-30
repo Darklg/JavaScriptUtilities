@@ -10,7 +10,9 @@ title: MooTools
         </header>
         <p>Scroll smoothly to your target. (Dependencies : MooTools More With FX.Scroll)</p>
         <script class="script-visible" contenteditable>window.addEvent('domready',function(){
-    new dkSmoothScroll($$('[href^=#]'));
+    new dkSmoothScroll($$('[href^=#]'), {
+        'duration' : 500
+    });
 });</script>
         <div class="script-result">
             <div id="smooth-test"></div>
