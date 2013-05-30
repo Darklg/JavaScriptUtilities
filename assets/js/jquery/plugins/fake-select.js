@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.0
+ * Version: 1.0.1
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
 
@@ -74,7 +74,7 @@ if (!jQuery.fn.FakeSelect) {
         };
         $.fn.FakeSelect = function(opt) {
             this.each(function() {
-                $.extend({}, FakeSelect).init($(this), opt);
+                $.extend(true, {}, FakeSelect).init($(this), opt);
             });
             return this;
         };
