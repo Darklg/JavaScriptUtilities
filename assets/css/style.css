@@ -21,6 +21,14 @@ h1 {
     font-size: 18px;
 }
 
+h1 strong {
+    font-size: 22px;
+}
+
+h1 a {
+    text-decoration: none;
+}
+
 h2 {
     margin: 30px 0 15px;
     border-bottom: 1px solid #f0f0f0;
@@ -45,6 +53,27 @@ ul {
     margin-bottom: 7px;
 }
 
+a {
+    color: #369;
+    -webkit-transition: color 0.3s ease;
+    -moz-transition: color 0.3s ease;
+    -o-transition: color 0.3s ease;
+    transition: color 0.3s ease;
+}
+
+a:hover,
+a:focus {
+    color: #9cf;
+}
+
+a:visited {
+    color: #036;
+}
+
+a:active {
+    color: #000;
+}
+
 .shm-dependency {
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
@@ -55,10 +84,6 @@ ul {
 /* Footer
    ----------------------- */
 
-.copyright {
-    float: right;
-}
-
 .main-footer {
     margin-top: 15px;
     border-top: 1px solid #ccc;
@@ -67,20 +92,30 @@ ul {
 .main-footer li,
 .main-footer p {
     font-size: 12px;
-    line-height: 30px;
+    line-height: 18px;
 }
 
 .footer-menu {
+    clear: both;
     padding: 0;
 }
 
+.footer-menu ul {
+    padding-left: 0;
+}
+
 .footer-menu li {
-    display: inline;
     list-style: none;
 }
 
-.footer-menu li + li:before {
-    content: ' — ';
+.footer-menu li li:before {
+    content: '— ';
+    color: #999;
+}
+
+.footer-menu > li {
+    float: left;
+    width: 33%;
 }
 
 .footer-menu a {
