@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Lightbox
- * Version: 1.0.1
+ * Version: 1.0.1.1
  * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
  */
 
@@ -32,8 +32,7 @@ var dkJSULightbox = new Class({
         this.setEvents();
     },
     createLightBox: function() {
-        var mthis = this,
-            opt = this.opt;
+        var opt = this.opt;
         this.lightbox = new Element('.lightbox');
         this.lightboxfilter = new Element('.lightbox-filter');
         this.lightbox.adopt(this.lightboxfilter);
@@ -43,23 +42,23 @@ var dkJSULightbox = new Class({
         $(document.body).adopt(this.lightbox);
     },
     setEvents: function() {
-        var mthis = this,
+        var self = this,
             opt = this.opt;
 
         // Click on trigger : Open Lightbox
         opt.triggers.addEvent('click', function(e) {
             e.preventDefault();
-            mthis.openLink($(this));
+            self.openLink($(this));
         });
         // Click on filter : close lightbox
         this.lightboxfilter.addEvent('click', function(e) {
             e.preventDefault();
-            mthis.closeLightbox();
+            self.closeLightbox();
         });
         // Click on close button : close lightbox
         this.lightbox.addEvent('click:relay(.btn-close-lightbox)', function(e) {
             e.preventDefault();
-            mthis.closeLightbox();
+            self.closeLightbox();
         });
     },
     openLink: function(link) {
@@ -99,7 +98,7 @@ var dkJSULightbox = new Class({
         this.openLightbox();
     },
     openRelativeURL: function(url) {
-        var mthis = this;
+        var self = this;
         // Load content with AJAX
         var req = new Request({
             method: 'get',
@@ -108,8 +107,8 @@ var dkJSULightbox = new Class({
                 'ajax': '1'
             },
             onComplete: function(response) {
-                mthis.loadContentInLightbox(response, 'content');
-                mthis.openLightbox();
+                self.loadContentInLightbox(response, 'content');
+                self.openLightbox();
             }
         }).send();
     },
@@ -118,7 +117,7 @@ var dkJSULightbox = new Class({
         this.openLightbox();
     },
     openImage: function(url) {
-        var mthis = this;
+        var self = this;
         var imageURL = new Image();
         imageURL.src = url;
         var myImages = new Asset.image(url, {
@@ -147,13 +146,13 @@ var dkJSULightbox = new Class({
                     }
                 }
                 // Loading image with CSS style
-                mthis.loadContentInLightbox('<img style="display:block;" width="' + imageWidth + '" height="' + imageHeight + '" src="' + url + '" alt="" />', 'image', {
+                self.loadContentInLightbox('<img style="display:block;" width="' + imageWidth + '" height="' + imageHeight + '" src="' + url + '" alt="" />', 'image', {
                     'width': imageWidth,
                     'height': imageHeight,
                     'margin-left': 0 - (imageWidth / 2),
                     'margin-top': 0 - (imageHeight / 2)
                 });
-                mthis.openLightbox();
+                self.openLightbox();
             }
         });
 
