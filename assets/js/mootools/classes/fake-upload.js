@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.0.1
+ * Version: 1.0.2
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
 
@@ -16,8 +16,12 @@ new FakeUpload({
 */
 
 var FakeUpload = new Class({
-    defaultTxt: 'Browse ...',
-    defaultClass: 'fake-upload-default-txt',
+    opt: {},
+    defaultOptions: {
+        elementz: $$(''),
+        defaultTxt: 'Browse ...',
+        defaultClass: 'fake-upload-default-txt'
+    },
     defaultStyles: {
         'cursor': 'pointer',
         'position': 'absolute',
@@ -27,7 +31,7 @@ var FakeUpload = new Class({
     initialize: function(opt) {
         var self = this;
         this.getOptions(opt);
-        this.elementz.each(function(el) {
+        this.opt.elementz.each(function(el) {
             if (!el.get('data-fakeupload') || !el.get('type') || el.get('type') != 'file') {
                 el.set('data-fakeupload', 1);
                 self.setWrapper(el);
@@ -37,14 +41,10 @@ var FakeUpload = new Class({
     },
     // Get options from user init
     getOptions: function(opt) {
-        this.opt = opt;
-        this.elementz = $$();
-        if (opt.elementz) {
-            this.elementz = opt.elementz;
+        if (typeof opt != 'object') {
+            opt = {};
         }
-        if (opt.defaultTxt) {
-            this.defaultTxt = opt.defaultTxt;
-        }
+        this.opt = Object.merge({}, this.defaultOptions, opt);
     },
     // Set wrappers elements
     setWrapper: function(el) {
@@ -113,7 +113,7 @@ var FakeUpload = new Class({
             opt = this.opt;
         if (!el.hasClass(self.defaultClass)) {
             el.addClass(self.defaultClass);
-            el.set('html', opt.defaultTxt);
+            el.set('html', self.defaultTxt);
         }
     }
 });
