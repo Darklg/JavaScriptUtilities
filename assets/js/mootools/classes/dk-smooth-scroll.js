@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Smooth Scroll
- * Version: 1.1
+ * Version: 1.1.1
  * JavaScriptUtilities Smooth Scroll may be freely distributed under the MIT license.
  */
 
@@ -28,9 +28,10 @@ var dkSmoothScroll = new Class({
         this.setEvents();
     },
     getOptions: function(opt) {
-        if (typeof opt == 'object') {
-            this.opt = Object.merge({}, this.defaultOptions, opt);
+        if (typeof opt != 'object') {
+            opt = {};
         }
+        this.opt = Object.merge({}, this.defaultOptions, opt);
     },
     setEvents: function() {
         var opt = this.opt;
