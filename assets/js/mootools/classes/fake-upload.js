@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.0
+ * Version: 1.0.1
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
 
@@ -25,13 +25,13 @@ var FakeUpload = new Class({
         'right': 0
     },
     initialize: function(opt) {
-        var mthis = this;
+        var self = this;
         this.getOptions(opt);
         this.elementz.each(function(el) {
-            if(!el.get('data-fakeupload') || !el.get('type') || el.get('type') != 'file') {
+            if (!el.get('data-fakeupload') || !el.get('type') || el.get('type') != 'file') {
                 el.set('data-fakeupload', 1);
-                mthis.setWrapper(el);
-                mthis.setEvents(el);
+                self.setWrapper(el);
+                self.setEvents(el);
             }
         });
     },
@@ -39,16 +39,16 @@ var FakeUpload = new Class({
     getOptions: function(opt) {
         this.opt = opt;
         this.elementz = $$();
-        if(opt.elementz) {
+        if (opt.elementz) {
             this.elementz = opt.elementz;
         }
-        if(opt.defaultTxt) {
+        if (opt.defaultTxt) {
             this.defaultTxt = opt.defaultTxt;
         }
     },
     // Set wrappers elements
     setWrapper: function(el) {
-        var mthis = this,
+        var self = this,
             opt = this.opt;
         var wrapper = new Element('div.fakeupload-wrapper');
         wrapper.setStyles({
@@ -57,14 +57,14 @@ var FakeUpload = new Class({
             'position': 'relative'
         });
         var cover = new Element('div.fakeupload-cover');
-        cover.setStyles(mthis.defaultStyles);
+        cover.setStyles(self.defaultStyles);
         this.setDefaultStatus(cover);
         cover.setStyles({
             'left': 0,
             'z-index': 1
         });
         el.set('size', 100);
-        el.setStyles(mthis.defaultStyles);
+        el.setStyles(self.defaultStyles);
         el.setStyles({
             'height': 100,
             'z-index': 2,
@@ -77,17 +77,17 @@ var FakeUpload = new Class({
     },
     // Set events for interaction
     setEvents: function(el) {
-        var mthis = this;
+        var self = this;
         var wrapper = el.getParent();
         // Change the shown file name
         el.addEvent('change', function() {
             var newValue = this.get('value').replace('C:\\fakepath\\', ''),
                 cover = this.getPrevious('.fakeupload-cover');
-            if(newValue === '') {
-                mthis.setDefaultStatus(cover);
+            if (newValue === '') {
+                self.setDefaultStatus(cover);
             }
             else {
-                cover.set('html', newValue).removeClass(mthis.defaultClass);
+                cover.set('html', newValue).removeClass(self.defaultClass);
             }
         });
         // Move the input element for a good behavior
@@ -109,10 +109,10 @@ var FakeUpload = new Class({
     },
     // Set default status of fake upload
     setDefaultStatus: function(el) {
-        var mthis = this,
+        var self = this,
             opt = this.opt;
-        if(!el.hasClass(mthis.defaultClass)) {
-            el.addClass(mthis.defaultClass);
+        if (!el.hasClass(self.defaultClass)) {
+            el.addClass(self.defaultClass);
             el.set('html', opt.defaultTxt);
         }
     }
