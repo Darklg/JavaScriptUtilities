@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.0.1
+ * Version: 1.0.2
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
 
@@ -34,6 +34,9 @@ var FakeSelect = new Class({
         });
     },
     getOptions: function(opt) {
+        if (typeof opt != 'object') {
+            opt = {};
+        }
         this.opt = Object.merge({}, this.defaultOptions, opt);
     },
     setWrapper: function(el) {
