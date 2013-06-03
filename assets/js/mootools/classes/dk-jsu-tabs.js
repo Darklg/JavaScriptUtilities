@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Tabs
- * Version: 1.0
+ * Version: 1.0.1
  * JavaScriptUtilities Tabs may be freely distributed under the MIT license.
  */
 
@@ -32,14 +32,14 @@ var dkJSUTabs = new Class({
         }
     },
     setEvents: function() {
-        var mthis = this,
+        var self = this,
             opt = this.opt;
         opt.triggers.each(function(el, i) {
             el.set('data-tabs-i', i);
             el.addEvent('click', function(e) {
                 var i = parseInt(this.get('data-tabs-i'), 10);
                 e.preventDefault();
-                mthis.showTab(i);
+                self.showTab(i);
             });
         });
         this.showTab(0);
