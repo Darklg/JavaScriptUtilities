@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.0.1
+ * Version: 1.0.2
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
 
@@ -14,7 +14,7 @@ jQuery('input.fake-upload').FakeUpload({
 });
 */
 
-if(!jQuery.fn.FakeUpload) {
+if (!jQuery.fn.FakeUpload) {
     (function($) {
         var FakeUpload = {
             defaultTxt: 'Browse ...',
@@ -28,7 +28,7 @@ if(!jQuery.fn.FakeUpload) {
             init: function(el, params) {
                 this.el = el;
                 this.getParams(params);
-                if(this.el.data('fakeupload') != 1 || !this.el.attr('type') || this.el.attr('type') != 'file') {
+                if (this.el.data('fakeupload') != 1 || !this.el.attr('type') || this.el.attr('type') != 'file') {
                     this.el.data('fakeupload', 1);
                     this.setWrapper();
                     this.setEvents();
@@ -37,7 +37,7 @@ if(!jQuery.fn.FakeUpload) {
             // Get options from user init
             getParams: function(params) {
                 this.params = params;
-                if(params.defaultTxt) {
+                if (params.defaultTxt) {
                     this.defaultTxt = params.defaultTxt;
                 }
             },
@@ -70,15 +70,15 @@ if(!jQuery.fn.FakeUpload) {
                 this.wrapper.append(this.cover);
             },
             setEvents: function() {
-                var mthis = this;
+                var self = this;
                 // Change the shown file name
                 this.el.on('change', function() {
                     var newValue = $(this).val().replace('C:\\fakepath\\', '');
-                    if(newValue === '') {
-                        mthis.setDefaultStatus();
+                    if (newValue === '') {
+                        self.setDefaultStatus();
                     }
                     else {
-                        mthis.cover.html(newValue).removeClass(mthis.defaultClass);
+                        self.cover.html(newValue).removeClass(self.defaultClass);
                     }
                 });
                 // Move the input element for a good behavior
@@ -99,7 +99,7 @@ if(!jQuery.fn.FakeUpload) {
                 });
             },
             setDefaultStatus: function() {
-                if(!this.cover.hasClass(this.defaultClass)) {
+                if (!this.cover.hasClass(this.defaultClass)) {
                     this.cover.addClass(this.defaultClass);
                     this.cover.html(this.defaultTxt);
                 }
