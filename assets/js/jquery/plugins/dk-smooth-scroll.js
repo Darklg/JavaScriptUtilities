@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Smooth Scroll
- * Version: 1.1.2
+ * Version: 1.1.2.1
  * JavaScriptUtilities Smooth Scroll may be freely distributed under the MIT license.
  */
 
@@ -31,8 +31,7 @@ if (!jQuery.fn.dkSmoothScroll) {
             setEvents: function() {
                 var opt = this.opt;
                 this.el.on('click', function(e) {
-                    var _this = jQuery(this),
-                        href = _this.attr('href'),
+                    var href = jQuery(this).attr('href'),
                         target = jQuery(href);
                     if (target.length > 0) {
                         e.preventDefault();
