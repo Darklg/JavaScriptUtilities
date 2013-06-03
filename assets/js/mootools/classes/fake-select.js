@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.0
+ * Version: 1.0.1
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
 
@@ -22,14 +22,14 @@ var FakeSelect = new Class({
         'CSSClasses': ''
     },
     initialize: function(elementz, opt) {
-        var mthis = this;
+        var self = this;
         this.elementz = elementz;
         this.getOptions(opt);
         elementz.each(function(el) {
             if (!el.get('data-fakeselect') || el.get('tag').toLowerCase() != 'select') {
                 el.set('data-fakeselect', 1);
-                mthis.setWrapper(el);
-                mthis.setEvents(el);
+                self.setWrapper(el);
+                self.setEvents(el);
             }
         });
     },
@@ -37,7 +37,7 @@ var FakeSelect = new Class({
         this.opt = Object.merge({}, this.defaultOptions, opt);
     },
     setWrapper: function(el) {
-        var mthis = this,
+        var self = this,
             opt = this.opt;
         var wrapper = new Element('div.fakeselect-wrapper');
         wrapper.addClass(opt.CSSClasses);
@@ -45,7 +45,7 @@ var FakeSelect = new Class({
             'position': 'relative'
         });
         var cover = new Element('div.fakeselect-cover');
-        el.setStyles(mthis.defaultStyles);
+        el.setStyles(self.defaultStyles);
         el.setStyles({
             'opacity': '0.01',
             'filter': 'alpha(opacity=1)',
@@ -55,7 +55,7 @@ var FakeSelect = new Class({
             'margin': 0,
             'width': '100%'
         });
-        cover.setStyles(mthis.defaultStyles);
+        cover.setStyles(self.defaultStyles);
         cover.setStyles({
             'z-index': 1,
             'right': 0
@@ -64,10 +64,10 @@ var FakeSelect = new Class({
         wrapper.wraps(el);
     },
     setEvents: function(el) {
-        var mthis = this;
-        mthis.setValue(el);
+        var self = this;
+        self.setValue(el);
         el.addEvent('change', function() {
-            mthis.setValue(el);
+            self.setValue(el);
         });
     },
     setValue: function(el) {
