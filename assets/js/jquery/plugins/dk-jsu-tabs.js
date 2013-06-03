@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Tabs
- * Version: 1.0.2
+ * Version: 1.0.2.1
  * JavaScriptUtilities Tabs may be freely distributed under the MIT license.
  */
 
@@ -38,10 +38,10 @@ if (!jQuery.fn.dkJSUTabs) {
                 this.opt = $.extend(true, {}, this.defaultOpt, opt);
             },
             setEvents: function() {
-                var _this = this;
-                _this.els.on('click', function(e) {
+                var self = this;
+                self.els.on('click', function(e) {
                     e.preventDefault();
-                    _this.showTab($(this).index());
+                    self.showTab($(this).index());
                 });
             },
             showTab: function(i) {
