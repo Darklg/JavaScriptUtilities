@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.0.2
+ * Version: 1.1
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
 
@@ -9,7 +9,10 @@
 ---------------------------------------------------------- */
 
 /*
-new FakeSelect($$('select.fake-select'), options);
+new FakeSelect($$('select.fake-select'), {
+    'wrapperClass': 'fakeselect-wrapper',
+    'coverClass': 'fakeselect-cover'
+});
 */
 
 var FakeSelect = new Class({
@@ -18,36 +21,38 @@ var FakeSelect = new Class({
         'top': 0,
         'left': 0
     },
-    defaultOptions: {
-        'CSSClasses': ''
+    settings: {},
+    defaultSettings: {
+        'dataname': 'data-fakeselect',
+        'wrapperClass': 'fakeselect-wrapper',
+        'coverClass': 'fakeselect-cover'
     },
-    initialize: function(elementz, opt) {
+    initialize: function(elementz, settings) {
         var self = this;
         this.elementz = elementz;
-        this.getOptions(opt);
+        this.getSettings(settings);
         elementz.each(function(el) {
-            if (!el.get('data-fakeselect') || el.get('tag').toLowerCase() != 'select') {
-                el.set('data-fakeselect', 1);
-                self.setWrapper(el);
+            if (!el.get(self.settings.dataname) || el.get('tag').toLowerCase() != 'select') {
+                el.set(self.settings.dataname, 1);
+                self.setElements(el);
                 self.setEvents(el);
             }
         });
     },
-    getOptions: function(opt) {
-        if (typeof opt != 'object') {
-            opt = {};
+    getSettings: function(settings) {
+        if (typeof settings != 'object') {
+            settings = {};
         }
-        this.opt = Object.merge({}, this.defaultOptions, opt);
+        this.settings = Object.merge({}, this.defaultSettings, settings);
     },
-    setWrapper: function(el) {
+    setElements: function(el) {
         var self = this,
-            opt = this.opt;
-        var wrapper = new Element('div.fakeselect-wrapper');
-        wrapper.addClass(opt.CSSClasses);
+            settings = this.settings;
+        var wrapper = new Element('div.' + settings.wrapperClass);
         wrapper.setStyles({
             'position': 'relative'
         });
-        var cover = new Element('div.fakeselect-cover');
+        var cover = new Element('div.' + settings.coverClass);
         el.setStyles(self.defaultStyles);
         el.setStyles({
             'opacity': '0.01',
@@ -74,6 +79,6 @@ var FakeSelect = new Class({
         });
     },
     setValue: function(el) {
-        el.getPrevious('.fakeselect-cover').set('html', el.options[el.selectedIndex].innerHTML);
+        el.getPrevious('.' + this.settings.coverClass).set('html', el.options[el.selectedIndex].innerHTML);
     }
 });
