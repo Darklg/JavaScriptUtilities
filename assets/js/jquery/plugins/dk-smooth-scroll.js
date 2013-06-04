@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Smooth Scroll
- * Version: 1.1.2.1
+ * Version: 1.2
  * JavaScriptUtilities Smooth Scroll may be freely distributed under the MIT license.
  */
 
@@ -17,19 +17,22 @@ jQuery('[href^=#]').dkSmoothScroll({
 if (!jQuery.fn.dkSmoothScroll) {
     (function($) {
         var dkSmoothScroll = {
-            opt: {
+            defaultSettings: {
                 duration: 500
             },
-            init: function(el, opt) {
+            init: function(el, settings) {
                 this.el = el;
-                this.getOptions(opt);
+                this.getSettings(settings);
                 this.setEvents();
             },
-            getOptions: function(opt) {
-                this.opt = $.extend(true, {}, this.opt, opt);
+            getSettings: function(settings) {
+                if (typeof settings != 'object') {
+                    settings = {};
+                }
+                this.settings = $.extend(true, {}, this.defaultSettings, settings);
             },
             setEvents: function() {
-                var opt = this.opt;
+                var settings = this.settings;
                 this.el.on('click', function(e) {
                     var href = jQuery(this).attr('href'),
                         target = jQuery(href);
@@ -38,17 +41,17 @@ if (!jQuery.fn.dkSmoothScroll) {
                         var offsettop = target.offset().top;
                         jQuery('html, body').animate({
                             'scrollTop': offsettop
-                        }, opt.duration);
+                        }, settings.duration);
                     }
                 });
             }
         };
-        $.fn.dkSmoothScroll = function(opt) {
+        $.fn.dkSmoothScroll = function(settings) {
             this.each(function() {
                 var $this = jQuery(this),
                     dataPlugin = 'plugin_dkSmoothScroll';
                 if (!$this.data(dataPlugin)) {
-                    $this.data(dataPlugin, $.extend(true, {}, dkSmoothScroll).init($this, opt));
+                    $this.data(dataPlugin, $.extend(true, {}, dkSmoothScroll).init($this, settings));
                 }
             });
             return this;
