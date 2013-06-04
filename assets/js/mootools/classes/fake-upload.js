@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.0.2
+ * Version: 1.2
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
 
@@ -9,18 +9,16 @@
 ---------------------------------------------------------- */
 
 /*
-new FakeUpload({
-    elementz : $$('input.fake-upload'),
-    defaultTxt : 'Browse ...'
+new FakeUpload($(element), {
+    inputTxt : 'Browse ...'
 });
 */
 
 var FakeUpload = new Class({
-    opt: {},
-    defaultOptions: {
-        elementz: $$(''),
-        defaultTxt: 'Browse ...',
-        defaultClass: 'fake-upload-default-txt'
+    settings: {},
+    defaultSettings: {
+        inputTxt: 'Browse ...',
+        inputClass: 'fake-upload-default-txt'
     },
     defaultStyles: {
         'cursor': 'pointer',
@@ -28,28 +26,30 @@ var FakeUpload = new Class({
         'top': 0,
         'right': 0
     },
-    initialize: function(opt) {
+    initialize: function(el, settings) {
         var self = this;
-        this.getOptions(opt);
-        this.opt.elementz.each(function(el) {
-            if (!el.get('data-fakeupload') || !el.get('type') || el.get('type') != 'file') {
-                el.set('data-fakeupload', 1);
-                self.setWrapper(el);
-                self.setEvents(el);
-            }
-        });
-    },
-    // Get options from user init
-    getOptions: function(opt) {
-        if (typeof opt != 'object') {
-            opt = {};
+        if (!el) {
+            return;
         }
-        this.opt = Object.merge({}, this.defaultOptions, opt);
+        this.el = el;
+        this.getSettings(settings);
+        if (!el.get('data-fakeupload') || !el.get('type') || el.get('type') != 'file') {
+            el.set('data-fakeupload', 1);
+            self.setWrapper(el);
+            self.setEvents(el);
+        }
+    },
+    // Get settings from user init
+    getSettings: function(settings) {
+        if (typeof settings != 'object') {
+            settings = {};
+        }
+        this.settings = Object.merge({}, this.defaultSettings, settings);
     },
     // Set wrappers elements
-    setWrapper: function(el) {
+    setWrapper: function() {
         var self = this,
-            opt = this.opt;
+            el = this.el;
         var wrapper = new Element('div.fakeupload-wrapper');
         wrapper.setStyles({
             'cursor': 'pointer',
@@ -76,8 +76,9 @@ var FakeUpload = new Class({
         wrapper.wraps(el);
     },
     // Set events for interaction
-    setEvents: function(el) {
-        var self = this;
+    setEvents: function() {
+        var self = this,
+            el = this.el;
         var wrapper = el.getParent();
         // Change the shown file name
         el.addEvent('change', function() {
@@ -87,7 +88,7 @@ var FakeUpload = new Class({
                 self.setDefaultStatus(cover);
             }
             else {
-                cover.set('html', newValue).removeClass(self.defaultClass);
+                cover.set('html', newValue).removeClass(self.inputClass);
             }
         });
         // Move the input element for a good behavior
@@ -108,12 +109,10 @@ var FakeUpload = new Class({
         });
     },
     // Set default status of fake upload
-    setDefaultStatus: function(el) {
-        var self = this,
-            opt = this.opt;
-        if (!el.hasClass(self.defaultClass)) {
-            el.addClass(self.defaultClass);
-            el.set('html', self.defaultTxt);
+    setDefaultStatus: function(cover) {
+        if (!cover.hasClass(this.settings.inputClass)) {
+            cover.addClass(this.settings.inputClass);
+            cover.set('html', this.settings.inputTxt);
         }
     }
 });

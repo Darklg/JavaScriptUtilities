@@ -62,9 +62,10 @@ title: MooTools
         </header>
         <p>Fake upload field with native UI for directory selection.</p>
         <script class="script-visible" contenteditable>window.addEvent('domready',function(){
-    new FakeUpload({
-        elementz : $$('input.fake-upload'),
-        defaultTxt : 'Browse ...'
+            $$('input.fake-upload').each(function(el){
+        new FakeUpload(el, {
+            inputTxt : 'Browse ...'
+        });
     });
 });</script>
         <div class="script-result">
