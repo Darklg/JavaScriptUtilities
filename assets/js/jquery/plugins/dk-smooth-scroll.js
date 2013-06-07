@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Smooth Scroll
- * Version: 1.2
+ * Version: 1.3
  * JavaScriptUtilities Smooth Scroll may be freely distributed under the MIT license.
  */
 
@@ -49,9 +49,10 @@ if (!jQuery.fn.dkSmoothScroll) {
         $.fn.dkSmoothScroll = function(settings) {
             this.each(function() {
                 var $this = jQuery(this),
-                    dataPlugin = 'plugin_dkSmoothScroll';
-                if (!$this.data(dataPlugin)) {
-                    $this.data(dataPlugin, $.extend(true, {}, dkSmoothScroll).init($this, settings));
+                    dataPlugin = 'plugin_dkSmoothScroll'.toLowerCase();
+                if (!$this.hasClass(dataPlugin)) {
+                    $.extend(true, {}, dkSmoothScroll).init($this, settings);
+                    $this.addClass(dataPlugin);
                 }
             });
             return this;
