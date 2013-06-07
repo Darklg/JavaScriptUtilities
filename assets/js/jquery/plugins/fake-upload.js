@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.0.2
+ * Version: 1.0.3
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
 
@@ -28,8 +28,7 @@ if (!jQuery.fn.FakeUpload) {
             init: function(el, params) {
                 this.el = el;
                 this.getParams(params);
-                if (this.el.data('fakeupload') != 1 || !this.el.attr('type') || this.el.attr('type') != 'file') {
-                    this.el.data('fakeupload', 1);
+                if (this.el.attr('type') == 'file') {
                     this.setWrapper();
                     this.setEvents();
                 }
@@ -107,7 +106,12 @@ if (!jQuery.fn.FakeUpload) {
         };
         $.fn.FakeUpload = function(params) {
             this.each(function() {
-                $.extend(true, {}, FakeUpload).init($(this), params);
+                var $this = jQuery(this),
+                    dataPlugin = 'plugin_FakeUpload'.toLowerCase();
+                if (!$this.hasClass(dataPlugin)) {
+                    $.extend(true, {}, FakeUpload).init($this, params);
+                    $this.addClass(dataPlugin);
+                }
             });
             return this;
         };
