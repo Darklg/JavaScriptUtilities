@@ -10,8 +10,8 @@ title: MooTools
         </header>
         <p>Scroll smoothly to your target. (Dependencies : MooTools More With FX.Scroll)</p>
         <script class="script-visible" contenteditable>window.addEvent('domready',function(){
-    new dkSmoothScroll($$('[href^=#]'), {
-        'duration' : 500
+    $$('[href^=#]').each(function(el){
+        new dkSmoothScroll(el);
     });
 });</script>
         <div class="script-result">
@@ -62,10 +62,8 @@ title: MooTools
         </header>
         <p>Fake upload field with native UI for directory selection.</p>
         <script class="script-visible" contenteditable>window.addEvent('domready',function(){
-            $$('input.fake-upload').each(function(el){
-        new FakeUpload(el, {
-            inputTxt : 'Browse ...'
-        });
+    $$('input.fake-upload').each(function(el){
+        new FakeUpload(el);
     });
 });</script>
         <div class="script-result">
