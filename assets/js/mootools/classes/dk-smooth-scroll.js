@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Smooth Scroll
- * Version: 1.2
+ * Version: 1.2.1
  * JavaScriptUtilities Smooth Scroll may be freely distributed under the MIT license.
  */
 
@@ -26,9 +26,11 @@ var dkSmoothScroll = new Class({
         transition: Fx.Transitions.Sine.easeOut
     },
     initialize: function(el, settings) {
-        if (!el) {
+        var controlClass = 'moo_dksmoothscroll';
+        if (!el || el.hasClass(controlClass)) {
             return;
         }
+        el.addClass(controlClass);
         this.el = el;
         this.getSettings(settings);
         this.setEvents();
