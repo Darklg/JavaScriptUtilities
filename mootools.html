@@ -43,7 +43,9 @@ title: MooTools
         </header>
         <p>Fake selects with native UI for options/values.</p>
         <script class="script-visible" contenteditable>window.addEvent('domready',function(){
-    new FakeSelect($$('select.fake-select'));
+    $$('select.fake-select').each(function(el){
+        new FakeSelect(el);
+    });
 });</script>
         <div class="script-result">
             <select name="fake-select-test" id="fake-select-test" class="fake-select">
