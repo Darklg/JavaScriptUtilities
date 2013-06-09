@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.1
+ * Version: 1.2
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
 
@@ -9,7 +9,7 @@
 ---------------------------------------------------------- */
 
 /*
-new FakeSelect($$('select.fake-select'), {
+new FakeSelect(el, {
     'wrapperClass': 'fakeselect-wrapper',
     'coverClass': 'fakeselect-cover'
 });
@@ -23,21 +23,19 @@ var FakeSelect = new Class({
     },
     settings: {},
     defaultSettings: {
-        'dataname': 'data-fakeselect',
         'wrapperClass': 'fakeselect-wrapper',
         'coverClass': 'fakeselect-cover'
     },
-    initialize: function(elementz, settings) {
-        var self = this;
-        this.elementz = elementz;
+    initialize: function(el, settings) {
+        var controlClass = 'moo_fakeselect'.toLowerCase();
+        if (!el || el.hasClass(controlClass) || el.get('tag').toLowerCase() != 'select') {
+            return;
+        }
+        el.addClass(controlClass);
+        this.el = el;
         this.getSettings(settings);
-        elementz.each(function(el) {
-            if (!el.get(self.settings.dataname) || el.get('tag').toLowerCase() != 'select') {
-                el.set(self.settings.dataname, 1);
-                self.setElements(el);
-                self.setEvents(el);
-            }
-        });
+        this.setElements();
+        this.setEvents();
     },
     getSettings: function(settings) {
         if (typeof settings != 'object') {
@@ -45,8 +43,9 @@ var FakeSelect = new Class({
         }
         this.settings = Object.merge({}, this.defaultSettings, settings);
     },
-    setElements: function(el) {
+    setElements: function() {
         var self = this,
+            el = this.el,
             settings = this.settings;
         var wrapper = new Element('div.' + settings.wrapperClass);
         wrapper.setStyles({
@@ -71,14 +70,16 @@ var FakeSelect = new Class({
         wrapper.adopt(cover);
         wrapper.wraps(el);
     },
-    setEvents: function(el) {
-        var self = this;
+    setEvents: function() {
+        var self = this,
+            el = this.el;
         self.setValue(el);
         el.addEvent('change', function() {
             self.setValue(el);
         });
     },
-    setValue: function(el) {
+    setValue: function() {
+        var el = this.el;
         el.getPrevious('.' + this.settings.coverClass).set('html', el.options[el.selectedIndex].innerHTML);
     }
 });
