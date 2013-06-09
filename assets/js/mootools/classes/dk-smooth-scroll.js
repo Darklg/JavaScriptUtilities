@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Smooth Scroll
- * Version: 1.1.1
+ * Version: 1.2
  * JavaScriptUtilities Smooth Scroll may be freely distributed under the MIT license.
  */
 
@@ -13,35 +13,42 @@
  */
 
 /*
-new dkSmoothScroll($$('[href^=#]'), {
-    duration: 500
+new dkSmoothScroll($(element), {
+    duration: 500,
+    transition: Fx.Transitions.Sine.easeOut
 });
 */
+
 var dkSmoothScroll = new Class({
-    opt: {},
-    defaultOptions: {
-        duration: 500
+    settings: {},
+    defaultSettings: {
+        duration: 500,
+        transition: Fx.Transitions.Sine.easeOut
     },
-    initialize: function(elements, opt) {
-        this.els = elements;
-        this.getOptions(opt);
+    initialize: function(el, settings) {
+        if (!el) {
+            return;
+        }
+        this.el = el;
+        this.getSettings(settings);
         this.setEvents();
     },
-    getOptions: function(opt) {
-        if (typeof opt != 'object') {
-            opt = {};
+    getSettings: function(settings) {
+        if (typeof settings != 'object') {
+            settings = {};
         }
-        this.opt = Object.merge({}, this.defaultOptions, opt);
+        this.settings = Object.merge({}, this.defaultSettings, settings);
     },
     setEvents: function() {
-        var opt = this.opt;
-        this.els.addEvent('click', function(e) {
+        var settings = this.settings;
+        this.el.addEvent('click', function(e) {
             var href = $(this).get('href'),
                 target = $$(href);
             if (target[0]) {
                 e.preventDefault();
                 new Fx.Scroll(window, {
-                    duration: opt.duration
+                    duration: settings.duration,
+                    transition: settings.transition
                 }).toElement(target[0]);
             }
         });
