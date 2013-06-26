@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.0.3
+ * Version: 1.1
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
 
@@ -64,6 +64,11 @@ if (!jQuery.fn.FakeSelect) {
                 this.setValue();
                 this.el.on('change', function() {
                     self.setValue();
+                });
+                this.el.on('focus', function() {
+                    self.wrapper.addClass('has-focus');
+                }).on('blur', function() {
+                    self.wrapper.removeClass('has-focus');
                 });
             },
             setValue: function() {

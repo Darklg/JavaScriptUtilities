@@ -28,6 +28,11 @@
     *zoom: 1;
 }
 
+.fakeselect-wrapper.has-focus {
+    border: 1px solid #999;
+    background-color: #f0f0f0;
+}
+
 .fakeselect-wrapper:after {
     content: '';
     position: absolute;
