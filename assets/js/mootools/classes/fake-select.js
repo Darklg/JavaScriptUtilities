@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.2
+ * Version: 1.3
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
 
@@ -26,6 +26,8 @@ var FakeSelect = new Class({
         'wrapperClass': 'fakeselect-wrapper',
         'coverClass': 'fakeselect-cover'
     },
+    wrapper: false,
+    cover: false,
     initialize: function(el, settings) {
         var controlClass = 'moo_fakeselect'.toLowerCase();
         if (!el || el.hasClass(controlClass) || el.get('tag').toLowerCase() != 'select') {
@@ -47,11 +49,11 @@ var FakeSelect = new Class({
         var self = this,
             el = this.el,
             settings = this.settings;
-        var wrapper = new Element('div.' + settings.wrapperClass);
-        wrapper.setStyles({
+        this.wrapper = new Element('div.' + settings.wrapperClass);
+        this.wrapper.setStyles({
             'position': 'relative'
         });
-        var cover = new Element('div.' + settings.coverClass);
+        this.cover = new Element('div.' + settings.coverClass);
         el.setStyles(self.defaultStyles);
         el.setStyles({
             'opacity': '0.01',
@@ -62,24 +64,32 @@ var FakeSelect = new Class({
             'margin': 0,
             'width': '100%'
         });
-        cover.setStyles(self.defaultStyles);
-        cover.setStyles({
+        this.cover.setStyles(self.defaultStyles);
+        this.cover.setStyles({
             'z-index': 1,
             'right': 0
         });
-        wrapper.adopt(cover);
-        wrapper.wraps(el);
+        this.wrapper.adopt(this.cover);
+        this.wrapper.wraps(el);
     },
     setEvents: function() {
         var self = this,
             el = this.el;
         self.setValue(el);
-        el.addEvent('change', function() {
-            self.setValue(el);
+        el.addEvents({
+            'change': function() {
+                self.setValue(el);
+            },
+            'focus': function() {
+                self.wrapper.addClass('has-focus');
+            },
+            'blur': function() {
+                self.wrapper.removeClass('has-focus');
+            }
         });
     },
     setValue: function() {
         var el = this.el;
-        el.getPrevious('.' + this.settings.coverClass).set('html', el.options[el.selectedIndex].innerHTML);
+        this.cover.set('html', el.options[el.selectedIndex].innerHTML);
     }
 });
