@@ -62,7 +62,7 @@ if (!jQuery.fn.FakeSelect) {
             setEvents: function() {
                 var self = this;
                 this.setValue();
-                this.el.on('change', function() {
+                this.el.on('change keyup keypress', function() {
                     self.setValue();
                 });
                 this.el.on('focus', function() {
