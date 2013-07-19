@@ -35,7 +35,7 @@
                     dataPlugin = 'plugin_replaceThisStringWithAnID'.toLowerCase();
                 // Handling duplicate calls
                 if (!$this.hasClass(dataPlugin)) {
-                    $.extend(true, {}, replaceThisStringWithAnID).init($this, opt);
+                    $.extend(true, {}, replaceThisStringWithAnID).init($this, settings);
                     $this.addClass(dataPlugin);
                 }
             });
