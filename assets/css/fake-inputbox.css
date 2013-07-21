@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+/* ----------------------------------------------------------
+  Fake Input Box
+---------------------------------------------------------- */
+
+.fake-inputbox-wrapper {
+    display: inline-block;
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+    vertical-align: baseline;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    *display: inline;
+    *zoom: 1;
+}
+
+.fake-inputbox-wrapper input {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.001;
+    filter: alpha(opacity=00);
+}
+
+.fake-inputbox-wrapper input:focus {
+    outline: 0;
+}
+
+/* Theme
+-------------------------- */
+
+.fake-inputbox-wrapper {
+    border: 1px solid #333;
+    background-color: #ccc;
+}
+
+.fake-inputbox-wrapper input,
+.fake-inputbox-wrapper {
+    width: 15px;
+    height: 15px;
+}
+
+.is-checked {
+    background-color: #333;
+}
