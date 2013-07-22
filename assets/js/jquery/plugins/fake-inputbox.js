@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Input Box
- * Version: 1.0
+ * Version: 1.1
  * JavaScriptUtilities Fake Input Box may be freely distributed under the MIT license.
  */
 
@@ -46,6 +46,9 @@ if (!jQuery.fn.fakeInputBox) {
                     'position': 'relative',
                     'overflow': 'hidden'
                 });
+                // Set cover
+                this.cover = jQuery('<span class="fake-inputbox-cover"></span>');
+
                 this.el.css({
                     'position': 'absolute',
                     'top': '0',
@@ -53,6 +56,13 @@ if (!jQuery.fn.fakeInputBox) {
                 });
                 this.el.wrap(this.wrapper);
                 this.wrapper = this.el.parent();
+                this.wrapper.prepend(this.cover);
+
+                // Specific types
+                if (this.elType == 'radio') {
+                    this.wrapper.addClass('fake-inputbox-radio');
+                }
+
             },
             // Setting events
             setEvents: function() {

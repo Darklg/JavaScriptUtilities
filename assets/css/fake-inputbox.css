@@ -17,11 +17,19 @@
     *zoom: 1;
 }
 
+.fake-inputbox-cover,
 .fake-inputbox-wrapper input {
-    z-index: 1;
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.fake-inputbox-cover {
+    z-index: 0;
+}
+
+.fake-inputbox-wrapper input {
+    z-index: 1;
     opacity: 0.001;
     filter: alpha(opacity=00);
 }
@@ -44,6 +52,25 @@
     height: 15px;
 }
 
-.is-checked {
+.fake-inputbox-cover {
+    top: 2px;
+    left: 2px;
+    width: 11px;
+    height: 11px;
+}
+
+.is-checked .fake-inputbox-cover {
     background-color: #333;
+}
+
+/* Input radio */
+
+.fake-inputbox-radio,
+.fake-inputbox-radio .fake-inputbox-cover {
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    -webkit-background-clip: border-box;
+    -moz-background-clip: border-box;
+    background-clip: border-box;
 }
