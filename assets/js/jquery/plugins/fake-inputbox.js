@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Input Box
- * Version: 1.1
+ * Version: 1.1.1
  * JavaScriptUtilities Fake Input Box may be freely distributed under the MIT license.
  */
 
@@ -71,7 +71,7 @@ if (!jQuery.fn.fakeInputBox) {
                 self.setCSSClass();
 
                 if (this.elType == 'radio') {
-                    $('[name=' + this.elName + ']').on('change', function() {
+                    $('[name="' + this.elName + '"]').on('change', function() {
                         self.setCSSClass();
                     });
                 }
