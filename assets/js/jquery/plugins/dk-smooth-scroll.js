@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Smooth Scroll
- * Version: 1.3
+ * Version: 1.4
  * JavaScriptUtilities Smooth Scroll may be freely distributed under the MIT license.
  */
 
@@ -10,7 +10,8 @@
 
 /*
 jQuery('[href^=#]').dkSmoothScroll({
-    duration: 500
+    duration: 500,
+    initialOffset: 0
 });
 */
 
@@ -18,7 +19,8 @@ if (!jQuery.fn.dkSmoothScroll) {
     (function($) {
         var dkSmoothScroll = {
             defaultSettings: {
-                duration: 500
+                duration: 500,
+                initialOffset: 0
             },
             init: function(el, settings) {
                 this.el = el;
@@ -38,7 +40,7 @@ if (!jQuery.fn.dkSmoothScroll) {
                         target = jQuery(href);
                     if (target.length > 0) {
                         e.preventDefault();
-                        var offsettop = target.offset().top;
+                        var offsettop = target.offset().top + settings.initialOffset;
                         jQuery('html, body').animate({
                             'scrollTop': offsettop
                         }, settings.duration);
@@ -50,7 +52,7 @@ if (!jQuery.fn.dkSmoothScroll) {
             this.each(function() {
                 var $this = jQuery(this),
                     dataPlugin = 'plugin_dkSmoothScroll'.toLowerCase();
-                if (!$this.hasClass(dataPlugin)) {
+                if (!$this.hasClass(dataPlugin) && $this.attr('href').match(/\#([a-z]+)/)) {
                     $.extend(true, {}, dkSmoothScroll).init($this, settings);
                     $this.addClass(dataPlugin);
                 }
