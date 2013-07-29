@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Smooth Scroll
- * Version: 1.2.1
+ * Version: 1.3
  * JavaScriptUtilities Smooth Scroll may be freely distributed under the MIT license.
  */
 
@@ -23,6 +23,7 @@ var dkSmoothScroll = new Class({
     settings: {},
     defaultSettings: {
         duration: 500,
+        offsetTop: 0,
         transition: Fx.Transitions.Sine.easeOut
     },
     initialize: function(el, settings) {
@@ -48,10 +49,12 @@ var dkSmoothScroll = new Class({
                 target = $$(href);
             if (target[0]) {
                 e.preventDefault();
-                new Fx.Scroll(window, {
+                var toptarget = target[0].getTop() + settings.offsetTop,
+                    myFX = new Fx.Scroll(window, {
                     duration: settings.duration,
                     transition: settings.transition
-                }).toElement(target[0]);
+                });
+                myFX.start(0, toptarget);
             }
         });
     }
