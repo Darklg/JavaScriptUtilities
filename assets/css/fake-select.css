@@ -4,28 +4,48 @@
   Fake Select
 ---------------------------------------------------------- */
 
+.fakeselect-wrapper {
+    display: block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.fakeselect-cover {
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fakeselect-wrapper select {
+    cursor: pointer;
+}
+
+.fakeselect-wrapper select[disabled] ~ .fakeselect-cover,
+.fakeselect-wrapper select[disabled] {
+    cursor: not-allowed;
+}
+
+/* Theme
+-------------------------- */
+
 .fakeselect-wrapper,
 .fakeselect-wrapper select,
 .fakeselect-cover {
     height: 25px;
+    font-size: 12px;
     line-height: 25px;
 }
 
 .fakeselect-wrapper {
-    display: inline-block;
-    width: 150px;
+    max-width: 150px;
     border: 1px solid #ccc;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    overflow: hidden;
-    vertical-align: middle;
     background-color: #fff;
-    -webkit-background-clip: border;
-    -moz-background-clip: border;
-    background-clip: border;
-    *display: inline;
-    *zoom: 1;
 }
 
 .fakeselect-wrapper.has-focus {
@@ -48,17 +68,4 @@
 
 .fakeselect-cover {
     padding: 0 15px 0 5px;
-    overflow: hidden;
-    text-align: left;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.fakeselect-wrapper select {
-    cursor: pointer;
-}
-
-.fakeselect-wrapper select[disabled] ~ .fakeselect-cover,
-.fakeselect-wrapper select[disabled] {
-    cursor: not-allowed;
 }
