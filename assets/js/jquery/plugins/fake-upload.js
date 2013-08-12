@@ -1,6 +1,7 @@
 /*
  * Plugin Name: Fake Upload
  * Version: 1.0.3
+ * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
 
