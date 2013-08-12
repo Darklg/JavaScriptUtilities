@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.1
+ * Version: 1.1.1
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
 
@@ -9,7 +9,7 @@
 ---------------------------------------------------------- */
 
 /*
-jQuery('select.fake-select').FakeSelect(options);
+jQuery('select.fake-select').FakeSelect(settings);
 */
 
 if (!jQuery.fn.FakeSelect) {
@@ -23,20 +23,23 @@ if (!jQuery.fn.FakeSelect) {
                 'top': 0,
                 'left': 0
             },
-            init: function(el, opt) {
+            init: function(el, settings) {
                 this.el = el;
                 if (el.get(0).tagName.toLowerCase() == 'select') {
-                    this.getOptions(opt);
+                    this.getSettings(settings);
                     this.setWrapper();
                     this.setEvents();
                 }
             },
-            getOptions: function(opt) {
-                this.opt = $.extend(true, {}, this.defaultOptions, opt);
+            getSettings: function(settings) {
+                if (typeof settings != 'object') {
+                    settings = {};
+                }
+                this.settings = $.extend(true, {}, this.defaultSettings, settings);
             },
             setWrapper: function() {
-                var opt = this.opt;
-                this.wrapper = $('<div class="fakeselect-wrapper ' + opt.CSSClasses + '"></div>');
+                var settings = this.settings;
+                this.wrapper = $('<div class="fakeselect-wrapper ' + settings.CSSClasses + '"></div>');
                 this.wrapper.css({
                     'position': 'relative'
                 });
@@ -75,12 +78,12 @@ if (!jQuery.fn.FakeSelect) {
                 this.cover.html(this.el.children(':selected').text());
             }
         };
-        $.fn.FakeSelect = function(opt) {
+        $.fn.FakeSelect = function(settings) {
             this.each(function() {
                 var $this = jQuery(this),
                     dataPlugin = 'plugin_FakeSelect'.toLowerCase();
                 if (!$this.hasClass(dataPlugin)) {
-                    $.extend(true, {}, FakeSelect).init($this, opt);
+                    $.extend(true, {}, FakeSelect).init($this, settings);
                     $this.addClass(dataPlugin);
                 }
             });
