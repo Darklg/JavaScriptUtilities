@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Tabs
- * Version: 1.0.1
+ * Version: 1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Tabs may be freely distributed under the MIT license.
  */
@@ -11,31 +11,35 @@
 
 /*
 new dkJSUTabs({
-    triggers : $$('.tab-triggers'),
-    targets : $$('.tab-targets'),
+    triggers: $$('.tab-triggers'),
+    targets: $$('.tab-targets'),
 });
 */
 
 var dkJSUTabs = new Class({
-    opt: {},
-    params: {
+    settings: {},
+    defaultSettings: {
+        triggers: $$(''),
+        targets: $$(''),
         classCurrent: 'is-current'
     },
-    initialize: function(opt) {
-        this.setOptions(opt);
-        if (this.opt.targets) {
+    initialize: function(settings) {
+        this.getSettings(settings);
+        if (this.settings.targets.length > 0) {
             this.setEvents();
         }
     },
-    setOptions: function(opt) {
-        if (opt.triggers && opt.targets) {
-            this.opt = opt;
+    // Obtaining user settings
+    getSettings: function(settings) {
+        if (typeof settings != 'object') {
+            settings = {};
         }
+        this.settings = Object.merge({}, this.defaultSettings, settings);
     },
     setEvents: function() {
         var self = this,
-            opt = this.opt;
-        opt.triggers.each(function(el, i) {
+            settings = this.settings;
+        settings.triggers.each(function(el, i) {
             el.set('data-tabs-i', i);
             el.addEvent('click', function(e) {
                 var i = parseInt(this.get('data-tabs-i'), 10);
@@ -46,13 +50,15 @@ var dkJSUTabs = new Class({
         this.showTab(0);
     },
     showTab: function(i) {
-        var opt = this.opt,
-            clss = this.params.classCurrent;
-        if (opt.triggers[i] && opt.targets[i]) {
-            opt.triggers.removeClass(clss);
-            opt.triggers[i].addClass(clss);
-            opt.targets.removeClass(clss);
-            opt.targets[i].addClass(clss);
+        var settings = this.settings,
+            classCurrent = this.settings.classCurrent,
+            triggers = settings.triggers,
+            targets = settings.targets;
+        if (triggers[i] && settings.targets[i]) {
+            triggers.removeClass(classCurrent);
+            triggers[i].addClass(classCurrent);
+            targets.removeClass(classCurrent);
+            targets[i].addClass(classCurrent);
         }
     }
 });
