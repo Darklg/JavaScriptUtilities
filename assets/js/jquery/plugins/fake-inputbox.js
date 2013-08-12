@@ -1,6 +1,7 @@
 /*
  * Plugin Name: Fake Input Box
  * Version: 1.1.1
+ * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Input Box may be freely distributed under the MIT license.
  */
 

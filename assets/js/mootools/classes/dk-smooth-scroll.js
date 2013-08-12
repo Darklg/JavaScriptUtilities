@@ -1,6 +1,7 @@
 /*
  * Plugin Name: Smooth Scroll
  * Version: 1.3
+ * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Smooth Scroll may be freely distributed under the MIT license.
  */
 

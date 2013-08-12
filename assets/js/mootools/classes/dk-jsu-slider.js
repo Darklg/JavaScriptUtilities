@@ -1,6 +1,7 @@
 /*
  * Plugin Name: Slider
  * Version: 1.0.1
+ * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
 

@@ -1,6 +1,7 @@
 /*
  * Plugin Name: Tabs
  * Version: 1.0.2.1
+ * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Tabs may be freely distributed under the MIT license.
  */
 

@@ -1,6 +1,7 @@
 /*
  * Plugin Name: Lightbox
  * Version: 1.0.1.1
+ * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
  */
 
