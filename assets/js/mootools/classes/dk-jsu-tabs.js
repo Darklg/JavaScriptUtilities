@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Tabs
- * Version: 1.1
+ * Version: 1.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Tabs may be freely distributed under the MIT license.
  */
@@ -21,7 +21,8 @@ var dkJSUTabs = new Class({
     defaultSettings: {
         triggers: $$(''),
         targets: $$(''),
-        classCurrent: 'is-current'
+        classCurrent: 'is-current',
+        callBackTab: function(i) {}
     },
     initialize: function(settings) {
         this.getSettings(settings);
@@ -55,6 +56,7 @@ var dkJSUTabs = new Class({
             triggers = settings.triggers,
             targets = settings.targets;
         if (triggers[i] && settings.targets[i]) {
+            settings.callBackTab(i);
             triggers.removeClass(classCurrent);
             triggers[i].addClass(classCurrent);
             targets.removeClass(classCurrent);
