@@ -188,6 +188,37 @@ a:active {
     outline: 1px solid #ccc;
 }
 
+/* Fork me
+-------------------------- */
+
+.fork-me {
+    visibility: hidden;
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 149px;
+    height: 149px;
+    overflow: hidden;
+    text-align: left;
+    text-indent: -999px;
+    opacity: 0;
+    background: transparent url(../img/fork-me.png) no-repeat center top;
+    -webkit-transition: opacity 0.3s ease;
+    -moz-transition: opacity 0.3s ease;
+    -o-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+    filter: alpha(opacity=0);
+}
+
+@media(min-width:1000px) {
+    .fork-me {
+        visibility: visible;
+        opacity: 0.99;
+        filter: alpha(opacity=99);
+    }
+}
+
 /* ----------------------------------------------------------
    Demos
    ------------------------------------------------------- */
