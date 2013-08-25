@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.1
+ * Version: 1.1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -17,11 +17,12 @@ TODO :
 /*
 new dkJSUSlider({
     slider: $('target-slider'),
-    opt: {}
+    settings: {}
 });
 */
 var dkJSUSlider = new Class({
-    opt: {
+    settings: {},
+    defaultSettings: {
         autoSlide: true,
         autoSlideDuration: 5000,
         showNavigation: true,
@@ -58,14 +59,14 @@ var dkJSUSlider = new Class({
     navigation: false,
     pagination: false,
     pagers: [],
-    initialize: function(opt) {
+    initialize: function(settings) {
         // Check if element exists and slider isn't initialized
-        if (!opt.slider || opt.slider.hasClass('dk-jsu-slider')) return false;
+        if (!settings.slider || settings.slider.hasClass('dk-jsu-slider')) return false;
 
-        opt.slider.addClass('dk-jsu-slider');
+        settings.slider.addClass('dk-jsu-slider');
 
-        // Set options
-        this.setOptions(opt);
+        // get settings
+        this.getSettings(settings);
 
         // Set Slides
         this.setSlides();
@@ -80,23 +81,27 @@ var dkJSUSlider = new Class({
         this.slides[0].setStyles({
             'z-index': 1
         });
-        if (this.opt.showPagination && this.pagers[0]) {
+        if (this.settings.showPagination && this.pagers[0]) {
             this.pagers[0].addClass('current');
         }
     },
-    setOptions: function(opt) {
-        this.opt = Object.merge(this.opt, opt);
-        this.slider = opt.slider;
+    // Obtaining user settings
+    getSettings: function(settings) {
+        if (typeof settings != 'object') {
+            settings = {};
+        }
+        this.settings = Object.merge({}, this.defaultSettings, settings);
+        this.slider = settings.slider;
     },
     setSlides: function() {
         this.slides = this.slider.getChildren();
-        this.opt.nbSlides = this.slides.length;
+        this.settings.nbSlides = this.slides.length;
         this.slides.each(function(el) {
             el.addClass('dk-jsu-slide');
         });
     },
     setElements: function() {
-        var opt = this.opt;
+        var settings = this.settings;
 
         this.wrapper = new Element('div.dk-jsu-slider-wrapper');
         this.wrapper.wraps(this.slider);
@@ -116,17 +121,17 @@ var dkJSUSlider = new Class({
             'z-index': 0
         });
 
-        if (opt.showNavigation && opt.createNavigation) {
+        if (settings.showNavigation && settings.createNavigation) {
             // Set Navigation
             this.navigation = new Element('div.navigation');
             this.navigation.set('html', '<div class="prev">prev</div><div class="next">next</div>');
             this.navigation.setStyles(this.defaultPagiStyles);
             this.wrapper.adopt(this.navigation);
         }
-        if (opt.showPagination && opt.createPagination) {
+        if (settings.showPagination && settings.createPagination) {
             // Set Pagination
             this.pagination = new Element('div.pagination');
-            for (var i = 0; i < opt.nbSlides; i++) {
+            for (var i = 0; i < settings.nbSlides; i++) {
                 this.pagers[i] = new Element('span').set('html', '&bull;').set('data-i', i);
                 this.pagination.adopt(this.pagers[i]);
             }
@@ -136,9 +141,9 @@ var dkJSUSlider = new Class({
     },
     setEvents: function() {
         var self = this,
-            opt = this.opt;
+            settings = this.settings;
 
-        if (opt.showNavigation && self.navigation) {
+        if (settings.showNavigation && self.navigation) {
             self.navigation.getElements('.next').addEvent('click', function(e) {
                 e.preventDefault();
                 self.gotoSlide('next');
@@ -149,7 +154,7 @@ var dkJSUSlider = new Class({
             });
         }
 
-        if (opt.showPagination && self.pagination) {
+        if (settings.showPagination && self.pagination) {
             self.pagers.each(function(el) {
                 el.addEvent('click', function(e) {
                     e.preventDefault();
@@ -158,7 +163,7 @@ var dkJSUSlider = new Class({
             });
         }
 
-        if (opt.autoSlide) {
+        if (settings.autoSlide) {
             self.autoSlideEvent();
 
             // autoSlide stops on mouse enter and restarts on leave
@@ -174,15 +179,15 @@ var dkJSUSlider = new Class({
     },
     autoSlideEvent: function() {
         var self = this,
-            opt = this.opt;
+            settings = this.settings;
         self.autoSlideTimeout = setTimeout(function() {
             self.gotoSlide('next');
             self.autoSlideEvent();
-        }, opt.autoSlideDuration);
+        }, settings.autoSlideDuration);
     },
     gotoSlide: function(nb) {
-        var opt = this.opt,
-            oldNb = this.opt.currentSlide;
+        var settings = this.settings,
+            oldNb = this.settings.currentSlide;
 
         if (this.canSlide !== 1 || nb == oldNb) {
             return 0;
@@ -191,26 +196,26 @@ var dkJSUSlider = new Class({
         this.canSlide = 0;
 
         if (nb === 'prev') {
-            nb = opt.currentSlide - 1;
+            nb = settings.currentSlide - 1;
         }
 
         if (nb === 'next') {
-            nb = opt.currentSlide + 1;
+            nb = settings.currentSlide + 1;
         }
 
         if (nb < 0) {
-            nb = opt.nbSlides - 1;
+            nb = settings.nbSlides - 1;
         }
 
-        if (nb >= opt.nbSlides) {
+        if (nb >= settings.nbSlides) {
             nb = 0;
         }
 
         oldSlide = this.slides[oldNb];
         newSlide = this.slides[nb];
 
-        if (typeof this.opt.transition == 'function') {
-            this.opt.transition(oldSlide, newSlide, nb, this);
+        if (typeof this.settings.transition == 'function') {
+            this.settings.transition(oldSlide, newSlide, nb, this);
         }
         else {
             // Default transition.
@@ -223,8 +228,8 @@ var dkJSUSlider = new Class({
             });
             this.canSlide = 1;
         }
-        opt.currentSlide = nb;
-        if (opt.showPagination && this.pagers[nb]) {
+        settings.currentSlide = nb;
+        if (settings.showPagination && this.pagers[nb]) {
             this.pagers.each(function(el) {
                 el.removeClass('current');
             });
