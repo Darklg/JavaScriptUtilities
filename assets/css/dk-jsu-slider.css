@@ -4,17 +4,28 @@
   Slider
 ---------------------------------------------------------- */
 
-.dk-jsu-slider {
-    width: 300px;
-    height: 200px;
+.dk-jsu-slider-wrapper {
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
 }
 
-/* Navigation */
+.dk-jsu-slider-wrapper {
+    z-index: 1;
+    position: relative;
+    width: 300px;
+    height: 200px;
+}
 
-.dk-jsu-slider .navigation {
+/* Slides */
+
+.dk-jsu-slide {
+    background-color: #fff;
+}
+
+/* Navigation */
+
+.dk-jsu-slider-wrapper .navigation {
     top: 50%;
     right: 10px;
     left: 10px;
@@ -23,30 +34,30 @@
     line-height: 16px;
 }
 
-.dk-jsu-slider .navigation .prev,
-.dk-jsu-slider .navigation .next {
+.dk-jsu-slider-wrapper .navigation .prev,
+.dk-jsu-slider-wrapper .navigation .next {
     font-size: 12px;
     cursor: pointer;
 }
 
-.dk-jsu-slider .navigation .prev {
+.dk-jsu-slider-wrapper .navigation .prev {
     float: left;
 }
 
-.dk-jsu-slider .navigation .next {
+.dk-jsu-slider-wrapper .navigation .next {
     float: right;
 }
 
-/* Pagination */
+/* Pagination */
 
-.dk-jsu-slider .pagination {
+.dk-jsu-slider-wrapper .pagination {
     right: 10px;
     bottom: 10px;
     font-size: 20px;
     line-height: 10px;
 }
 
-.dk-jsu-slider .pagination span {
+.dk-jsu-slider-wrapper .pagination span {
     display: inline-block;
     margin-left: 3px;
     vertical-align: middle;
@@ -55,7 +66,7 @@
     *zoom: 1;
 }
 
-.dk-jsu-slider .pagination .current,
-.dk-jsu-slider .pagination span:hover {
+.dk-jsu-slider-wrapper .pagination .current,
+.dk-jsu-slider-wrapper .pagination span:hover {
     color: #369;
 }

@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.0.1
+ * Version: 1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -16,7 +16,8 @@ TODO :
 
 /*
 new dkJSUSlider({
-    'slider' : $('target-slider')
+    slider: $('target-slider'),
+    opt: {}
 });
 */
 var dkJSUSlider = new Class({
@@ -28,7 +29,7 @@ var dkJSUSlider = new Class({
         createNavigation: true,
         createPagination: true,
         currentSlide: 0,
-        transition: function(oldSlide, newSlide, self) {
+        transition: function(oldSlide, newSlide, nb, self) {
             newSlide.setStyles({
                 'opacity': 0,
                 'z-index': 2
@@ -90,9 +91,15 @@ var dkJSUSlider = new Class({
     setSlides: function() {
         this.slides = this.slider.getChildren();
         this.opt.nbSlides = this.slides.length;
+        this.slides.each(function(el) {
+            el.addClass('dk-jsu-slide');
+        });
     },
     setElements: function() {
         var opt = this.opt;
+
+        this.wrapper = new Element('div.dk-jsu-slider-wrapper');
+        this.wrapper.wraps(this.slider);
 
         // Style slider
         this.slider.setStyles({
@@ -114,7 +121,7 @@ var dkJSUSlider = new Class({
             this.navigation = new Element('div.navigation');
             this.navigation.set('html', '<div class="prev">prev</div><div class="next">next</div>');
             this.navigation.setStyles(this.defaultPagiStyles);
-            this.slider.adopt(this.navigation);
+            this.wrapper.adopt(this.navigation);
         }
         if (opt.showPagination && opt.createPagination) {
             // Set Pagination
@@ -124,7 +131,7 @@ var dkJSUSlider = new Class({
                 this.pagination.adopt(this.pagers[i]);
             }
             this.pagination.setStyles(this.defaultPagiStyles);
-            this.slider.adopt(this.pagination);
+            this.wrapper.adopt(this.pagination);
         }
     },
     setEvents: function() {
@@ -203,7 +210,7 @@ var dkJSUSlider = new Class({
         newSlide = this.slides[nb];
 
         if (typeof this.opt.transition == 'function') {
-            this.opt.transition(oldSlide, newSlide, this);
+            this.opt.transition(oldSlide, newSlide, nb, this);
         }
         else {
             // Default transition.
