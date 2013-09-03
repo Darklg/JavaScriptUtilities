@@ -28,7 +28,9 @@ title: MooTools
         </header>
         <p>Emulate "placeholder" attribute if not available.</p>
         <script class="script-visible" contenteditable>window.addEvent('domready',function(){
-    new FakePlaceholder($$('[placeholder]'));
+    $$('[placeholder]').each(function(el) {
+        new FakePlaceholder(el);
+    });
 });</script>
         <div class="script-result">
             <input type="text" name="default" placeholder="It works !" />
