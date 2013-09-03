@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.1.1
+ * Version: 1.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
@@ -16,7 +16,8 @@ jQuery('select.fake-select').FakeSelect(settings);
 if (!jQuery.fn.FakeSelect) {
     (function($) {
         var FakeSelect = {
-            defaultOptions: {
+            dataPlugin: 'plugin_fakeselect',
+            defaultSettings: {
                 'CSSClasses': ''
             },
             defaultStyles: {
@@ -24,13 +25,22 @@ if (!jQuery.fn.FakeSelect) {
                 'top': 0,
                 'left': 0
             },
-            init: function(el, settings) {
+            init: function(el, opt) {
                 this.el = el;
-                if (el.get(0).tagName.toLowerCase() == 'select') {
-                    this.getSettings(settings);
+                if (el.get(0).tagName.toLowerCase() !== 'select') {
+                    return 0;
+                }
+                if (!el.hasClass(this.dataPlugin)) {
+                    el.addClass(this.dataPlugin);
+                    this.getSettings(opt);
                     this.setWrapper();
                     this.setEvents();
                 }
+                else {
+                    this.cover = this.el.siblings('.fakeselect-cover');
+                    this.wrapper = this.el.parent();
+                }
+                this.setValue();
             },
             getSettings: function(settings) {
                 if (typeof settings != 'object') {
@@ -79,14 +89,9 @@ if (!jQuery.fn.FakeSelect) {
                 this.cover.html(this.el.children(':selected').text());
             }
         };
-        $.fn.FakeSelect = function(settings) {
+        $.fn.FakeSelect = function(opt) {
             this.each(function() {
-                var $this = jQuery(this),
-                    dataPlugin = 'plugin_FakeSelect'.toLowerCase();
-                if (!$this.hasClass(dataPlugin)) {
-                    $.extend(true, {}, FakeSelect).init($this, settings);
-                    $this.addClass(dataPlugin);
-                }
+                $.extend(true, {}, FakeSelect).init($(this), opt);
             });
             return this;
         };
