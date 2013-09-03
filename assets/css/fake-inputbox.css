@@ -22,6 +22,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    cursor: pointer;
 }
 
 .fake-inputbox-cover {
@@ -48,8 +49,8 @@
 
 .fake-inputbox-wrapper input,
 .fake-inputbox-wrapper {
-    width: 15px;
-    height: 15px;
+    width: 15px!important;
+    height: 15px!important;
 }
 
 .fake-inputbox-cover {

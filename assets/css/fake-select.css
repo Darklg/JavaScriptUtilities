@@ -19,6 +19,12 @@
     white-space: nowrap;
 }
 
+.fakeselect-wrapper select,
+.fakeselect-cover {
+    height: 100%;
+    font: inherit;
+}
+
 .fakeselect-wrapper select {
     cursor: pointer;
 }
@@ -31,20 +37,15 @@
 /* Theme
 -------------------------- */
 
-.fakeselect-wrapper,
-.fakeselect-wrapper select,
-.fakeselect-cover {
-    height: 25px;
-    font-size: 12px;
-    line-height: 25px;
-}
-
 .fakeselect-wrapper {
+    height: 25px;
     max-width: 150px;
     border: 1px solid #ccc;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+    font-size: 12px;
+    line-height: 25px;
     background-color: #fff;
 }
 
@@ -67,5 +68,5 @@
 }
 
 .fakeselect-cover {
-    padding: 0 15px 0 5px;
+    padding: 0 25px 0 5px;
 }
