@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.2
+ * Version: 1.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -30,7 +30,7 @@ var dkJSUSlider = new Class({
         createNavigation: true,
         createPagination: true,
         currentSlide: 0,
-        keyboardActions: 1,
+        keyboardActions: true,
         transition: function(oldSlide, newSlide, nb, self) {
             newSlide.setStyles({
                 'opacity': 0,
@@ -166,7 +166,6 @@ var dkJSUSlider = new Class({
 
         if (settings.autoSlide) {
             self.autoSlideEvent();
-
             // autoSlide stops on mouse enter and restarts on leave
             self.slider.addEvents({
                 mouseenter: function() {
@@ -177,15 +176,20 @@ var dkJSUSlider = new Class({
                 }
             });
         }
+
+        self.slider.addEvents({
+            prevslide: function() {
+                self.gotoSlide('prev');
+            },
+            nextslide: function() {
+                self.gotoSlide('next');
+            }
+        });
+
         if (settings.keyboardActions) {
             $(window).addEvents({
                 keydown: function(e) {
-                    if (e.key && (e.key == 'left' || e.key == 'right')) {
-                        // Clearing timeout
-                        if (settings.autoSlide) {
-                            clearTimeout(self.autoSlideTimeout);
-                            self.autoSlideEvent();
-                        }
+                    if (e.key) {
                         // Setting events
                         if (e.key == 'left') {
                             self.gotoSlide('prev');
@@ -209,6 +213,12 @@ var dkJSUSlider = new Class({
     gotoSlide: function(nb) {
         var settings = this.settings,
             oldNb = this.settings.currentSlide;
+
+        // Clearing timeout
+        if (settings.autoSlide) {
+            clearTimeout(this.autoSlideTimeout);
+            this.autoSlideEvent();
+        }
 
         if (this.canSlide !== 1 || nb == oldNb) {
             return 0;
