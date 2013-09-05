@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.3
+ * Version: 1.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
@@ -31,14 +31,21 @@ var FakeSelect = new Class({
     cover: false,
     initialize: function(el, settings) {
         var controlClass = 'moo_fakeselect'.toLowerCase();
-        if (!el || el.hasClass(controlClass) || el.get('tag').toLowerCase() != 'select') {
+        if (!el || el.get('tag').toLowerCase() != 'select') {
             return;
         }
-        el.addClass(controlClass);
         this.el = el;
-        this.getSettings(settings);
-        this.setElements();
-        this.setEvents();
+        if (!el.hasClass(controlClass)) {
+            el.addClass(controlClass);
+            this.getSettings(settings);
+            this.setElements();
+            this.setEvents();
+        }
+        else {
+            this.wrapper = el.getParent();
+            this.cover = el.getSiblings()[0];
+            this.setValue();
+        }
     },
     getSettings: function(settings) {
         if (typeof settings != 'object') {
@@ -90,7 +97,11 @@ var FakeSelect = new Class({
         });
     },
     setValue: function() {
-        var el = this.el;
+        var el = this.el,
+            elDisplay = el.style.display;
+        this.wrapper.setStyles({
+            'display': elDisplay
+        });
         this.cover.set('html', el.options[el.selectedIndex].innerHTML);
     }
 });
