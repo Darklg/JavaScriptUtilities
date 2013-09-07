@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 0.1
+ * Version: 0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -20,7 +20,25 @@ if (!jQuery.fn.dkJSUSlider) {
             canSlide: 1,
             defaultSettings: {
                 currentSlide: 0,
-                nbSlides: 0
+                nbSlides: 0,
+                transition: function(oldSlide, newSlide, nb, self) {
+                    newSlide.css({
+                        'opacity': 0,
+                        'z-index': 2
+                    }).animate({
+                        'opacity': 1
+                    }, 300);
+                    setTimeout(function() {
+                        oldSlide.css({
+                            'z-index': 0
+                        });
+                        newSlide.css({
+                            'z-index': 1
+                        });
+                        // Authorizing a new slide
+                        self.canSlide = 1;
+                    }, 300);
+                }
             },
             settings: {},
             init: function(el, settings) {
@@ -101,13 +119,18 @@ if (!jQuery.fn.dkJSUSlider) {
                 oldSlide = this.slides.eq(oldNb);
                 newSlide = this.slides.eq(nb);
 
-                oldSlide.css({
-                    'z-index': 0
-                });
+                if (typeof this.settings.transition == 'function') {
+                    this.settings.transition(oldSlide, newSlide, nb, this);
+                }
+                else {
+                    oldSlide.css({
+                        'z-index': 0
+                    });
 
-                newSlide.css({
-                    'z-index': 1
-                });
+                    newSlide.css({
+                        'z-index': 1
+                    });
+                }
 
             },
             // Setting events
@@ -115,6 +138,13 @@ if (!jQuery.fn.dkJSUSlider) {
                 var self = this,
                     settings = this.settings;
                 this.slides.on('click', function(e) {
+                    self.gotoSlide('next');
+                });
+
+                self.slider.on('prevslide', function() {
+                    self.gotoSlide('prev');
+                });
+                self.slider.on('nextslide', function() {
                     self.gotoSlide('next');
                 });
             }
