@@ -1,0 +1,25 @@
+<header id="moo-lightbox" class="section-header">
+    <div class="more">
+        <a title="Download code" class="shm-dependency" target="_blank" href="assets/js/mootools/classes/dk-jsu-lightbox.js" download>dk-jsu-lightbox.js</a>
+        <a title="Download code" class="shm-dependency" target="_blank" href="assets/css/dk-jsu-lightbox.css" download>dk-jsu-lightbox.css</a>
+    </div>
+    <h2>Lightbox</h2>
+</header>
+<p>Simple Lightbox. (Dependencies : MooTools More With Assets)</p>
+<script class="script-visible" contenteditable>window.addEvent('domready',function(){
+    var myLightbox = new dkJSULightbox({
+        'triggers' : $$('.lightbox-me')
+    });
+    $('lightbox-message').addEvent('click', function(e){
+        e.preventDefault();
+        myLightbox.openMessage('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.');
+    });
+});</script>
+<div class="script-result">
+    <a href="assets/html/ajax.html" class="lightbox-me">Try me! (Relative URL / AJAX)</a> —
+    <a href="http://darklg.me" class="lightbox-me">Try me! (External URL / iframe)</a><br/>
+    <a href="assets/img/kitten.jpg" class="lightbox-me">Try me! (Image)</a> -
+    <a href="#" id="lightbox-message">Try me! (Message)</a><br />
+    <a href="https://www.youtube.com/watch?feature=player_embedded&v=s6NDY8FSr9M" class="lightbox-me">Try me! (Youtube URL / Player)</a> -
+    <a href="https://vimeo.com/7916182" class="lightbox-me">Try me! (Vimeo URL / Player)</a>
+</div>

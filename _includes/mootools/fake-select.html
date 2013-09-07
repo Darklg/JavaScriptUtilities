@@ -1,0 +1,20 @@
+<header id="moo-fake-select" class="section-header">
+    <div class="more">
+        <a title="Download code" class="shm-dependency" target="_blank" href="assets/js/mootools/classes/fake-select.js" download>fake-select.js</a>
+        <a title="Download code" class="shm-dependency" target="_blank" href="assets/css/fake-select.css" download>fake-select.css</a>
+    </div>
+    <h2>Fake Select</h2>
+</header>
+<p>Fake selects with native UI for options/values.</p>
+<script class="script-visible" contenteditable>window.addEvent('domready',function(){
+    $$('select.fake-select').each(function(el){
+        new FakeSelect(el);
+    });
+});</script>
+<div class="script-result">
+    <select name="fake-select-test" id="fake-select-test" class="fake-select">
+        <option value="" disabled selected style="display:none;">Sélectionner</option>
+        <option value="0">One value</option>
+        <option value="1">Another Value</option>
+    </select>
+</div>
