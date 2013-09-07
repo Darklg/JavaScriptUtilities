@@ -1,0 +1,28 @@
+<header id="moo-tabs" class="section-header">
+    <div class="more">
+        <a title="Download code" class="shm-dependency" target="_blank" href="assets/js/mootools/classes/dk-jsu-tabs.js" download>dk-jsu-tabs.js</a>
+        <a title="Download code" class="shm-dependency" target="_blank" href="assets/css/dk-jsu-tabs.css" download>dk-jsu-tabs.css</a>
+    </div>
+    <h2>Tabs</h2>
+</header>
+<p>Simple tabs management</p>
+<script class="script-visible" contenteditable>window.addEvent('domready',function(){
+    new dkJSUTabs({
+        triggers : $$('.dk-jsu-triggers > a'),
+        targets : $$('.dk-jsu-targets > p')
+    });
+});</script>
+<div class="script-result">
+    <div class="demo-dk-jsu-tabs">
+        <div class="dk-jsu-triggers">
+            <a href="#">Trigger #1</a>
+            <a href="#">Trigger #2</a>
+            <a href="#">Trigger #3</a>
+        </div>
+        <div class="dk-jsu-targets">
+            <p>Result for target 1</p>
+            <p>Result for target 2</p>
+            <p>Result for target 3</p>
+        </div>
+    </div>
+</div>

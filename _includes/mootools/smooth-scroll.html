@@ -1,0 +1,16 @@
+<header id="moo-smooth-scroll" class="section-header">
+    <div class="more">
+        <a title="Download code" class="shm-dependency" target="_blank" href="assets/js/mootools/classes/dk-smooth-scroll.js" download>dk-smooth-scroll.js</a>
+    </div>
+    <h2>Smooth Scroll</h2>
+</header>
+<p>Scroll smoothly to your target. (Dependencies : MooTools More With FX.Scroll)</p>
+<script class="script-visible" contenteditable>window.addEvent('domready',function(){
+    $$('[href^=#]').each(function(el){
+        new dkSmoothScroll(el);
+    });
+});</script>
+<div class="script-result">
+    <div id="smooth-test"></div>
+    <a href="#smooth-test">Try me!</a>
+</div>
