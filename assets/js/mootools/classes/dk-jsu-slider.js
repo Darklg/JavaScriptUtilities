@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.3
+ * Version: 1.3.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -72,18 +72,21 @@ var dkJSUSlider = new Class({
         // Set Slides
         this.setSlides();
 
-        // Set Elements
-        this.setElements();
+        if (this.settings.nbSlides > 1) {
 
-        // Set Events
-        this.setEvents();
+            // Set Elements
+            this.setElements();
 
-        // Set Slide 0
-        this.slides[0].setStyles({
-            'z-index': 1
-        });
-        if (this.settings.showPagination && this.pagers[0]) {
-            this.pagers[0].addClass('current');
+            // Set Events
+            this.setEvents();
+
+            // Set Slide 0
+            this.slides[0].setStyles({
+                'z-index': 1
+            });
+            if (this.settings.showPagination && this.pagers[0]) {
+                this.pagers[0].addClass('current');
+            }
         }
     },
     // Obtaining user settings
