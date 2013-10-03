@@ -144,9 +144,9 @@ a:active {
     text-decoration: none;
     font-size: 11px;
     color: #999;
-    -webkit-background-clip: border;
-    -moz-background-clip: border;
-    background-clip: border;
+    -webkit-background-clip: border-box;
+    -moz-background-clip: border-box;
+    background-clip: border-box;
     *display: inline;
     *zoom: 1;
 }
