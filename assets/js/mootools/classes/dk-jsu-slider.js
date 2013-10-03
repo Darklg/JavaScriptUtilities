@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.3.2
+ * Version: 1.3.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -192,13 +192,16 @@ var dkJSUSlider = new Class({
         if (settings.keyboardActions) {
             $(window).addEvents({
                 keydown: function(e) {
-                    if (e.key) {
-                        // Setting events
-                        if (e.key == 'left') {
-                            self.gotoSlide('prev');
-                        }
-                        else {
-                            self.gotoSlide('next');
+                    if (e.key && document.activeElement) {
+                        // If is not focused
+                        if (['input', 'textarea'].indexOf(document.activeElement.tagName.toLowerCase()) == -1) {
+                            // Setting events
+                            if (e.key == 'left') {
+                                self.gotoSlide('prev');
+                            }
+                            if (e.key == 'right') {
+                                self.gotoSlide('next');
+                            }
                         }
                     }
                 }
