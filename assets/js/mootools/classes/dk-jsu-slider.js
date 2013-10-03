@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.3.1
+ * Version: 1.3.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -15,8 +15,7 @@ TODO :
 */
 
 /*
-new dkJSUSlider({
-    slider: $('target-slider'),
+new dkJSUSlider($('target-slider'), {
     settings: {}
 });
 */
@@ -60,11 +59,13 @@ var dkJSUSlider = new Class({
     navigation: false,
     pagination: false,
     pagers: [],
-    initialize: function(settings) {
+    initialize: function(el, settings) {
         // Check if element exists and slider isn't initialized
-        if (!settings.slider || settings.slider.hasClass('dk-jsu-slider')) return false;
+        if (!el || el.hasClass('dk-jsu-slider')) return false;
 
-        settings.slider.addClass('dk-jsu-slider');
+        el.addClass('dk-jsu-slider');
+
+        this.slider = el;
 
         // get settings
         this.getSettings(settings);
@@ -95,7 +96,6 @@ var dkJSUSlider = new Class({
             settings = {};
         }
         this.settings = Object.merge({}, this.defaultSettings, settings);
-        this.slider = settings.slider;
     },
     setSlides: function() {
         this.slides = this.slider.getChildren();
