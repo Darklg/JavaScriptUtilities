@@ -4,6 +4,16 @@
   Fake Upload
 ---------------------------------------------------------- */
 
+.fakeupload-cover {
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Theme
+-------------------------- */
+
 .fakeupload-wrapper,
 .fakeupload-wrapper input,
 .fakeupload-cover {
@@ -19,10 +29,7 @@
 
 .fakeupload-cover {
     padding: 0 5px;
-    overflow: hidden;
-    text-align: left;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 12px;
     color: #333;
 }
 

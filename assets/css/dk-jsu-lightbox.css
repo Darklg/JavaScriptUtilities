@@ -62,9 +62,9 @@
     border-radius: 3px;
     overflow: auto;
     background-color: #fff;
-    -webkit-background-clip: border;
-    -moz-background-clip: border;
-    background-clip: border;
+    -webkit-background-clip: border-box;
+    -moz-background-clip: border-box;
+    background-clip: border-box;
     -webkit-box-shadow: 0 0 3px rgba(0,0,0,.5);
     -moz-box-shadow: 0 0 3px rgba(0,0,0,.5);
     box-shadow: 0 0 3px rgba(0,0,0,.5);
@@ -92,9 +92,9 @@
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
-    -webkit-background-clip: border;
-    -moz-background-clip: border;
-    background-clip: border;
+    -webkit-background-clip: border-box;
+    -moz-background-clip: border-box;
+    background-clip: border-box;
 }
 
 .lightbox[data-lb="image"] img {
