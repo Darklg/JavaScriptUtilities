@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.3.3
+ * Version: 1.3.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -23,7 +23,7 @@ var dkJSUSlider = new Class({
     settings: {},
     defaultSettings: {
         autoSlide: true,
-        autoSlideDuration: 5000,
+        autoSlideDuration: 2000,
         showNavigation: true,
         showPagination: true,
         createNavigation: true,
@@ -56,6 +56,7 @@ var dkJSUSlider = new Class({
         'position': 'absolute',
         'z-index': 3
     },
+    mouseInside: false,
     navigation: false,
     pagination: false,
     pagers: [],
@@ -170,11 +171,13 @@ var dkJSUSlider = new Class({
         if (settings.autoSlide) {
             self.autoSlideEvent();
             // autoSlide stops on mouse enter and restarts on leave
-            self.slider.addEvents({
+            self.wrapper.addEvents({
                 mouseenter: function() {
+                    self.mouseInside = true;
                     clearTimeout(self.autoSlideTimeout);
                 },
                 mouseleave: function() {
+                    self.mouseInside = false;
                     self.autoSlideEvent();
                 }
             });
@@ -211,6 +214,10 @@ var dkJSUSlider = new Class({
     autoSlideEvent: function() {
         var self = this,
             settings = this.settings;
+        if (self.mouseInside) {
+            return;
+        }
+        clearTimeout(self.autoSlideTimeout);
         self.autoSlideTimeout = setTimeout(function() {
             self.gotoSlide('next');
             self.autoSlideEvent();
@@ -222,7 +229,6 @@ var dkJSUSlider = new Class({
 
         // Clearing timeout
         if (settings.autoSlide) {
-            clearTimeout(this.autoSlideTimeout);
             this.autoSlideEvent();
         }
 
