@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.3
+ * Version: 1.3.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
@@ -27,7 +27,7 @@ if (!jQuery.fn.FakeSelect) {
             },
             init: function(el, opt) {
                 this.el = el;
-                if (el.get(0).tagName.toLowerCase() !== 'select') {
+                if (el && el.get(0) && el.get(0).tagName.toLowerCase() !== 'select') {
                     return 0;
                 }
                 if (!el.hasClass(this.dataPlugin)) {
