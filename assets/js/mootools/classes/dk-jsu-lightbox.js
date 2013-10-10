@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Lightbox
- * Version: 1.0.1.1
+ * Version: 1.0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
  */
@@ -12,10 +12,9 @@
 /*
 TODO : class & zindex perso
 TODO : small screens
-TODO : Press echap : close lightbox
 TODO : deduplicate ( if has class dkjsu, return false )
 TODO : Stop lightbox launch if already opening
- */
+*/
 
 /*
 new dkJSULightbox({
@@ -60,6 +59,11 @@ var dkJSULightbox = new Class({
         this.lightbox.addEvent('click:relay(.btn-close-lightbox)', function(e) {
             e.preventDefault();
             self.closeLightbox();
+        });
+        $(window).addEvent('keydown', function(e) {
+            if (e.key && e.key == 'esc') {
+                self.closeLightbox();
+            }
         });
     },
     openLink: function(link) {
