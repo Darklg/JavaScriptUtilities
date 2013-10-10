@@ -42,11 +42,6 @@
     filter: alpha(opacity=30);
 }
 
-.lightbox-filter:hover {
-    background-color: rgba(0,0,0,.25);
-    filter: alpha(opacity=25);
-}
-
 /* Lightbox AJAX */
 
 .lightbox-content {
