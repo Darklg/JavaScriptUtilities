@@ -4,17 +4,22 @@
   Slider
 ---------------------------------------------------------- */
 
-.dk-jsu-slider-wrapper {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
+/* Core
+-------------------------- */
+
+.dk-jsu-slider {
+    width: 100%;
+    height: 100%;
 }
+
+/* Wrapper */
 
 .dk-jsu-slider-wrapper {
     z-index: 1;
     position: relative;
-    width: 300px;
-    height: 200px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 /* Slides */
@@ -23,29 +28,33 @@
     background-color: #fff;
 }
 
+/* Theme
+-------------------------- */
+
+.dk-jsu-slider-wrapper {
+    width: 300px;
+    height: 200px;
+}
+
 /* Navigation */
 
 .dk-jsu-slider-wrapper .navigation {
-    top: 50%;
-    right: 10px;
-    left: 10px;
-    height: 16px;
-    margin-top: -8px;
     line-height: 16px;
 }
 
 .dk-jsu-slider-wrapper .navigation .prev,
 .dk-jsu-slider-wrapper .navigation .next {
+    top: 50%;
+    left: 10px;
+    height: 16px;
+    margin-top: -8px;
     font-size: 12px;
     cursor: pointer;
 }
 
-.dk-jsu-slider-wrapper .navigation .prev {
-    float: left;
-}
-
 .dk-jsu-slider-wrapper .navigation .next {
-    float: right;
+    right: 10px;
+    left: auto;
 }
 
 /* Pagination */
