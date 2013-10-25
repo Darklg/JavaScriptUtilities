@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS
- * Version: 1.0.1
+ * Version: 1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -74,7 +74,7 @@ Element.getClassNames = function(element) {
 /* Test if has a class */
 
 Element.hasClass = function(element, className) {
-    if(element.classList){
+    if (element.classList) {
         return element.classList.contains(className);
     }
     return Array.contains(className, Element.getClassNames(element));
@@ -83,7 +83,7 @@ Element.hasClass = function(element, className) {
 /* Add a class */
 
 Element.addClass = function(element, className) {
-    if(element.classList){
+    if (element.classList) {
         element.classList.add(className);
         return;
     }
@@ -97,7 +97,7 @@ Element.addClass = function(element, className) {
 /* Remove a class */
 
 Element.removeClass = function(element, className) {
-    if(element.classList){
+    if (element.classList) {
         element.classList.remove(className);
         return;
     }
@@ -155,6 +155,45 @@ if (!Array.prototype.each) {
         Array.each(this, callback);
     };
 }
+
+/* ----------------------------------------------------------
+  Cookies
+---------------------------------------------------------- */
+
+/* Many thanks to http://www.quirksmode.org/js/cookies.html */
+
+var setCookie = function(name, value, expiration) {
+    var cookie_value = name + '=' + value + ';';
+
+    /* Expiration */
+    if (expiration) {
+        var date = new Date();
+        date.setTime(date.getTime() + (expiration * 24 * 60 * 60 * 1000));
+        cookie_value = cookie_value + "expires=" + date.toGMTString() + ';';
+    }
+
+    document.cookie = cookie_value + 'path=/';
+
+};
+
+var getCookie = function(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1, c.length);
+        }
+        if (c.indexOf(nameEQ) === 0) {
+            return c.substring(nameEQ.length, c.length);
+        }
+    }
+    return null;
+};
+
+var deleteCookie = function(name) {
+    setCookie(name, '', -1);
+};
 
 /* ----------------------------------------------------------
    Miscellaneous
