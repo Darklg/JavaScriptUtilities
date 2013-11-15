@@ -1,27 +1,45 @@
 module.exports = function(grunt) {
+    // Tasks
+    grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+
     // Project configuration.
     grunt.initConfig({
         uglify: {
-            my_target: {
-                files: {
-                    'assets/js/vanilla-js/vanilla-js-dk-jsu.min.js': ['assets/js/vanilla-js/vanilla-js-dk-jsu.js']
-                }
-            }
+            dynamic_mappings: {
+                files: [{
+                    expand: true,
+                    cwd: 'assets/js/',
+                    src: [
+                        'mootools/classes/*.js',
+                        'jquery/plugins/*.js',
+                        'vanilla-js/*.js'
+                    ],
+                    dest: 'assets/js/',
+                    ext: '.min.js',
+                }, ],
+            },
         },
         watch: {
             scripts: {
                 files: [
-                    'assets/js/**/*.js', '!assets/js/**/*.min.js'
+                    'assets/js/**/*.js',
+                    'assets/css/**/*.css',
+                    '!**/*.min.js'
                 ],
-                tasks: ['uglify'],
+                tasks: ['shell:jekyll'],
                 options: {
                     interrupt: true,
                 },
             },
         },
+        shell: {
+            jekyll: {
+                command: 'rm -rf _ghpages/; jekyll build;',
+                stdout: true
+            }
+        },
     });
-    // Tasks
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.registerTask('default', ['uglify']);
+    grunt.registerTask('default', ['uglify','shell:jekyll']);
 };
