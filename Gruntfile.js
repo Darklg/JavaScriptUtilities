@@ -12,9 +12,10 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: 'assets/js/',
                     src: [
-                        'mootools/classes/*.js',
-                        'jquery/plugins/*.js',
-                        'vanilla-js/*.js'
+                        'mootools/classes/**/*.js',
+                        'jquery/plugins/**/*.js',
+                        'vanilla-js/*.js',
+                        '!**/*.min.js',
                     ],
                     dest: 'assets/js/',
                     ext: '.min.js',
