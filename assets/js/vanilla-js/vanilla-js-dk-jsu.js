@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS
- * Version: 1.2
+ * Version: 1.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -9,9 +9,9 @@
    $_ : Get Element
 ---------------------------------------------------------- */
 
-function $_(id) {
+var $_ = function(id) {
     return document.getElementById(id);
-}
+};
 
 /* ----------------------------------------------------------
    Events
