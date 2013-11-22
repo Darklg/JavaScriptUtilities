@@ -1,13 +1,46 @@
 /*
  * Plugin Name: Vanilla-JS
- * Version: 1.2.1
+ * Version: 1.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
 
 /* ----------------------------------------------------------
-   $_ : Get Element
+  Selectors
 ---------------------------------------------------------- */
+
+/* $$_ : Get multiple elements
+------------------------------ */
+
+var $$_ = function(selector) {
+    var elements = [],
+        tagMatch = /^([a-z]+)$/,
+        idMatch = /^\#([a-z0-9_-]+)$/,
+        classMatch = /^\.([a-z0-9_-]+)$/;
+
+    // If selector looks like an ID, uses $_ for performance
+    if (selector.match(idMatch)) {
+        return [document.getElementById(selector)];
+    }
+
+    // If selector looks like a CSS Class, uses $_ for performance
+    if (selector.match(classMatch)) {
+        return document.getElementsByClassName(selector);
+    }
+
+    // If selector matches a tag elements, uses getElementsByTagName for performance
+    if (selector.match(tagMatch)) {
+        return document.getElementsByTagName(selector);
+    }
+
+    // If Query Selector exists, use it
+    if ("querySelectorAll" in document) {
+        return document.querySelectorAll(selector);
+    }
+};
+
+/* $_ : Get Element
+------------------------------ */
 
 var $_ = function(id) {
     return document.getElementById(id);
@@ -21,11 +54,11 @@ var $_ = function(id) {
    ----------------------- */
 
 /* From the amazing Dustin Diaz : http://www.dustindiaz.com/smallest-domready-ever */
-// «!document.body» check ensures that IE fires domReady correctly
+// "!document.body" check ensures that IE fires domReady correctly
 window.domReady = function(func) {
     if (/in/.test(document.readyState) || !document.body) {
         setTimeout(function() {
-            domReady(func);
+            window.domReady(func);
         }, 9);
     }
     else {
