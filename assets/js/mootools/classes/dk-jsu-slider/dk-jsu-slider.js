@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.3.6
+ * Version: 1.3.7
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -220,7 +220,6 @@ var dkJSUSlider = new Class({
         clearTimeout(self.autoSlideTimeout);
         self.autoSlideTimeout = setTimeout(function() {
             self.gotoSlide('next');
-            self.autoSlideEvent();
         }, settings.autoSlideDuration);
     },
     gotoSlide: function(nb) {
