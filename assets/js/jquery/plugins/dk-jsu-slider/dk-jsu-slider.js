@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 0.3
+ * Version: 0.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -17,8 +17,12 @@ if (!jQuery.fn.dkJSUSlider) {
     (function($, window, document) {
         // Main Class
         var dkJSUSlider = {
+            autoSlideTimeout: false,
+            mouseInside: false,
             canSlide: 1,
             defaultSettings: {
+                autoSlide: true,
+                autoSlideDuration: 2000,
                 currentSlide: 0,
                 nbSlides: 0,
                 transition: function(oldSlide, newSlide, nb, self) {
@@ -93,10 +97,53 @@ if (!jQuery.fn.dkJSUSlider) {
                     'z-index': 0
                 });
             },
+            // Setting events
+            setEvents: function() {
+                var self = this,
+                    settings = this.settings;
+                this.slides.on('click', function(e) {
+                    self.gotoSlide('next');
+                });
+
+                self.slider.on('prevslide', function() {
+                    self.gotoSlide('prev');
+                }).on('nextslide', function() {
+                    self.gotoSlide('next');
+                });
+
+                // Auto slide
+                if (settings.autoSlide) {
+                    self.autoSlideEvent();
+                    // autoSlide stops on mouse enter and restarts on leave
+                    self.wrapper.on('mouseenter', function() {
+                        self.mouseInside = true;
+                        clearTimeout(self.autoSlideTimeout);
+                    }).on('mouseleave', function() {
+                        self.mouseInside = false;
+                        self.autoSlideEvent();
+                    });
+                }
+            },
+            autoSlideEvent: function() {
+                var self = this,
+                    settings = this.settings;
+                if (self.mouseInside) {
+                    return;
+                }
+                clearTimeout(self.autoSlideTimeout);
+                self.autoSlideTimeout = setTimeout(function() {
+                    self.gotoSlide('next');
+                }, settings.autoSlideDuration);
+            },
             gotoSlide: function(nb) {
                 var self = this,
                     settings = this.settings,
                     oldNb = this.settings.currentSlide;
+
+                // Clear timeout & relauch autoslide
+                if (settings.autoSlide) {
+                    self.autoSlideEvent();
+                }
 
                 if (this.canSlide !== 1 || nb == oldNb) {
                     return 0;
@@ -134,21 +181,6 @@ if (!jQuery.fn.dkJSUSlider) {
                     });
                 }
 
-            },
-            // Setting events
-            setEvents: function() {
-                var self = this,
-                    settings = this.settings;
-                this.slides.on('click', function(e) {
-                    self.gotoSlide('next');
-                });
-
-                self.slider.on('prevslide', function() {
-                    self.gotoSlide('prev');
-                });
-                self.slider.on('nextslide', function() {
-                    self.gotoSlide('next');
-                });
             }
         };
         // Using the dkJSUSlider class as a jQuery plugin
