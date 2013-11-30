@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 0.4
+ * Version: 1.0
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -17,14 +17,16 @@ if (!jQuery.fn.dkJSUSlider) {
     (function($, window, document) {
         // Main Class
         var dkJSUSlider = {
-            autoSlideTimeout: false,
-            mouseInside: false,
-            canSlide: 1,
+            settings: {},
             defaultSettings: {
                 autoSlide: true,
                 autoSlideDuration: 2000,
+                createNavigation: true,
+                createPagination: true,
                 currentSlide: 0,
-                nbSlides: 0,
+                keyboardActions: true,
+                showNavigation: true,
+                showPagination: true,
                 transition: function(oldSlide, newSlide, nb, self) {
                     newSlide.css({
                         'opacity': 0,
@@ -44,7 +46,16 @@ if (!jQuery.fn.dkJSUSlider) {
                     }, 300);
                 }
             },
-            settings: {},
+            autoSlideTimeout: false,
+            canSlide: 1,
+            defaultPagiStyles: {
+                'position': 'absolute',
+                'z-index': 3
+            },
+            mouseInside: false,
+            navigation: false,
+            pagination: false,
+            pagers: [],
             init: function(el, settings) {
                 this.slider = el;
                 this.getSettings(settings);
@@ -56,6 +67,9 @@ if (!jQuery.fn.dkJSUSlider) {
                     this.slides.eq(0).css({
                         'z-index': 1
                     });
+                    if (this.settings.showPagination && this.pagers[0]) {
+                        this.pagers[0].addClass('current');
+                    }
                 }
             },
             // Obtaining user settings
@@ -96,6 +110,25 @@ if (!jQuery.fn.dkJSUSlider) {
                     'width': '100%',
                     'z-index': 0
                 });
+
+                // Set Navigation
+                if (settings.showNavigation && settings.createNavigation) {
+                    this.navigation = jQuery('<div class="navigation"><div class="prev">prev</div><div class="next">next</div></div>');
+                    this.navigation.children().css(this.defaultPagiStyles);
+                    this.wrapper.append(this.navigation);
+                }
+
+                // Set Pagination
+                if (settings.showPagination && settings.createPagination) {
+                    this.pagination = jQuery('<div class="pagination"></div>');
+                    for (var i = 0; i < settings.nbSlides; i++) {
+                        this.pagers[i] = jQuery('<span data-i="' + i + '">&bull;</span>');
+                        this.pagination.append(this.pagers[i]);
+                    }
+                    this.pagination.css(this.defaultPagiStyles);
+                    this.wrapper.append(this.pagination);
+                }
+
             },
             // Setting events
             setEvents: function() {
@@ -111,6 +144,14 @@ if (!jQuery.fn.dkJSUSlider) {
                     self.gotoSlide('next');
                 });
 
+                // Pagination
+                if (settings.showPagination && self.pagination) {
+                    self.pagination.on('click', '[data-i]', function(e) {
+                        if (e) e.preventDefault();
+                        self.gotoSlide(parseInt(jQuery(this).attr('data-i'), 10));
+                    });
+                }
+
                 // Auto slide
                 if (settings.autoSlide) {
                     self.autoSlideEvent();
@@ -121,6 +162,37 @@ if (!jQuery.fn.dkJSUSlider) {
                     }).on('mouseleave', function() {
                         self.mouseInside = false;
                         self.autoSlideEvent();
+                    });
+                }
+
+                // Navigation
+                if (settings.showNavigation && self.navigation) {
+                    self.navigation.children().on('click', function(e) {
+                        if (e) e.preventDefault();
+                        if (jQuery(this).hasClass('prev')) {
+                            self.gotoSlide('prev');
+                        }
+                        if (jQuery(this).hasClass('next')) {
+                            self.gotoSlide('next');
+                        }
+                    });
+                }
+
+                // Keyboard navigation
+                if (settings.keyboardActions) {
+                    jQuery(window).on('keydown', function(e) {
+                        if (e.keyCode && document.activeElement) {
+                            // If is not focused
+                            if (['input', 'textarea'].indexOf(document.activeElement.tagName.toLowerCase()) == -1) {
+                                // Setting events
+                                if (e.keyCode == 37) {
+                                    self.gotoSlide('prev');
+                                }
+                                if (e.keyCode == 39) {
+                                    self.gotoSlide('next');
+                                }
+                            }
+                        }
                     });
                 }
             },
@@ -179,6 +251,12 @@ if (!jQuery.fn.dkJSUSlider) {
                     newSlide.css({
                         'z-index': 1
                     });
+                }
+
+                if (settings.showPagination && this.pagers[nb]) {
+                    var pagers = self.pagination.children();
+                    pagers.removeClass('current');
+                    pagers.eq(nb).addClass('current');
                 }
 
             }
