@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.3.7
+ * Version: 1.3.8
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -226,17 +226,6 @@ var dkJSUSlider = new Class({
         var settings = this.settings,
             oldNb = this.settings.currentSlide;
 
-        // Clearing timeout
-        if (settings.autoSlide) {
-            this.autoSlideEvent();
-        }
-
-        if (this.canSlide !== 1 || nb == oldNb) {
-            return 0;
-        }
-
-        this.canSlide = 0;
-
         if (nb === 'prev') {
             nb = settings.currentSlide - 1;
         }
@@ -251,6 +240,17 @@ var dkJSUSlider = new Class({
 
         if (nb >= settings.nbSlides) {
             nb = 0;
+        }
+
+        if (this.canSlide !== 1 || nb == oldNb) {
+            return 0;
+        }
+
+        this.canSlide = 0;
+
+        // Clearing timeout
+        if (settings.autoSlide) {
+            this.autoSlideEvent();
         }
 
         oldSlide = this.slides[oldNb];
