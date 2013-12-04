@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS
- * Version: 1.3
+ * Version: 1.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -51,7 +51,7 @@ var $_ = function(id) {
 ---------------------------------------------------------- */
 
 /* Domready
-   ----------------------- */
+-------------------------- */
 
 /* From the amazing Dustin Diaz : http://www.dustindiaz.com/smallest-domready-ever */
 // "!document.body" check ensures that IE fires domReady correctly
@@ -116,7 +116,7 @@ Element.toggleDisplay = function(element) {
 };
 
 /* Classes
-   ----------------------- */
+-------------------------- */
 
 /* Get class names */
 
@@ -185,7 +185,7 @@ Element.toggleClass = function(element, className) {
 ---------------------------------------------------------- */
 
 /* In array
-   ----------------------- */
+-------------------------- */
 
 Array.contains = function(needle, haystack) {
     var i = 0,
@@ -198,7 +198,7 @@ Array.contains = function(needle, haystack) {
 };
 
 /* Each
-   ----------------------- */
+-------------------------- */
 
 Array.each = function(arrayToParse, callback) {
     var i = 0,
@@ -258,14 +258,14 @@ var deleteCookie = function(name) {
 ---------------------------------------------------------- */
 
 /* Trim
-   ----------------------- */
+-------------------------- */
 
 String.trim = function(text) {
     return text.replace(/^\s+|\s+$/g, "");
 };
 
 /* Console log fix
-   ----------------------- */
+-------------------------- */
 
 if (typeof(console) === 'undefined') {
     var console = {};
@@ -273,7 +273,7 @@ if (typeof(console) === 'undefined') {
 }
 
 /* AJAX
-   ----------------------- */
+-------------------------- */
 
 var jsuAJAX = function(args) {
     var xmlHttpReq = false,
@@ -323,4 +323,20 @@ var jsuAJAX = function(args) {
     /* Sending request */
     self.xmlHttpReq.send(args.data);
 
+};
+
+/* Callback on image load
+-------------------------- */
+
+var callOnImgLoad = function(url, callback) {
+    // Create a new image
+    var img = new Image();
+
+    // Trigger callback on load
+    img.onload = function() {
+        callback();
+    };
+
+    // Set image load
+    img.src = url;
 };
