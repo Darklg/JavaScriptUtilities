@@ -3,6 +3,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-concat');
 
     // Project configuration.
     grunt.initConfig({
@@ -35,6 +36,15 @@ module.exports = function(grunt) {
                 },
             },
         },
+        concat: {
+            options: {
+                separator: "\n\n/*---*/\n\n",
+            },
+            dist: {
+                src: ['assets/js/vanilla-js/libs/*.js'],
+                dest: 'assets/js/vanilla-js/vanilla-js.js'
+            }
+        },
         shell: {
             jekyll: {
                 command: 'rm -rf _ghpages/; jekyll build;',
@@ -42,5 +52,5 @@ module.exports = function(grunt) {
             }
         },
     });
-    grunt.registerTask('default', ['uglify','shell:jekyll']);
+    grunt.registerTask('default', ['concat', 'uglify', 'shell:jekyll']);
 };
