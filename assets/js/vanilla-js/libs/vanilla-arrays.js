@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Arrays
- * Version: 1.0
+ * Version: 1.0.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -18,6 +18,12 @@ Array.contains = function(needle, haystack) {
     }
     return false;
 };
+
+if (!Array.prototype.contains) {
+    Array.prototype.contains = function(needle) {
+        return Array.contains(needle, this);
+    };
+}
 
 /* ----------------------------------------------------------
   Array each
