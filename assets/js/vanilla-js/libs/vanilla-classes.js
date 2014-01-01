@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Classes
- * Version: 1.0
+ * Version: 1.0.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -57,7 +57,7 @@ Element.removeClass = function(element, className) {
     var elementClasses = Element.getClassNames(element);
     var newElementClasses = [];
     for (var i in elementClasses) {
-        if (elementClasses[i] !== className) {
+        if (elementClasses[i] !== className && typeof elementClasses[i] == 'string') {
             newElementClasses.push(elementClasses[i]);
         }
     }
