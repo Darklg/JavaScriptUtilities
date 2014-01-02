@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Selectors
- * Version: 1.0
+ * Version: 1.0.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -10,10 +10,9 @@
 ---------------------------------------------------------- */
 
 var $$_ = function(selector) {
-    var elements = [],
-        tagMatch = /^([a-z]+)$/,
-        idMatch = /^\#([a-z0-9_-]+)$/,
-        classMatch = /^\.([a-z0-9_-]+)$/;
+    var idMatch = /^\#([a-z0-9_-]+)$/,
+        classMatch = /^\.([a-z0-9_-]+)$/,
+        tagMatch = /^([a-z]+)$/;
 
     // If selector looks like an ID, uses $_ for performance
     if (selector.match(idMatch)) {
@@ -34,6 +33,8 @@ var $$_ = function(selector) {
     if ("querySelectorAll" in document) {
         return document.querySelectorAll(selector);
     }
+
+    return [];
 };
 
 /* ----------------------------------------------------------
