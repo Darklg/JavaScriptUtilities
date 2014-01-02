@@ -1,0 +1,33 @@
+<h2 id="vanilla-classes">CSS Classes</h2>
+
+<h3>Element.addClass(element, className)</h3>
+<p>Add a class to an element</p>
+<script class="script-visible" contenteditable>window.domReady(function(){
+    Element.addClass($_('addclass-test'), 'color-red');
+});</script>
+<div class="script-result"><div id="addclass-test">I should be red</div></div>
+
+<h3>Element.hasClass(element, className)</h3>
+<p>Test if an element has a particular class</p>
+<code class="script-visible" contenteditable>window.domReady(function(){
+    var testHasClass = Element.hasClass($_('addclass-test'), 'color-red');
+});</code>
+
+<h3>Element.removeClass(element, className)</h3>
+<p>Remove a class from an element</p>
+<script class="script-visible" contenteditable>window.domReady(function(){
+    Element.removeClass($_('removeclass-test'), 'color-red');
+});</script>
+<div class="script-result"><div id="removeclass-test" class="color-red">I shouldn't be red</div></div>
+
+<h3>Element.toggleClass(element, className)</h3>
+<p>Toggle the class of an element</p>
+<script class="script-visible" contenteditable>window.domReady(function(){
+    $_('button-toggleclass-test').onclick = function(){
+        Element.toggleClass($_('toggleclass-test'), 'color-red');
+    };
+});</script>
+<div class="script-result">
+    <button id="button-toggleclass-test">Test toggleClass()</button>
+    <span id="toggleclass-test" class="color-red">Result</span>
+</div>

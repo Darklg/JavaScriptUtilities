@@ -1,0 +1,19 @@
+<h2 id="vanilla-display">Display</h2>
+
+<h3>Element.hide(element)</h3>
+<p>Hide an element</p>
+
+<h3>Element.show(element)</h3>
+<p>Show an element</p>
+
+<h3>Element.toggleDisplay(element)</h3>
+<p>Toggle the display of an element</p>
+<script class="script-visible" contenteditable>window.domReady(function(){
+    $_('button-toggle-test').onclick = function(){
+        Element.toggleDisplay($_('toggle-test'));
+    };
+});</script>
+<div class="script-result">
+    <button id="button-toggle-test">Test toggleDisplay()</button>
+    <span id="toggle-test" style="display:none;">You can see me !</span>
+</div>

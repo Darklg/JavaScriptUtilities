@@ -3,62 +3,7 @@ layout: default
 title: Vanilla JS
 ---
 
-
-        <h2 id="vanilla-utilities">Utilities</h2>
-
-        <h3>$_(id)</h3>
-        <p>Shorthand for document.getElementById()</p>
-        <code class="script-visible" contenteditable>$_</code>
-
-        <h2 id="vanilla-events">Events</h2>
-
-        <h3>window.domReady(function)</h3>
-        <p>Execute a function when the DOM is ready. (<a target="_blank" href="http://www.dustindiaz.com/smallest-domready-ever">Thanks to Dustin Diaz</a>)</p>
-        <script class="script-visible" contenteditable>window.domReady(function(){
-    console.log('DOM is ready !');
-});</script>
-
-        <h2 id="vanilla-display">Display</h2>
-
-        <h3>Element.hide(element)</h3>
-        <p>Hide an element</p>
-
-        <h3>Element.show(element)</h3>
-        <p>Show an element</p>
-
-        <h3>Element.toggleDisplay(element)</h3>
-        <p>Toggle the display of an element</p>
-        <script class="script-visible" contenteditable>window.domReady(function(){
-    $_('button-toggle-test').onclick = function(){
-        Element.toggleDisplay($_('toggle-test'));
-    };
-});</script>
-<div class="script-result">
-    <button id="button-toggle-test">Test toggleDisplay()</button>
-    <div id="toggle-test" style="display:none;">You can see me !</div>
-</div>
-
-        <h2 id="vanilla-classes">Classes</h2>
-
-        <h3>Element.addClass(element, className)</h3>
-        <p>Add a class to an element</p>
-        <script class="script-visible" contenteditable>window.domReady(function(){
-    Element.addClass($_('addclass-test'), 'color-red');
-});</script>
-        <div class="script-result"><div id="addclass-test">I should be red</div></div>
-
-        <h3>Element.hasClass(element, className)</h3>
-        <p>Test if an element has a particular class</p>
-        <code class="script-visible" contenteditable>window.domReady(function(){
-    var testHasClass = Element.hasClass($_('addclass-test'), 'color-red');
-});</code>
-
-        <h3>Element.removeClass(element, className)</h3>
-        <p>Remove a class from an element</p>
-        <script class="script-visible" contenteditable>window.domReady(function(){
-    Element.removeClass($_('removeclass-test'), 'color-red');
-});</script>
-        <div class="script-result"><div id="removeclass-test" class="color-red">I shouldn't be red</div></div>
-
-        <h3>Element.toggleClass(element, className)</h3>
-        <p>Toggle the class of an element</p>
+{% include vanilla-js/utilities.html %}
+{% include vanilla-js/events.html %}
+{% include vanilla-js/display.html %}
+{% include vanilla-js/css-classes.html %}
