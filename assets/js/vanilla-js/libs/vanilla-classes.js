@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Classes
- * Version: 1.0.2
+ * Version: 1.0.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -13,6 +13,7 @@ Element.getClassNames = function(element) {
     var classNames = [],
         elementClassName = element.className;
     if (elementClassName !== '') {
+        elementClassName = elementClassName.replace(/\s+/g, ' ');
         classNames = elementClassName.split(' ');
     }
     return classNames;
