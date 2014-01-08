@@ -4,9 +4,21 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
     // Project configuration.
     grunt.initConfig({
+        jshint: {
+            // You get to make the name
+            // The paths tell JSHint which files to validate
+            all: [
+                'Gruntfile.js',
+                'assets/js/mootools/classes/**/*.js',
+                'assets/js/jquery/plugins/**/*.js',
+                'assets/js/vanilla-js/libs/*.js',
+                '!assets/js/**/*.min.js',
+            ],
+        },
         uglify: {
             dynamic_mappings: {
                 files: [{
@@ -15,7 +27,7 @@ module.exports = function(grunt) {
                     src: [
                         'mootools/classes/**/*.js',
                         'jquery/plugins/**/*.js',
-                        'vanilla-js/*.js',
+                        'vanilla-js/libs/*.js',
                         '!**/*.min.js',
                     ],
                     dest: 'assets/js/',
