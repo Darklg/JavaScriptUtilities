@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.4
+ * Version: 1.4.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -15,7 +15,7 @@ var dkJSUTests = {
     },
     localStorage: function() {
         try {
-            return 'localStorage' in window && window['localStorage'] !== null;
+            return 'localStorage' in window && window.localStorage !== null;
         }
         catch (e) {
             return false;
