@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.0.1
+ * Version: 1.0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -20,7 +20,7 @@ if (!jQuery.fn.dkJSUSlider) {
             settings: {},
             defaultSettings: {
                 autoSlide: true,
-                autoSlideDuration: 2000,
+                autoSlideDuration: 7000,
                 createNavigation: true,
                 createPagination: true,
                 currentSlide: 0,
@@ -134,9 +134,6 @@ if (!jQuery.fn.dkJSUSlider) {
             setEvents: function() {
                 var self = this,
                     settings = this.settings;
-                this.slides.on('click', function(e) {
-                    self.gotoSlide('next');
-                });
 
                 self.slider.on('prevslide', function() {
                     self.gotoSlide('prev');
