@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Canvas
- * Version: 2.0
+ * Version: 2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -51,9 +51,9 @@ var dkJSUCanvas = function(canvas) {
         }
 
         // Launch next frame
-        setTimeout(function() {
+        requestAnimFrame(function() {
             self.drawVideo();
-        }, 40);
+        });
     };
 
     // Cover Image
@@ -113,3 +113,10 @@ var dkJSUCanvas = function(canvas) {
 
     };
 };
+
+window.requestAnimFrame = (function() {
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+        function(callback) {
+            window.setTimeout(callback, 40);
+    };
+})();
