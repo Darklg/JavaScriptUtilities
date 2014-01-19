@@ -28,6 +28,7 @@ module.exports = function(grunt) {
                         'mootools/classes/**/*.js',
                         'jquery/plugins/**/*.js',
                         'vanilla-js/libs/*.js',
+                        'vanilla-js/vanilla-js.js',
                         '!**/*.min.js',
                     ],
                     dest: 'assets/js/',
@@ -53,7 +54,10 @@ module.exports = function(grunt) {
                 separator: "\n\n/*---*/\n\n",
             },
             dist: {
-                src: ['assets/js/vanilla-js/libs/*.js'],
+                src: [
+                    'assets/js/vanilla-js/libs/*.js',
+                    '!**/*.min.js'
+                ],
                 dest: 'assets/js/vanilla-js/vanilla-js.js'
             }
         },
