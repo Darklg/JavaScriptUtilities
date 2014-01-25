@@ -119,7 +119,7 @@ if (!Array.prototype.each) {
 
 /*
  * Plugin Name: Vanilla-JS Canvas
- * Version: 2.2
+ * Version: 2.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -242,8 +242,8 @@ var dkJSUCanvas = function(canvas, args) {
             width: 10,
             height: 10
         },
-            iH = image.height,
-            iW = image.width,
+            iH = image.height || 9,
+            iW = image.width || 16,
             iRatio = iH / iW;
 
         // Get image position
