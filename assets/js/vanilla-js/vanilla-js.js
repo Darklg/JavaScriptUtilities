@@ -361,7 +361,7 @@ Element.toggleClass = function(element, className) {
 
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.4.1
+ * Version: 1.4.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -420,6 +420,21 @@ var callOnImgLoad = function(url, callback) {
     // Set image load
     img.src = url;
 };
+
+/* Get BODY Scroll Top
+-------------------------- */
+
+var getBodyScrollTop = function() {
+    return document.documentElement.scrollTop || document.body.scrollTop;
+};
+
+/* Get Window Inner Height
+-------------------------- */
+
+var getWindowInnerHeight = function() {
+    return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+};
+
 
 /*---*/
 
