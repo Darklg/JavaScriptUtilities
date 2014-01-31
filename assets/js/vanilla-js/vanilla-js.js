@@ -439,18 +439,21 @@ var getWindowInnerHeight = function() {
 -------------------------- */
 
 var getElementOffset = function(el) {
-    var curleft = 0,
-        curtop = 0;
-    if (el.offsetParent) {
-        do {
-            curleft += el.offsetLeft;
-            curtop += el.offsetTop;
-            el = el.offsetParent;
-        } while (el.offsetParent);
-    }
+    var clientRect = el.getBoundingClientRect(),
+        top =
+            window.pageYOffset ||
+            document.documentElement.scrollTop ||
+            document.body.scrollTop ||
+            0,
+        left =
+            window.pageXOffset ||
+            document.documentElement.scrollLeft ||
+            document.body.scrollLeft ||
+            0;
+
     return {
-        left: curleft,
-        top: curtop
+        left: clientRect.top + left,
+        top: clientRect.top + top
     };
 };
 
