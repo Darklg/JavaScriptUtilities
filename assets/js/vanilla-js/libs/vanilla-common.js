@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.4.2
+ * Version: 1.4.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -72,4 +72,23 @@ var getBodyScrollTop = function() {
 
 var getWindowInnerHeight = function() {
     return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+};
+
+/* Get Element Offset
+-------------------------- */
+
+var getElementOffset = function(el) {
+    var curleft = 0,
+        curtop = 0;
+    if (el.offsetParent) {
+        do {
+            curleft += el.offsetLeft;
+            curtop += el.offsetTop;
+            el = el.offsetParent;
+        } while (el.offsetParent);
+    }
+    return {
+        left: curleft,
+        top: curtop
+    };
 };
