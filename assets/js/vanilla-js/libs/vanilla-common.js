@@ -1,34 +1,14 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.4.5
+ * Version: 1.5
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
  */
 
-/* Tests
--------------------------- */
-
-var dkJSUTests = {
-    canvas: function() {
-        var elem = document.createElement('canvas');
-        return !!(elem.getContext && elem.getContext('2d'));
-    },
-    localStorage: function() {
-        try {
-            return 'localStorage' in window && window.localStorage !== null;
-        }
-        catch (e) {
-            return false;
-        }
-    },
-    offline: function() {
-        return !!window.applicationCache;
-    },
-    touch: function() {
-        return 'ontouchstart' in window || 'onmsgesturechange' in window;
-    },
-};
+/* ----------------------------------------------------------
+  Utilities
+---------------------------------------------------------- */
 
 /* Trim
 -------------------------- */
@@ -45,27 +25,15 @@ if (typeof(console) === 'undefined') {
     console.log = console.error = console.info = console.debug = console.warn = console.trace = console.dir = console.dirxml = console.group = console.groupEnd = console.time = console.timeEnd = console.assert = console.profile = function() {};
 }
 
-/* Callback on image load
--------------------------- */
-
-var callOnImgLoad = function(url, callback) {
-    // Create a new image
-    var img = new Image();
-
-    // Trigger callback on load
-    img.onload = function() {
-        callback();
-    };
-
-    // Set image load
-    img.src = url;
-};
+/* ----------------------------------------------------------
+  Get values
+---------------------------------------------------------- */
 
 /* Get Window Inner Height
 -------------------------- */
 
 var getWindowInnerHeight = function() {
-    return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
 };
 
 /* Get BODY Scroll
@@ -89,4 +57,49 @@ var getElementOffset = function(el) {
         left: clientRect.left + getBodyScrollLeft(),
         top: clientRect.top + getBodyScrollTop()
     };
+};
+
+/* ----------------------------------------------------------
+  Functions
+---------------------------------------------------------- */
+
+/* Callback on image load
+-------------------------- */
+
+var callOnImgLoad = function(url, callback) {
+    // Create a new image
+    var img = new Image();
+
+    // Trigger callback on load
+    img.onload = function() {
+        callback();
+    };
+
+    // Set image load
+    img.src = url;
+};
+
+/* Get Element Visibility
+-------------------------- */
+
+var getElementVisibility = function(el, offset) {
+    offset = offset || 0;
+    var clientRect = el.getBoundingClientRect(),
+        winHeight = getWindowInnerHeight(),
+        visibility = {
+            full: false,
+            visible: false
+        };
+
+    // Element is visible (with an offset)
+    if (clientRect.top > offset || clientRect.bottom > offset) {
+        visibility.visible = true;
+    }
+
+    // Element fully visible
+    if (winHeight >= clientRect.height && clientRect.top >= 0 && clientRect.bottom >= 0) {
+        visibility.full = true;
+    }
+
+    return visibility;
 };
