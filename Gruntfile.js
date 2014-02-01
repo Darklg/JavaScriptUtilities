@@ -27,7 +27,6 @@ module.exports = function(grunt) {
                     src: [
                         'mootools/classes/**/*.js',
                         'jquery/plugins/**/*.js',
-                        'vanilla-js/libs/*.js',
                         'vanilla-js/vanilla-js.js',
                         '!**/*.min.js',
                     ],
@@ -63,10 +62,14 @@ module.exports = function(grunt) {
         },
         shell: {
             jekyll: {
+                command: 'rm assets/js/vanilla-js/vanilla-js.js',
+                stdout: true
+            },
+            postuglify: {
                 command: 'rm -rf _ghpages/; jekyll build;',
                 stdout: true
             }
         },
     });
-    grunt.registerTask('default', ['concat', 'uglify', 'shell:jekyll']);
+    grunt.registerTask('default', ['concat', 'uglify', 'shell:postuglify', 'shell:jekyll']);
 };
