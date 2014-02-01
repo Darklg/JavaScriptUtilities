@@ -1,8 +1,9 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.4.3
+ * Version: 1.4.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
+ * Contributors : bloodyowl
  */
 
 /* Tests
@@ -78,17 +79,20 @@ var getWindowInnerHeight = function() {
 -------------------------- */
 
 var getElementOffset = function(el) {
-    var curleft = 0,
-        curtop = 0;
-    if (el.offsetParent) {
-        do {
-            curleft += el.offsetLeft;
-            curtop += el.offsetTop;
-            el = el.offsetParent;
-        } while (el.offsetParent);
-    }
+    var clientRect = el.getBoundingClientRect(),
+        top =
+            window.pageYOffset ||
+            document.documentElement.scrollTop ||
+            document.body.scrollTop ||
+            0,
+        left =
+            window.pageXOffset ||
+            document.documentElement.scrollLeft ||
+            document.body.scrollLeft ||
+            0;
+
     return {
-        left: curleft,
-        top: curtop
+        left: clientRect.left + left,
+        top: clientRect.top + top
     };
 };
