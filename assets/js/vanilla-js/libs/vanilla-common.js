@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.4.4
+ * Version: 1.4.5
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -61,13 +61,6 @@ var callOnImgLoad = function(url, callback) {
     img.src = url;
 };
 
-/* Get BODY Scroll Top
--------------------------- */
-
-var getBodyScrollTop = function() {
-    return document.documentElement.scrollTop || document.body.scrollTop;
-};
-
 /* Get Window Inner Height
 -------------------------- */
 
@@ -75,24 +68,25 @@ var getWindowInnerHeight = function() {
     return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 };
 
+/* Get BODY Scroll
+-------------------------- */
+
+var getBodyScrollTop = function() {
+    return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+};
+
+var getBodyScrollLeft = function() {
+    return window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
+};
+
 /* Get Element Offset
 -------------------------- */
 
 var getElementOffset = function(el) {
-    var clientRect = el.getBoundingClientRect(),
-        top =
-            window.pageYOffset ||
-            document.documentElement.scrollTop ||
-            document.body.scrollTop ||
-            0,
-        left =
-            window.pageXOffset ||
-            document.documentElement.scrollLeft ||
-            document.body.scrollLeft ||
-            0;
+    var clientRect = el.getBoundingClientRect();
 
     return {
-        left: clientRect.left + left,
-        top: clientRect.top + top
+        left: clientRect.left + getBodyScrollLeft(),
+        top: clientRect.top + getBodyScrollTop()
     };
 };
