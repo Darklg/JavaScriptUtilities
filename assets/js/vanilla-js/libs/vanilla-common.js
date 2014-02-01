@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.5
+ * Version: 1.5.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -51,11 +51,17 @@ var getBodyScrollLeft = function() {
 -------------------------- */
 
 var getElementOffset = function(el) {
-    var clientRect = el.getBoundingClientRect();
+    var clientRect = el.getBoundingClientRect(),
+        top = clientRect.top + getBodyScrollTop(),
+        left = clientRect.left + getBodyScrollLeft(),
+        right = clientRect.width + left,
+        bottom = clientRect.height + top;
 
     return {
-        left: clientRect.left + getBodyScrollLeft(),
-        top: clientRect.top + getBodyScrollTop()
+        top: top,
+        right: right,
+        bottom: bottom,
+        left: left
     };
 };
 
@@ -84,20 +90,23 @@ var callOnImgLoad = function(url, callback) {
 
 var getElementVisibility = function(el, offset) {
     offset = offset || 0;
-    var clientRect = el.getBoundingClientRect(),
+    var elRect = el.getBoundingClientRect(),
+        elOff = getElementOffset(el),
         winHeight = getWindowInnerHeight(),
+        winTopLimit = getBodyScrollTop(),
+        winBottomLimit = winHeight + winTopLimit,
         visibility = {
             full: false,
             visible: false
         };
 
     // Element is visible (with an offset)
-    if (clientRect.top > offset || clientRect.bottom > offset) {
+    if (elOff.top < winBottomLimit - offset) {
         visibility.visible = true;
     }
 
     // Element fully visible
-    if (winHeight >= clientRect.height && clientRect.top >= 0 && clientRect.bottom >= 0) {
+    if (winHeight >= elRect.height && elOff.top > winTopLimit && elOff.bottom < winBottomLimit) {
         visibility.full = true;
     }
 
