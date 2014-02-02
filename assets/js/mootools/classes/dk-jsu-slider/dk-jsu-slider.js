@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.3.9
+ * Version: 1.3.10
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -89,6 +89,7 @@ var dkJSUSlider = new Class({
             if (this.settings.showPagination && this.pagers[0]) {
                 this.pagers[0].addClass('current');
             }
+            el.fireEvent('sliderready', 1);
         }
     },
     // Obtaining user settings
