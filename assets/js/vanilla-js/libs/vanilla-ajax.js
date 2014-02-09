@@ -1,6 +1,6 @@
 /*
  * Plugin Name: AJAX
- * Version: 1.0.1
+ * Version: 1.0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -9,30 +9,28 @@
 new jsuAJAX({
     url: 'index.html',
     method: 'GET',
-    callback: function(response){alert('response');},
+    callback: function(response, status){alert(response);},
     data: 'ajax=1&test=abc'
 });
  */
 
 var jsuAJAX = function(args) {
-    var xmlHttpReq = false,
-        self = this;
+    var xmlHttpReq = false;
 
-    /* Tests */
+    /* Test url */
     if (!args.url) {
         return false;
     }
-    if (!args.method) {
-        args.method = 'GET';
-    }
+
+    /* Test callback */
+    args.callback = args.callback || function(response, status) {};
+
+    /* Test method */
+    args.method = args.method || 'GET';
     args.method = args.method.toUpperCase();
 
-    if (!args.callback) {
-        args.callback = function() {};
-    }
-    if (!args.data) {
-        args.data = '';
-    }
+    /* Test data */
+    args.data = args.data || '';
     if (typeof args.data == 'object') {
         var ndata = '';
         for (var i in args.data) {
@@ -44,26 +42,26 @@ var jsuAJAX = function(args) {
         args.data = ndata;
     }
 
-    /* XHR Object */
+    /* Set XHR Object */
     if (window.XMLHttpRequest) {
-        self.xmlHttpReq = new XMLHttpRequest();
+        xmlHttpReq = new XMLHttpRequest();
     }
     else if (window.ActiveXObject) {
-        self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+        xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
     }
 
-    /* Opening request */
-    self.xmlHttpReq.open(args.method, args.url, true);
-    self.xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    /* Open request */
+    xmlHttpReq.open(args.method, args.url, true);
+    xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-    self.xmlHttpReq.onreadystatechange = function() {
+    xmlHttpReq.onreadystatechange = function() {
         /* Callback when complete */
-        if (self.xmlHttpReq.readyState == 4) {
-            args.callback(self.xmlHttpReq.responseText);
+        if (this.readyState == 4) {
+            args.callback(this.responseText, this.status);
         }
     };
 
-    /* Sending request */
-    self.xmlHttpReq.send(args.data);
+    /* Send request */
+    xmlHttpReq.send(args.data);
 
 };
