@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Elements
- * Version: 1.0
+ * Version: 1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -13,6 +13,12 @@ Element.hide = function(element) {
     element.style.display = 'none';
 };
 
+if (!Element.prototype.hide) {
+    Element.prototype.hide = function() {
+        return Element.hide(this);
+    };
+}
+
 /* ----------------------------------------------------------
   Show
 ---------------------------------------------------------- */
@@ -20,6 +26,12 @@ Element.hide = function(element) {
 Element.show = function(element) {
     element.style.display = '';
 };
+
+if (!Element.prototype.show) {
+    Element.prototype.show = function() {
+        return Element.show(this);
+    };
+}
 
 /* ----------------------------------------------------------
   Toggle
@@ -34,3 +46,9 @@ Element.toggleDisplay = function(element) {
         Element.hide(element);
     }
 };
+
+if (!Element.prototype.toggleDisplay) {
+    Element.prototype.toggleDisplay = function() {
+        return Element.toggleDisplay(this);
+    };
+}
