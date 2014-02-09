@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Classes
- * Version: 1.0.3
+ * Version: 1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -19,6 +19,12 @@ Element.getClassNames = function(element) {
     return classNames;
 };
 
+if (!Element.prototype.getClassNames) {
+    Element.prototype.getClassNames = function() {
+        return Element.getClassNames(this);
+    };
+}
+
 /* ----------------------------------------------------------
   Test if element has a class
 ---------------------------------------------------------- */
@@ -29,6 +35,12 @@ Element.hasClass = function(element, className) {
     }
     return Array.contains(className, Element.getClassNames(element));
 };
+
+if (!Element.prototype.hasClass) {
+    Element.prototype.hasClass = function(className) {
+        return Element.hasClass(this, className);
+    };
+}
 
 /* ----------------------------------------------------------
   Add a class
@@ -45,6 +57,12 @@ Element.addClass = function(element, className) {
         element.className = elementClasses.join(' ');
     }
 };
+
+if (!Element.prototype.addClass) {
+    Element.prototype.addClass = function(className) {
+        return Element.addClass(this, className);
+    };
+}
 
 /* ----------------------------------------------------------
   Remove a class
@@ -67,6 +85,12 @@ Element.removeClass = function(element, className) {
     element.className = newElementClasses.join(' ');
 };
 
+if (!Element.prototype.removeClass) {
+    Element.prototype.removeClass = function(className) {
+        return Element.removeClass(this, className);
+    };
+}
+
 /* ----------------------------------------------------------
   Toggle a class
 ---------------------------------------------------------- */
@@ -79,3 +103,9 @@ Element.toggleClass = function(element, className) {
         Element.removeClass(element, className);
     }
 };
+
+if (!Element.prototype.toggleClass) {
+    Element.prototype.toggleClass = function(className) {
+        return Element.toggleClass(this, className);
+    };
+}
