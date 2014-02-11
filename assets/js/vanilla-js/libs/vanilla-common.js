@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.5.1
+ * Version: 1.5.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -68,6 +68,29 @@ var getElementOffset = function(el) {
 /* ----------------------------------------------------------
   Functions
 ---------------------------------------------------------- */
+
+/* Debounce
+** Thx to @DavidWalsh
+** http://minu.me/chxr
+-------------------------- */
+
+var debounce = function(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this,
+            args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            timeout = null;
+            if (!immediate) {
+                func.apply(context, args);
+            }
+        }, wait);
+        if (immediate && !timeout) {
+            func.apply(context, args);
+        }
+    };
+};
 
 /* Callback on image load
 -------------------------- */
