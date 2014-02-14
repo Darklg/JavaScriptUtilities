@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
     // Tasks
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-jekyll');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -9,8 +10,6 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
         jshint: {
-            // You get to make the name
-            // The paths tell JSHint which files to validate
             all: [
                 'Gruntfile.js',
                 'assets/js/mootools/classes/**/*.js',
@@ -40,9 +39,14 @@ module.exports = function(grunt) {
                 files: [
                     'assets/js/**/*.js',
                     'assets/css/**/*.css',
-                    '!**/*.min.js'
+                    '!**/*.min.js',
+                    '_includes/**/*.html',
+                    '_includes/**.html',
                 ],
-                tasks: ['shell:jekyll'],
+                tasks: [
+                    'jekyll:dev',
+                    'jshint',
+                ],
                 options: {
                     interrupt: true,
                 },
@@ -60,16 +64,21 @@ module.exports = function(grunt) {
                 dest: 'assets/js/vanilla-js/vanilla-js.js'
             }
         },
+        jekyll: {
+            dev: {}
+        },
         shell: {
-            jekyll: {
-                command: 'rm assets/js/vanilla-js/vanilla-js.js',
-                stdout: true
-            },
             postuglify: {
-                command: 'rm -rf _ghpages/; jekyll build;',
+                command: 'rm assets/js/vanilla-js/vanilla-js.js;',
                 stdout: true
             }
-        },
+        }
     });
-    grunt.registerTask('default', ['concat', 'uglify', 'shell:postuglify', 'shell:jekyll']);
+    grunt.registerTask('default', [
+        'jshint',
+        'concat',
+        'uglify',
+        'shell:postuglify',
+        'jekyll:dev',
+    ]);
 };
