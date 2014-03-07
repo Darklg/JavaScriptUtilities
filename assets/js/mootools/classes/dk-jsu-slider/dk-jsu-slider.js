@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.3.11
+ * Version: 1.3.12
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -30,6 +30,8 @@ var dkJSUSlider = new Class({
         createPagination: true,
         currentSlide: 0,
         keyboardActions: true,
+        loopBeforeFirst: true,
+        loopAfterLast: true,
         transition: function(oldSlide, newSlide, oldNb, nb, self) {
             newSlide.setStyles({
                 'opacity': 0,
@@ -225,7 +227,8 @@ var dkJSUSlider = new Class({
     },
     gotoSlide: function(nb) {
         var settings = this.settings,
-            oldNb = this.settings.currentSlide;
+            oldNb = this.settings.currentSlide,
+            origNb = nb;
 
         if (nb === 'prev') {
             nb = settings.currentSlide - 1;
@@ -241,6 +244,14 @@ var dkJSUSlider = new Class({
 
         if (nb >= settings.nbSlides) {
             nb = 0;
+        }
+
+        if (!settings.loopBeforeFirst && origNb == 'prev' && nb == (settings.nbSlides - 1)) {
+            return 0;
+        }
+
+        if (!settings.loopAfterLast && origNb == 'next' && nb === 0) {
+            return 0;
         }
 
         if (this.canSlide !== 1 || nb == oldNb) {
