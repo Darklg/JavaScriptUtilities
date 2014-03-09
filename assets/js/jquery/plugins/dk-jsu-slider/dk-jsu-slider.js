@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.0.5
+ * Version: 1.0.6
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -207,11 +207,23 @@ if (!jQuery.fn.dkJSUSlider) {
                     self.gotoSlide('next');
                 }, settings.autoSlideDuration);
             },
+            isPageVisible: function() {
+                var isVisible = true;
+                if ("visibilityState" in document && document.visibilityState === 'hidden') {
+                    isVisible = false;
+                }
+                return isVisible;
+            },
             gotoSlide: function(nb) {
                 var self = this,
                     settings = this.settings,
                     oldNb = this.settings.currentSlide,
                     origNb = nb;
+
+                // Pause slider if page is hidden.
+                if (!self.isPageVisible()) {
+                    return;
+                }
 
                 if (nb === 'prev') {
                     nb = settings.currentSlide - 1;
