@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.5.2
+ * Version: 1.6
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -127,4 +127,54 @@ var getElementVisibility = function(el, offset) {
     }
 
     return visibility;
+};
+
+/* Serialize a form
+-------------------------- */
+
+var serializeForm = function(form) {
+    if (!form) {
+        return {};
+    }
+    var values = {},
+        tags = ['input', 'select', 'textarea'],
+        tagsLength = tags.length;
+
+    // Add Elements function
+    var loadValues = function(els, values) {
+        values = values ? values : {};
+        var el = false,
+            name,
+            tag,
+            type,
+            value;
+        for (el in els) {
+            if (typeof els[el] == 'object') {
+                type = els[el].getAttribute('type') ? els[el].getAttribute('type').toLowerCase() : '';
+                tag = els[el].tagName.toLowerCase();
+                name = els[el].getAttribute('name');
+                value = els[el].value;
+                // Empty value for non checked checkbox & radio
+                if ( !! type && (type == 'checkbox' || type == 'radio') && !els[el].checked) {
+                    value = '';
+                }
+                // Break if name is not available
+                if (!name) {
+                    continue;
+                }
+                // Break if value exists and is not empty
+                if (typeof values[name] !== 'undefined' && values[name] !== '') {
+                    continue;
+                }
+                values[name] = value;
+            }
+        }
+        return values;
+    };
+
+    for (var i = 0; i < tagsLength; i++) {
+        values = loadValues(form.getElementsByTagName(tags[i]), values);
+    }
+
+    return values;
 };
