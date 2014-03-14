@@ -15,6 +15,7 @@ module.exports = function(grunt) {
                 'assets/js/mootools/classes/**/*.js',
                 'assets/js/jquery/plugins/**/*.js',
                 'assets/js/vanilla-js/libs/*.js',
+                'assets/js/vanilla-js/plugins/*.js',
                 '!assets/js/**/*.min.js',
             ],
         },
