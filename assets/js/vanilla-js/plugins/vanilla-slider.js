@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 0.1
+ * Version: 0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla Elements, Vanilla Classes
@@ -19,6 +19,8 @@ new vanillaSlider({
 var vanillaSlider = function(settings) {
     var self = this,
         defaultSettings = {
+            autoSlide: true,
+            autoSlideDuration: 7000,
             nbSlides: 0,
             currentSlide: 0,
             slides: false,
@@ -44,6 +46,7 @@ var vanillaSlider = function(settings) {
             }
         };
     self.canSlide = 1;
+    self.autoSlideTimeout = false;
     self.init = function(settings) {
         self.getSettings(settings);
         if (!self.settings.slider) {
@@ -103,6 +106,24 @@ var vanillaSlider = function(settings) {
             window.eventPreventDefault(e);
             self.goToSlide('next');
         });
+        // Auto slide
+        self.setAutoSlide();
+        slider.addEvent('mouseover', self.clearAutoSlide);
+        slider.addEvent('mousemove', self.clearAutoSlide);
+        slider.addEvent('mouseout', self.setAutoSlide);
+    };
+    self.clearAutoSlide = function() {
+        clearTimeout(self.autoSlideTimeout);
+    };
+    self.setAutoSlide = function() {
+        var settings = self.settings;
+        if (settings.autoSlide) {
+            self.clearAutoSlide();
+            self.autoSlideTimeout = setTimeout(function() {
+                self.goToSlide('next');
+                self.setAutoSlide();
+            }, settings.autoSlideDuration);
+        }
     };
     self.goToSlide = function(nb) {
         var settings = self.settings,
