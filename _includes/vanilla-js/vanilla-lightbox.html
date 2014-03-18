@@ -1,0 +1,11 @@
+<h2 id="vanilla-lightbox">Lightbox</h2>
+<p>A simple lightbox.</p>
+<script class="script-visible" contenteditable>window.domReady(function(){
+    var lb = new vanillaLightbox();
+    $_('vanilla-lb-test').addEvent('click', function(e){
+        window.eventPreventDefault(e);
+        lb.setContent('<p>Hello World :)</p>');
+        lb.open();
+    });
+});</script>
+<p><a href="#" id="vanilla-lb-test">Try me</a></p>
