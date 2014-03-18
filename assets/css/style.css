@@ -10,6 +10,7 @@ html {
 
 body {
     margin: 15px auto;
+    padding-bottom: 30px;
     max-width: 780px;
     min-width: 480px;
     text-align: left;
@@ -99,6 +100,7 @@ a:active {
 .main-footer {
     margin-top: 15px;
     border-top: 1px solid #ccc;
+    overflow: hidden;
 }
 
 .main-footer li,
