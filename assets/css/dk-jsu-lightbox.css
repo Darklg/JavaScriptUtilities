@@ -6,7 +6,7 @@
 
 .lightbox.lb-is-hidden {
     visibility: hidden;
-    opacity: 0.0;
+    opacity: 0;
     filter: alpha(opacity=0);
 }
 
@@ -63,6 +63,16 @@
     -webkit-box-shadow: 0 0 3px rgba(0,0,0,.5);
     -moz-box-shadow: 0 0 3px rgba(0,0,0,.5);
     box-shadow: 0 0 3px rgba(0,0,0,.5);
+}
+
+.fluid-lightbox .lightbox-content {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    max-height: 90%;
+    max-width: 90%;
 }
 
 /* Lightbox message */
