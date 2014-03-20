@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Lightbox
- * Version: 0.1
+ * Version: 0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla Selectors, Vanilla Classes
@@ -38,18 +38,27 @@ var vanillaLightbox = function(settings) {
         document.body.appendChild(els.box);
     };
     self.setEvents = function() {
-        self.els.filter.addEvent('click', function(e) {
-            window.eventPreventDefault(e);
-            self.close();
-        });
+        self.els.filter.addEvent('click', self.close);
+    };
+    self.setCloseBtn = function() {
+        var btns = self.els.content.getElementsByClassName('btn-close');
+        for (var btn in btns) {
+            if (typeof btns[btn] == 'object' && 'addEvent' in btns[btn]) {
+                btns[btn].addEvent('click', self.close);
+            }
+        }
     };
     self.setContent = function(content) {
         self.els.content.innerHTML = content;
+        self.setCloseBtn();
     };
     self.open = function() {
         self.els.box.removeClass('lb-is-hidden');
     };
-    self.close = function() {
+    self.close = function(e) {
+        if (e) {
+            window.eventPreventDefault(e);
+        }
         self.els.box.addClass('lb-is-hidden');
     };
     self.init(settings);
