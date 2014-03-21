@@ -1,8 +1,8 @@
 /*
  * Plugin Name: Lightbox
- * Version: 0.2
+ * Version: 0.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
- * JavaScriptUtilities Slider may be freely distributed under the MIT license.
+ * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla Selectors, Vanilla Classes
  */
 
@@ -66,6 +66,7 @@ var vanillaLightbox = function(settings) {
 };
 
 vanillaLightbox.prototype.getSettings = function(settings) {
+    var self = this;
     self.settings = {};
     // Set default values
     for (var attr in self.defaultSettings) {
