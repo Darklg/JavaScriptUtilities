@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Lightbox
- * Version: 0.2.1
+ * Version: 0.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla Selectors, Vanilla Classes
@@ -38,7 +38,15 @@ var vanillaLightbox = function(settings) {
         document.body.appendChild(els.box);
     };
     self.setEvents = function() {
+        var keyPressed;
         self.els.filter.addEvent('click', self.close);
+        window.addEvent(window, 'keydown', function(e) {
+            // Close on echap
+            keyPressed = e.keyCode ? e.keyCode : e.charCode;
+            if (keyPressed === 27) {
+                self.close();
+            }
+        });
     };
     self.setCloseBtn = function() {
         var btns = self.els.content.getElementsByClassName('btn-close');
@@ -70,10 +78,14 @@ vanillaLightbox.prototype.getSettings = function(settings) {
     self.settings = {};
     // Set default values
     for (var attr in self.defaultSettings) {
-        self.settings[attr] = self.defaultSettings[attr];
+        if (self.defaultSettings.hasOwnProperty(attr)) {
+            self.settings[attr] = self.defaultSettings[attr];
+        }
     }
     // Set new values
     for (var attr2 in settings) {
-        self.settings[attr2] = settings[attr2];
+        if (self.settings.hasOwnProperty(attr2)) {
+            self.settings[attr2] = settings[attr2];
+        }
     }
 };
