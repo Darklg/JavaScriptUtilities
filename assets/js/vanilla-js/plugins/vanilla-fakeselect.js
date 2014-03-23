@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 0.2
+ * Version: 0.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla Classes, Vanilla Elements
@@ -77,11 +77,15 @@ vanillaFakeSelect.prototype.getSettings = function(settings) {
     self.settings = {};
     // Set default values
     for (var attr in self.defaultSettings) {
-        self.settings[attr] = self.defaultSettings[attr];
+        if (self.defaultSettings.hasOwnProperty(attr)) {
+            self.settings[attr] = self.defaultSettings[attr];
+        }
     }
     // Set new values
     for (var attr2 in settings) {
-        self.settings[attr2] = settings[attr2];
+        if (self.settings.hasOwnProperty(attr2)) {
+            self.settings[attr2] = settings[attr2];
+        }
     }
 };
 
