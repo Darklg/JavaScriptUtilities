@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.6
+ * Version: 1.7
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -177,4 +177,36 @@ var serializeForm = function(form) {
     }
 
     return values;
+};
+
+/* ----------------------------------------------------------
+  Morph CSS
+---------------------------------------------------------- */
+
+var morphCSS = function(element, values, time) {
+    time = time || 300;
+    var intervalDelay = 25,
+        setElementMorph = function(elStyle, from, to) {
+            var intervalMorph = (to - from) / (time / intervalDelay),
+                styleValue = from,
+                interval = false;
+            elStyle[val] = from;
+            // Launch interval
+            interval = setInterval(function() {
+                styleValue += intervalMorph;
+                elStyle[val] = styleValue;
+            }, intervalDelay);
+            setTimeout(function() {
+                // Clear interval after time
+                clearInterval(interval);
+                // Set final style
+                elStyle[val] = to;
+            }, time);
+        };
+    for (var val in values) {
+        if (values.hasOwnProperty(val)) {
+            setElementMorph(element.style, values[val][0], values[val][1]);
+        }
+    }
+    return element;
 };
