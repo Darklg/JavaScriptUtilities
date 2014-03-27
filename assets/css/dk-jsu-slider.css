@@ -12,6 +12,11 @@
     height: 100%;
 }
 
+.vanilla-slider .dk-jsu-slider {
+    z-index: 0;
+    position: relative;
+}
+
 /* Wrapper */
 
 .dk-jsu-slider-wrapper {
@@ -26,6 +31,19 @@
 
 .dk-jsu-slide {
     background-color: #fff;
+}
+
+.vanilla-slider .dk-jsu-slide {
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.vanilla-slider .navigation *,
+.vanilla-slider .pagination {
+    z-index: 3;
+    position: absolute;
 }
 
 /* Theme
