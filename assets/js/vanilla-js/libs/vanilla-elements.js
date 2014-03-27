@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Elements
- * Version: 2.0
+ * Version: 2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -123,3 +123,21 @@ var wrapElement = function(element, tagName) {
     wrapper.appendChild(element);
     return wrapper;
 };
+
+/* ----------------------------------------------------------
+  Each Element
+---------------------------------------------------------- */
+
+var eachElement = function(elements, callback) {
+    for (var i in elements) {
+        if (typeof elements[i] == "object" && 'addEvent' in elements[i]) {
+            callback(elements[i], i);
+        }
+    }
+};
+
+if (!Object.prototype.eachElement) {
+    Object.prototype.eachElement = function(callback) {
+        return eachElement(this, callback);
+    };
+}
