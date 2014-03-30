@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla Pushstate/AJAX
- * Version: 0.2
+ * Version: 0.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla AJAX, Vanilla Arrays
@@ -17,7 +17,10 @@ var vanillaPJAX = function(settings) {
     self.isLoading = false;
     self.currentLocation = document.location;
     self.defaultSettings = {
-        targetContainer: document.body
+        targetContainer: document.body,
+        callbackBeforeAJAX: function(newUrl) {},
+        callbackAfterAJAX: function(newUrl) {},
+        callbackAfterLoad: function(newUrl) {}
     };
     self.init = function(settings) {
         self.getSettings(settings);
@@ -69,24 +72,25 @@ var vanillaPJAX = function(settings) {
     };
     // Load an URL
     self.goToUrl = function(url) {
-        if (url == self.currentLocation) {
+        var settings = self.settings;
+        if (url == self.currentLocation || Element.hasClass(document.body, 'ajax-loading')) {
             return;
         }
+        settings.callbackBeforeAJAX(url);
+        Element.addClass(document.body, 'ajax-loading');
         new jsuAJAX({
             url: url,
             callback: function(content) {
+                settings.callbackAfterAJAX(url);
                 self.loadContent(content, url);
             },
             data: 'ajax=1'
         });
     };
-    // Handle the loaded content
-    self.loadContent = function(content, url) {
-        var urlDetails = document.createElement('a'),
-            target = self.settings.targetContainer;
+    // Change URL
+    self.setUrl = function(url) {
+        var urlDetails = document.createElement('a');
         urlDetails.href = url;
-        // Update values
-        self.currentLocation = url;
         // Change URL
         if ('pushState' in history) {
             history.pushState({}, "", url);
@@ -94,10 +98,23 @@ var vanillaPJAX = function(settings) {
         else {
             document.location.hash = '!' + urlDetails.pathname;
         }
+    };
+    // Handle the loaded content
+    self.loadContent = function(content, url) {
+        var settings = self.settings,
+            target = self.settings.targetContainer;
+        // Update values
+        self.currentLocation = url;
+        // Set URL
+        self.setUrl(url);
         // Load content into target
         target.innerHTML = content;
         // Add events to new links
         self.setClickables(target);
+        // Allow a new page load
+        Element.removeClass(document.body, 'ajax-loading');
+        // Callback
+        settings.callbackAfterLoad(url);
     };
     self.init(settings);
     return self;
