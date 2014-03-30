@@ -1,9 +1,10 @@
 /*
  * Plugin Name: Slider
- * Version: 0.3
+ * Version: 0.3.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla Elements, Vanilla Classes
+ * Usage status: Work in progress
  */
 
 /* ----------------------------------------------------------
@@ -129,7 +130,7 @@ var vanillaSlider = function(settings) {
 
         // Navigation
         if (settings.displayNavigation && self.navigationEl) {
-            self.navigationEl.children.eachElement(function(el) {
+            Element.eachElement(self.navigationEl.children, function(el) {
                 el.addEvent('click', function(e) {
                     window.eventPreventDefault(e);
                     self.goToSlide(this.getAttribute('data-rel'));
@@ -139,7 +140,7 @@ var vanillaSlider = function(settings) {
 
         // Pagination
         if (settings.displayPagination && self.paginationEl) {
-            self.paginationEl.children.eachElement(function(el) {
+            Element.eachElement(self.paginationEl.children, function(el) {
                 el.addEvent('click', function(e) {
                     window.eventPreventDefault(e);
                     var i = parseInt(this.getAttribute('data-i'), 10);
@@ -216,7 +217,7 @@ var vanillaSlider = function(settings) {
             self.canSlide = 1;
         }
         if (settings.displayPagination && self.pagers[nb]) {
-            self.pagers.eachElement(function(el) {
+            Element.eachElement(self.pagers, function(el) {
                 el.removeClass('current');
             });
             self.pagers[nb].addClass('current');
