@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.7
+ * Version: 1.7.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -183,26 +183,36 @@ var serializeForm = function(form) {
   Morph CSS
 ---------------------------------------------------------- */
 
-var morphCSS = function(element, values, time) {
-    time = time || 300;
-    var intervalDelay = 25,
-        setElementMorph = function(elStyle, from, to) {
-            var intervalMorph = (to - from) / (time / intervalDelay),
-                styleValue = from,
-                interval = false;
-            elStyle[val] = from;
-            // Launch interval
-            interval = setInterval(function() {
-                styleValue += intervalMorph;
-                elStyle[val] = styleValue;
-            }, intervalDelay);
-            setTimeout(function() {
-                // Clear interval after time
-                clearInterval(interval);
-                // Set final style
-                elStyle[val] = to;
-            }, time);
-        };
+var morphCSS = function(element, settings) {
+    settings = settings || {};
+
+    var time = settings.time || 300,
+        values = settings.values || [],
+        callback = settings.callback || function() {},
+        intervalDelay = 25;
+
+    // Morph an element style from a value to a value
+    var setElementMorph = function(elStyle, from, to) {
+        var intervalMorph = (to - from) / (time / intervalDelay),
+            styleValue = from,
+            interval = false;
+        elStyle[val] = from;
+        // Launch interval
+        interval = setInterval(function() {
+            styleValue += intervalMorph;
+            elStyle[val] = styleValue;
+        }, intervalDelay);
+        setTimeout(function() {
+            // Clear interval after time
+            clearInterval(interval);
+            // Set final style
+            elStyle[val] = to;
+            // Launch callback
+            callback();
+        }, time);
+    };
+
+    // For each value
     for (var val in values) {
         if (values.hasOwnProperty(val)) {
             setElementMorph(element.style, values[val][0], values[val][1]);
