@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 0.3.1
+ * Version: 0.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla Elements, Vanilla Classes
@@ -22,10 +22,14 @@ var vanillaSlider = function(settings) {
     self.defaultSettings = {
         autoSlide: true,
         autoSlideDuration: 7000,
+        callbackSliderReady: function() {},
         createPagination: true,
         createNavigation: true,
         displayPagination: true,
         displayNavigation: true,
+        keyboardActions: true,
+        loopBeforeFirst: true,
+        loopAfterLast: true,
         nbSlides: 0,
         slides: false,
         slider: false,
@@ -63,6 +67,9 @@ var vanillaSlider = function(settings) {
         self.setElements();
         self.setEvents();
         self.goToSlide('init');
+        (function() {
+            self.settings.callbackSliderReady();
+        }());
     };
 
     self.setElements = function() {
@@ -128,6 +135,22 @@ var vanillaSlider = function(settings) {
             slider = settings.slider,
             tmpEls, tmpEl;
 
+        // Keyboard navigation
+        if (settings.keyboardActions) {
+            window.addEvent(window, 'keydown', function(e) {
+                var actEl = document.activeElement,
+                    keyPressed = e.keyCode ? e.keyCode : e.charCode;
+                if (keyPressed && actEl && ['input', 'textarea'].indexOf(actEl.tagName.toLowerCase()) == -1) {
+                    if (keyPressed === 39) {
+                        self.goToSlide('next');
+                    }
+                    if (keyPressed === 37) {
+                        self.goToSlide('prev');
+                    }
+                }
+            });
+        }
+
         // Navigation
         if (settings.displayNavigation && self.navigationEl) {
             Element.eachElement(self.navigationEl.children, function(el) {
@@ -168,10 +191,17 @@ var vanillaSlider = function(settings) {
             }, settings.autoSlideDuration);
         }
     };
+    self.isPageVisible = function() {
+        var isVisible = true;
+        if ("visibilityState" in document && document.visibilityState === 'hidden') {
+            isVisible = false;
+        }
+        return isVisible;
+    };
     self.goToSlide = function(nb) {
         var settings = self.settings,
             oldNb = self.currentSlide,
-            newNb = nb,
+            origNb = nb,
             slides = settings.slides;
 
         if (nb === 'init') {
@@ -194,7 +224,23 @@ var vanillaSlider = function(settings) {
             nb = 0;
         }
 
-        if (self.canSlide !== 1 || (nb == oldNb && newNb !== 'init') || !slides[nb]) {
+        // Pause slider if page is hidden.
+        if (!self.isPageVisible()) {
+            return;
+        }
+
+        // Pause slider if cannot slide, or same slide is asked
+        if (self.canSlide !== 1 || (nb == oldNb && origNb !== 'init') || !slides[nb]) {
+            return 0;
+        }
+
+        // Disable gotoslide if loopbefloopBeforeFirstorefirst is inactive.
+        if (!settings.loopBeforeFirst && origNb == 'prev' && nb == (settings.nbSlides - 1)) {
+            return 0;
+        }
+
+        // Disable gotoslide if loopAfterLast is inactive.
+        if (!settings.loopAfterLast && origNb == 'next' && nb === 0) {
             return 0;
         }
 
@@ -232,6 +278,9 @@ var vanillaSlider = function(settings) {
 
 /* Get Settings */
 vanillaSlider.prototype.getSettings = function(settings) {
+    if (typeof settings != 'object') {
+        settings = {};
+    }
     this.settings = {};
     // Set default values
     for (var attr in this.defaultSettings) {
