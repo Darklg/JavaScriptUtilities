@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Template
- * Version: 0.1
+ * Version: 0.1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -25,6 +25,9 @@ var replaceThisStringWithAnID = function(settings) {
 
 /* Get Settings */
 replaceThisStringWithAnID.prototype.getSettings = function(settings) {
+    if (typeof settings != 'object') {
+        settings = {};
+    }
     this.settings = {};
     // Set default values
     for (var attr in this.defaultSettings) {
