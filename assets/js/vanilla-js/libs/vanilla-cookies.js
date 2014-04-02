@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Cookies
- * Version: 1.0
+ * Version: 1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -18,11 +18,17 @@ var setCookie = function(name, value, expiration) {
     if (expiration) {
         var date = new Date();
         date.setTime(date.getTime() + (expiration * 24 * 60 * 60 * 1000));
-        cookie_value = cookie_value + "expires=" + date.toGMTString() + ';';
+        cookie_value += "expires=" + date.toGMTString() + ';';
     }
 
     document.cookie = cookie_value + 'path=/';
 
+};
+
+var setCookies = function(cookies, expiration) {
+    for (var id in cookies) {
+        setCookie(id, cookies[id], expiration);
+    }
 };
 
 /* ----------------------------------------------------------
@@ -44,10 +50,30 @@ var getCookie = function(name) {
     return null;
 };
 
+var getCookies = function(names) {
+    var cookies = {}, cookie;
+    for (var id in names) {
+        if (names.hasOwnProperty(id)) {
+            cookies[names[id]] = getCookie(names[id]);
+        }
+    }
+    return cookies;
+};
+
 /* ----------------------------------------------------------
   Delete Cookie
 ---------------------------------------------------------- */
 
 var deleteCookie = function(name) {
     setCookie(name, '', -1);
+};
+
+var deleteCookies = function(names) {
+    var cookies = {}, cookie;
+    for (var id in names) {
+        if (names.hasOwnProperty(id)) {
+            deleteCookie(names[id]);
+        }
+    }
+    return true;
 };
