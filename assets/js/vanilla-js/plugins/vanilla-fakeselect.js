@@ -1,9 +1,9 @@
 /*
  * Plugin Name: Fake Select
- * Version: 0.2.1
+ * Version: 0.2.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
- * Required: Vanilla Events, Vanilla Classes, Vanilla Elements
+ * Required: Vanilla Classes
  * Required: fake-select.css
  */
 
@@ -36,7 +36,7 @@ var vanillaFakeSelect = function(settings) {
     self.setElements = function() {
         var els = self.els;
         // Wrap select
-        els.wrapper = wrapElement(els.select);
+        els.wrapper = self.wrapElement(els.select);
         els.wrapper
             .addClass('fakeselect-wrapper')
             .addClass('vanilla-fakeselect');
@@ -55,11 +55,11 @@ var vanillaFakeSelect = function(settings) {
     self.setEvents = function() {
         self.setValue();
         // Change select = set cover value
-        self.els.select.addEvent('change', self.setValue);
-        self.els.select.addEvent('focus', function() {
+        self.addEvent(self.els.select, 'change', self.setValue);
+        self.addEvent(self.els.select, 'focus', function() {
             self.els.wrapper.addClass('has-focus');
         });
-        self.els.select.addEvent('blur', function() {
+        self.addEvent(self.els.select, 'blur', function() {
             self.els.wrapper.removeClass('has-focus');
         });
     };
@@ -96,3 +96,31 @@ if (!Element.prototype.vanillaFakeSelect) {
         });
     };
 }
+
+/* Events v 1.1.1 */
+vanillaFakeSelect.prototype.addEvent = function(el, eventName, callback) {
+    if (el.addEventListener) {
+        el.addEventListener(eventName, callback, false);
+    }
+    else if (el.attachEvent) {
+        el.attachEvent("on" + eventName, function(e) {
+            return callback.call(el, e);
+        });
+    }
+};
+
+/* Elements v 2.1.1 */
+vanillaFakeSelect.prototype.wrapElement = function(element, tagName) {
+    tagName = tagName || 'div';
+    tagName = tagName.toLowerCase();
+    var wrapper = document.createElement(tagName);
+
+    if (element.nextSibling) {
+        element.parentNode.insertBefore(wrapper, element.nextSibling);
+    }
+    else {
+        element.parentNode.appendChild(wrapper);
+    }
+    wrapper.appendChild(element);
+    return wrapper;
+};
