@@ -1,2 +1,3 @@
 destination: _ghpages
 exclude: ["node_modules", "_config.yml", ".gitignore", "Gruntfile.js", "package.json", "README.md"]
+markdown: kramdown
