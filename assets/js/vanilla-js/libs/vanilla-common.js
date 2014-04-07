@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.7.1
+ * Version: 1.7.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -22,11 +22,15 @@ if (typeof(console) === 'undefined') {
   Get values
 ---------------------------------------------------------- */
 
-/* Get Window Inner Height
+/* Get Window dimensions
 -------------------------- */
 
 var getWindowInnerHeight = function() {
     return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+};
+
+var getWindowInnerWidth = function() {
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth || 0;
 };
 
 /* Get BODY Scroll
