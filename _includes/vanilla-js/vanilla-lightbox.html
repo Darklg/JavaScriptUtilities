@@ -7,5 +7,12 @@
         lb.setContent('<p>Hello World :)</p>');
         lb.open();
     });
+    $_('vanilla-lb-testimage').addEvent('click', function(e){
+        window.eventPreventDefault(e);
+        lb.openImage(this.href);
+    });
 });</script>
-<p><a href="#" id="vanilla-lb-test">Try me</a></p>
+<p>
+    <a href="#" id="vanilla-lb-test">Try me / Text</a> —
+    <a href="http://placehold.it/300x400" id="vanilla-lb-testimage">Try me / Image</a>
+</p>
