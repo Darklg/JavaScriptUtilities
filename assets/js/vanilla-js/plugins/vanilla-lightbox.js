@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Lightbox
- * Version: 0.4
+ * Version: 0.5
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla Selectors, Vanilla Classes
@@ -62,6 +62,43 @@ var vanillaLightbox = function(settings) {
     self.open = function() {
         self.els.box.removeClass('lb-is-hidden');
     };
+    self.openLink = function(link) {
+        var url = document.createElement('a');
+        url.href = link;
+        // Get details
+        var urlExtension = url.pathname.split('.').pop().toLowerCase(),
+            urlPathname = url.pathname.replace('/', ''),
+            url_params = self.getUrlParams(url.search);
+
+        // Detect Image
+        if (['jpg', 'png', 'gif', 'bmp'].contains(urlExtension)) {
+            self.openImage(link);
+            return;
+        }
+        // Detect Youtube
+        if ((url.hostname == 'youtube.com' || url.hostname == 'www.youtube.com') && url_params.v) {
+            self.openVideo(url_params.v, 'youtube');
+            return;
+        }
+        // Detect Vimeo
+        if ((url.hostname == 'vimeo.com' || url.hostname == 'www.vimeo.com') && self.isNumber(urlPathname)) {
+            this.openVideo(urlPathname, 'vimeo');
+            return;
+        }
+    };
+    self.openVideo = function(video_id, video_type) {
+        var content = '';
+        switch (video_type) {
+            case 'youtube':
+                content = '<iframe width="580" height="377" src="http://www.youtube.com/embed/' + video_id + '" frameborder="0" allowfullscreen></iframe>';
+                break;
+            case 'vimeo':
+                content = '<iframe src="http://player.vimeo.com/video/' + video_id + '?autoplay=1" width="580" height="326" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+                break;
+        }
+        self.setContent(content);
+        self.open();
+    };
     self.openImage = function(url) {
         var img = new Image();
         img.onload = function() {
@@ -104,6 +141,23 @@ var vanillaLightbox = function(settings) {
         self.els.box.addClass('lb-is-hidden');
         // Reset style
         self.els.content.setAttribute('style', '');
+        // Empty box
+        self.els.content.innerHTML = '';
+    };
+    /* Utilities */
+    self.getUrlParams = function(params) {
+        // src: http://geekswithblogs.net/PhubarBaz/archive/2011/11/21/getting-query-parameters-in-javascript.aspx
+        var result = {};
+        params = params.slice(1).split("&");
+        for (var i = 0; i < params.length; i++) {
+            var tmp = params[i].split("=");
+            result[tmp[0]] = unescape(tmp[1]);
+        }
+        return result;
+    };
+    self.isNumber = function(n) {
+        // src: http://stackoverflow.com/a/1830844 <3
+        return !isNaN(parseFloat(n)) && isFinite(n);
     };
     self.init(settings);
     return self;

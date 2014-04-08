@@ -7,12 +7,18 @@
         lb.setContent('<p>Hello World :)</p>');
         lb.open();
     });
-    $_('vanilla-lb-testimage').addEvent('click', function(e){
-        window.eventPreventDefault(e);
-        lb.openImage(this.href);
+    $$_('.lightbox-me').eachElement(function(el){
+        el.addEvent('click', function(e){
+            window.eventPreventDefault(e);
+            lb.openLink(this.href);
+        });
     });
 });</script>
 <p>
     <a href="#" id="vanilla-lb-test">Try me / Text</a> —
-    <a href="http://placehold.it/300x400" id="vanilla-lb-testimage">Try me / Image</a>
+    <a href="../assets/img/slider1.jpg" class="lightbox-me">Try me / Image</a>
+</p>
+<p>
+    <a href="https://www.youtube.com/watch?feature=player_embedded&v=7IqvO5Ny8Qw" class="lightbox-me">Try me! (Youtube URL / Player)</a> -
+    <a href="https://vimeo.com/7916182" class="lightbox-me">Try me! (Vimeo URL / Player)</a>
 </p>
