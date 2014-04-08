@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Selectors
- * Version: 1.1
+ * Version: 1.1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -23,7 +23,7 @@ var $$_ = function(selector, parent) {
 
     // If selector looks like a CSS Class, uses getElementsByClassName for performance if available
     if (selector.match(classMatch) && "getElementsByClassName" in document) {
-        return parent.getElementsByClassName(selector);
+        return parent.getElementsByClassName(selector.substring(1));
     }
 
     // If selector matches a tag elements, uses getElementsByTagName for performance
