@@ -1,9 +1,9 @@
 /*
  * Plugin Name: Lightbox
- * Version: 0.5
+ * Version: 0.6
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
- * Required: Vanilla Events, Vanilla Selectors, Vanilla Classes
+ * Required: Vanilla Events, Vanilla Selectors, Vanilla Classes, Vanilla AJAX, Vanilla Elements
  */
 
 var vanillaLightbox = function(settings) {
@@ -48,12 +48,13 @@ var vanillaLightbox = function(settings) {
         });
     };
     self.setCloseBtn = function() {
-        var btns = self.els.content.getElementsByClassName('btn-close');
-        for (var btn in btns) {
-            if (typeof btns[btn] == 'object' && 'addEvent' in btns[btn]) {
-                btns[btn].addEvent('click', self.close);
+        // Add a close event to each element in lightbox with a "btn-close" CSS class
+        self.els.content.getElementsByClassName('btn-close').eachElement(function(el) {
+            if (!el.hasClass('has-close-action')) {
+                el.addEvent('click', self.close);
+                el.addClass('has-close-action');
             }
-        }
+        });
     };
     self.setContent = function(content) {
         self.els.content.innerHTML = content;
@@ -82,9 +83,31 @@ var vanillaLightbox = function(settings) {
         }
         // Detect Vimeo
         if ((url.hostname == 'vimeo.com' || url.hostname == 'www.vimeo.com') && self.isNumber(urlPathname)) {
-            this.openVideo(urlPathname, 'vimeo');
+            self.openVideo(urlPathname, 'vimeo');
             return;
         }
+        // Detect a local page
+        if (document.location.hostname == url.hostname) {
+            self.openAJAX(link);
+            return;
+        }
+        // Default : open link in an iframe
+        self.openIframe(link);
+    };
+    self.openAJAX = function(link) {
+        new jsuAJAX({
+            url: link,
+            callback: function(content) {
+                self.setContent(content);
+                self.open();
+            },
+            data: 'ajax=1'
+        });
+    };
+    self.openIframe = function(link) {
+        var content = '<iframe width="580" height="377" src="' + link + '" frameborder="0"></iframe>';
+        self.setContent(content);
+        self.open();
     };
     self.openVideo = function(video_id, video_type) {
         var content = '';
