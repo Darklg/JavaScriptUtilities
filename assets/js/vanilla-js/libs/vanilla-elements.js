@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Elements
- * Version: 2.1.1
+ * Version: 2.1.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -130,7 +130,7 @@ var wrapElement = function(element, tagName) {
 
 Element.eachElement = function(elements, callback) {
     for (var i in elements) {
-        if (typeof elements[i] == "object" && 'tagName' in elements[i]) {
+        if (!isNaN(i) && typeof elements[i] == "object" && 'tagName' in elements[i]) {
             callback(elements[i], i);
         }
     }
