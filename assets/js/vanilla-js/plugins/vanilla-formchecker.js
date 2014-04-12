@@ -1,9 +1,9 @@
 /*
  * Plugin Name: Vanilla Form Checker
- * Version: 0.1
+ * Version: 0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Form Checker may be freely distributed under the MIT license.
- * Required: Vanilla Elements, Vanilla Selectors, Vanilla Events
+ * Required: Vanilla Elements, Vanilla Selectors, Vanilla Events, Vanilla Classes
  * Usage status: Work in progress
  */
 
@@ -18,7 +18,7 @@ var vanillaFormChecker = function(settings) {
                 self.settings.errorsTarget.innerHTML = errors;
             }
             else {
-                console.error('Errors', errors);
+                console.error("Error(s):\n" + errors);
             }
         }
     };
@@ -55,22 +55,37 @@ var vanillaFormChecker = function(settings) {
             settings.displayErrors(errors);
         }
         else {
-            console.error('Errors', errors);
+            console.error("Error(s):\n" + errors);
         }
     };
     self.checkField = function(el) {
         var errors = [],
+
             value = el.value.trim(),
-            name;
+            hasType = ('type' in el),
+            emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/,
+            // http://stackoverflow.com/a/17773849
+            urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/,
+            name, theElem;
+        // Set correct name
         if (el.getAttribute('placeholder')) {
             name = el.getAttribute('placeholder').trim();
         }
         if (!name) {
             name = el.getAttribute('name').trim();
         }
+        theElem = 'The element ' + name + ' ';
         // Check for non empty
-        if (el.hasClass('not-empty') && value === '') {
-            errors.push('The element "' + name + '" should not be empty');
+        if ((('required' in el && el.required) || el.hasClass('not-empty')) && (value === '' || value === null)) {
+            errors.push(theElem + 'should not be empty');
+        }
+        // Check for mail
+        if (((hasType && el.type.toLowerCase() == 'email') || el.hasClass('format-email')) && !value.match(emailRegex)) {
+            errors.push(theElem + 'should be an email!');
+        }
+        // Check for url
+        if (((hasType && el.type.toLowerCase() == 'url') || el.hasClass('format-url')) && !value.match(urlRegex)) {
+            errors.push(theElem + 'should be an url!');
         }
         return errors.join('\n');
     };
@@ -81,6 +96,9 @@ var vanillaFormChecker = function(settings) {
             Element.eachElement(self.fields, function(el) {
                 var error = self.checkField(el);
                 if (error !== '') {
+                    if (errors !== '') {
+                        errors += "\n";
+                    }
                     errors += error;
                     el.focus();
                 }
