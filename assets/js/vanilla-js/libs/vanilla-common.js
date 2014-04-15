@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.7.2
+ * Version: 1.8
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -223,4 +223,40 @@ var morphCSS = function(element, settings) {
         }
     }
     return element;
+};
+
+/* ----------------------------------------------------------
+  Morph HTML Number
+---------------------------------------------------------- */
+
+var morphHTMLNumber = function(options) {
+    var finalValue, intervalValue, interval;
+    if (!options.el) {
+        return false;
+    }
+
+    // Default options
+    options.time = options.time || 3000;
+    options.intervalDelay = options.intervalDelay || 25;
+
+    // Get values
+    finalValue = options.finalValue || parseInt(options.el.innerHTML, 10);
+    intervalValue = finalValue / (options.time / options.intervalDelay);
+    startValue = 0;
+
+    // Set content to 0
+    options.el.innerHTML = 0;
+
+    // Launch Counter incrementation
+    interval = setInterval(function() {
+        startValue += intervalValue;
+        options.el.innerHTML = Math.ceil(startValue);
+    }, options.intervalDelay);
+
+    setTimeout(function() {
+        // Stop counter
+        clearInterval(interval);
+    // Set content to final value
+        options.el.innerHTML = finalValue;
+    }, options.time);
 };
