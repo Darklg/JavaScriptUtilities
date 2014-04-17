@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 0.4
+ * Version: 1.0
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla Elements, Vanilla Classes
@@ -28,6 +28,7 @@ var vanillaSlider = function(settings) {
         displayPagination: true,
         displayNavigation: true,
         keyboardActions: true,
+        loadElement: false,
         loopBeforeFirst: true,
         loopAfterLast: true,
         nbSlides: 0,
@@ -278,8 +279,20 @@ var vanillaSlider = function(settings) {
 
 /* Get Settings */
 vanillaSlider.prototype.getSettings = function(settings) {
+    var dataSettings, nSettings;
     if (typeof settings != 'object') {
         settings = {};
+    }
+    if ('loadElement' in settings && settings.loadElement.getAttribute('data-settings')) {
+        dataSettings = settings.loadElement.getAttribute('data-settings');
+        try {
+            nSettings = JSON.parse(dataSettings);
+            nSettings.slider = settings.loadElement;
+            settings = nSettings;
+        }
+        catch (e) {
+            console.error("Parsing error:", e);
+        }
     }
     this.settings = {};
     // Set default values
@@ -291,3 +304,19 @@ vanillaSlider.prototype.getSettings = function(settings) {
         this.settings[attr2] = settings[attr2];
     }
 };
+
+/* ----------------------------------------------------------
+  Autoload sliders : Optional
+---------------------------------------------------------- */
+
+/*
+if ('domReady' in window && 'querySelectorAll' in document) {
+    window.domReady(function() {
+        document.querySelectorAll('.launch-vanillaslider[data-settings]').eachElement(function(el) {
+            new vanillaSlider({
+                loadElement: el
+            });
+        });
+    });
+}
+*/
