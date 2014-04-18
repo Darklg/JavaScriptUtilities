@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.0
+ * Version: 1.0.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla Elements, Vanilla Classes
@@ -279,21 +279,19 @@ var vanillaSlider = function(settings) {
 
 /* Get Settings */
 vanillaSlider.prototype.getSettings = function(settings) {
-    var dataSettings, nSettings;
+    var nSettings;
     if (typeof settings != 'object') {
         settings = {};
     }
-    if ('loadElement' in settings && settings.loadElement.getAttribute('data-settings')) {
-        dataSettings = settings.loadElement.getAttribute('data-settings');
-        try {
-            nSettings = JSON.parse(dataSettings);
-            nSettings.slider = settings.loadElement;
-            settings = nSettings;
+    (function() {
+        if ('loadElement' in settings && settings.loadElement.getAttribute('data-settings')) {
+            nSettings = JSON.parse(settings.loadElement.getAttribute('data-settings'));
+            if (typeof nSettings == 'object') {
+                nSettings.slider = settings.loadElement;
+                settings = nSettings;
+            }
         }
-        catch (e) {
-            console.error("Parsing error:", e);
-        }
-    }
+    }());
     this.settings = {};
     // Set default values
     for (var attr in this.defaultSettings) {
