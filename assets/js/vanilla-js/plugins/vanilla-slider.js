@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.0.1
+ * Version: 1.0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla Elements, Vanilla Classes
@@ -62,7 +62,9 @@ var vanillaSlider = function(settings) {
     self.autoSlideTimeout = false;
     self.init = function(settings) {
         self.getSettings(settings);
-        if (!self.settings.slider) {
+        if (!self.checkLaunch()) {
+            // Destroy current element
+            self = {};
             return;
         }
         self.setElements();
@@ -71,6 +73,18 @@ var vanillaSlider = function(settings) {
         (function() {
             self.settings.callbackSliderReady();
         }());
+    };
+
+    self.checkLaunch = function() {
+        if (!self.settings.slider) {
+            console.error('The slider element is not provided');
+            return false;
+        }
+        if (self.settings.slider.hasClass('dk-jsu-slider')) {
+            console.error('The slider is already initialized');
+            return false;
+        }
+        return true;
     };
 
     self.setElements = function() {
