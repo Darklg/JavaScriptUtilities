@@ -100,14 +100,14 @@
 
 /* Slide animation */
 
-.dk-jsu-slide {
+.vanilla-slider .dk-jsu-slide {
     visibility: hidden;
     opacity: 0;
     -webkit-transition: opacity 0.3s ease;
     transition: opacity 0.3s ease;
 }
 
-.dk-jsu-slider .active-slide {
+.vanilla-slider .dk-jsu-slider .active-slide {
     visibility: visible;
     opacity: 1;
 }
