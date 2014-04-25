@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.9
+ * Version: 1.10
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -283,4 +283,22 @@ var retrieveData = function(el, name) {
 
 var removeData = function(el, name) {
     return storeData(el, name, '');
+};
+
+/* ----------------------------------------------------------
+  Merge objects
+---------------------------------------------------------- */
+
+var mergeObjects = function() {
+    var objectReturn = {}, o;
+    for (var n in arguments) {
+        if (arguments.hasOwnProperty(n) && typeof arguments[n] == 'object') {
+            for (o in arguments[n]) {
+                if (arguments[n].hasOwnProperty(o)) {
+                    objectReturn[o] = arguments[n][o];
+                }
+            }
+        }
+    }
+    return objectReturn;
 };
