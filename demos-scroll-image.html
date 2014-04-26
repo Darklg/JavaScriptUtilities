@@ -1,0 +1,54 @@
+---
+layout: default
+---
+<script>
+window.domReady(function(){
+    // Appear
+    $_('imggg').style.opacity = 1;
+    imageDisappear($_('imggg'), function(pc){
+        $_('imggg').style.opacity = 1 - (pc / 100);
+    });
+    $_('imggg2').style.opacity = 0;
+    imageAppear($_('imggg2'), function(pc){
+        $_('imggg2').style.opacity = (pc / 100);
+    });
+});
+</script>
+<div>
+    <img id="imggg" src="../assets/img/kitten.jpg"  alt="" />
+</div>
+<div>
+    <h2>Liste de citations</h2>
+
+    <h3>Various quotes</h3>
+    <p>For me, I am driven by two main philosophies, know more today about the world than I knew yesterday. And along the way, lessen the suffering of others. You'd be surprised how far that gets you. <a href="/">Neil deGrasse Tyson</a>. History does not repeat itself, but it does rhyme. <em>Mark Twain</em>.</p>
+    <p>Any man who can drive safely while kissing a pretty girl is simply not giving the kiss the attention it deserves. <em>A. Einstein.</em> <img src="http://placekitten.com/16/16" alt="" /> When I am abroad, I always make it a rule never to criticize or attack the government of my own country. I make up for lost time when I come home. <strong>Winston Churchill.</strong></p>
+
+    <h4>Other cool quotes</h4>
+    <p>A hundredth of a second here, a hundredth of a second there - even if you put them end to end, they still only add up to one, two, perhaps three seconds, snatched from eternity. <a href="#">Robert Doisneau.</a> All I know is what the words know, and dead things, and that makes a handsome little sum, with a beginning and a middle and an end, as in the well-built phrase and the long sonata of the dead. <strong>Samuel Beckett.</strong></p>
+    <p>And this, our life, exempt from public haunt, finds tongues in trees, books in the running brooks, sermons in stones, and good in everything. <a href="#"><strong>William Shakespeare.</strong></a></p>
+
+    <h3>Abraham Lincoln</h3>
+    <ul>
+        <li>A friend is one who has the same enemies as you have. </li>
+        <li>Am I not destroying my enemies when I make friends of them? </li>
+        <li>Any people anywhere, being inclined and having the power, have the right to rise up, and shake off the existing government, and form a new one that suits them better. <img src="http://placekitten.com/16/16" alt="" /> This is a most valuable - a most sacred right - a right, which we hope and believe, is to liberate the world. </li>
+        <li>Be sure you put your feet in the right place, then stand firm. </li>
+    </ul>
+
+    <h3>Martin Luther King, Jr</h3>
+    <ul>
+        <li>A man can't ride your back unless it's bent.</li>
+        <li>Take the first step in faith.
+            <ul>
+                <li>You don't have to see the whole staircase :</li>
+                <li>just take the first step.</li>
+            </ul>
+        </li>
+        <li>A genuine leader is not a searcher for consensus but a molder of consensus.</li>
+    </ul>
+</div>
+
+<div>
+    <img id="imggg2" src="../assets/img/kitten.jpg"  alt="" />
+</div>
