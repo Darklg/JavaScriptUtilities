@@ -74,6 +74,11 @@ a {
     transition: color 0.3s ease;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 a:hover,
 a:focus {
     color: #9cf;

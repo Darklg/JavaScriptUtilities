@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.10
+ * Version: 1.11
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -52,13 +52,17 @@ var getElementOffset = function(el) {
         top = clientRect.top + getBodyScrollTop(),
         left = clientRect.left + getBodyScrollLeft(),
         right = clientRect.width + left,
-        bottom = clientRect.height + top;
+        bottom = clientRect.height + top,
+        width = right - left,
+        height = bottom - top;
 
     return {
         top: top,
         right: right,
         bottom: bottom,
-        left: left
+        left: left,
+        width: width,
+        height: height
     };
 };
 
@@ -301,4 +305,48 @@ var mergeObjects = function() {
         }
     }
     return objectReturn;
+};
+
+/* ----------------------------------------------------------
+  Image scroll events
+---------------------------------------------------------- */
+
+var imageScrollEvent = function(el, callBack, limitCalculus) {
+    var elDim = 0,
+        percentScroll = 0,
+        scrollEvent = function() {
+            var limitVal = limitCalculus();
+            if (limitVal < elDim.top) {
+                percentScroll = 0;
+            }
+            else if (limitVal > elDim.bottom) {
+                percentScroll = 100;
+            }
+            else {
+                percentScroll = parseInt(((limitVal - elDim.top) / elDim.height) * 100, 10);
+            }
+            callBack(percentScroll);
+        };
+    // Call on load
+    callOnImgLoad(el.src, function() {
+        elDim = getElementOffset(el);
+        window.addEvent(document, 'scroll', function() {
+            scrollEvent();
+        });
+        scrollEvent();
+    });
+};
+
+// Image disappears on the top of the viewport
+var imageDisappear = function(el, callBack) {
+    imageScrollEvent(el, callBack, function() {
+        return getBodyScrollTop();
+    });
+};
+
+// Image appears from the bottom of viewport
+var imageAppear = function(el, callBack) {
+    imageScrollEvent(el, callBack, function() {
+        return getBodyScrollTop() + getWindowInnerHeight();
+    });
 };
