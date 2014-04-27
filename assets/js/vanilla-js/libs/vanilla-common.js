@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.11
+ * Version: 1.11.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -311,7 +311,8 @@ var mergeObjects = function() {
   Image scroll events
 ---------------------------------------------------------- */
 
-var imageScrollEvent = function(el, callBack, limitCalculus) {
+var imageScrollEvent = function(el, callBack, limitCalculus, imgSrc) {
+    imgSrc = imgSrc || el.src;
     var elDim = 0,
         percentScroll = 0,
         scrollEvent = function() {
@@ -328,7 +329,7 @@ var imageScrollEvent = function(el, callBack, limitCalculus) {
             callBack(percentScroll);
         };
     // Call on load
-    callOnImgLoad(el.src, function() {
+    callOnImgLoad(imgSrc, function() {
         elDim = getElementOffset(el);
         window.addEvent(document, 'scroll', function() {
             scrollEvent();
@@ -338,15 +339,15 @@ var imageScrollEvent = function(el, callBack, limitCalculus) {
 };
 
 // Image disappears on the top of the viewport
-var imageDisappear = function(el, callBack) {
+var imageDisappear = function(el, callBack, imgSrc) {
     imageScrollEvent(el, callBack, function() {
         return getBodyScrollTop();
-    });
+    }, imgSrc);
 };
 
 // Image appears from the bottom of viewport
-var imageAppear = function(el, callBack) {
+var imageAppear = function(el, callBack, imgSrc) {
     imageScrollEvent(el, callBack, function() {
         return getBodyScrollTop() + getWindowInnerHeight();
-    });
+    }, imgSrc);
 };
