@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Classes
- * Version: 1.2
+ * Version: 1.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -97,18 +97,19 @@ if (!Element.prototype.removeClass) {
   Toggle a class
 ---------------------------------------------------------- */
 
-Element.toggleClass = function(element, className) {
-    if (!Element.hasClass(element, className)) {
+Element.toggleClass = function(element, className, force) {
+    var elHasClass = Element.hasClass(element, className);
+    if (!elHasClass || force == 'add') {
         Element.addClass(element, className);
     }
-    else {
+    if (elHasClass || force == 'remove') {
         Element.removeClass(element, className);
     }
 };
 
 if (!Element.prototype.toggleClass) {
-    Element.prototype.toggleClass = function(className) {
-        Element.toggleClass(this, className);
+    Element.prototype.toggleClass = function(className, force) {
+        Element.toggleClass(this, className, force);
         return this;
     };
 }
