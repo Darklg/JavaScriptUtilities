@@ -1,9 +1,9 @@
 /*
  * Plugin Name: Fake Input Box
- * Version: 0.1
+ * Version: 0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Input Box may be freely distributed under the MIT license.
- * Required: Vanilla Classes
+ * Required: Vanilla Classes, Vanilla Events, Vanilla Elements
  * Required: fake-inputbox.css
  */
 
@@ -23,6 +23,7 @@ var vanillaFakeInputBox = function(settings) {
             return false;
         }
         if (self.settings.el.hasClass('has-fakeinputbox')) {
+            window.triggerEvent(self.settings.el, 'refresh');
             return false;
         }
         self.els.el = self.settings.el;
@@ -45,8 +46,19 @@ var vanillaFakeInputBox = function(settings) {
         }
     };
     self.setEvents = function() {
-        window.addEvent(self.els.el, 'change', self.setCSSClass);
-        window.addEvent(self.els.el, 'click', self.setCSSClass);
+        self.setCSSClass();
+        window.addEvent(self.els.el, 'refresh', self.setCSSClass);
+        window.addEvent(self.els.el, 'change', self.setCSSRefresh);
+        window.addEvent(self.els.el, 'click', self.setCSSRefresh);
+    };
+    self.setCSSRefresh = function() {
+        self.setCSSClass();
+        if (self.elType == 'radio') {
+            var radios = document.querySelectorAll('input[type=radio]');
+            radios.eachElement(function(el){
+                window.triggerEvent(el, 'refresh');
+            });
+        }
     };
     self.setCSSClass = function() {
         if (self.els.el.checked) {
