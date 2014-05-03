@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Touch
- * Version: 0.2
+ * Version: 0.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -43,14 +43,15 @@ var setTapEvent = function(el) {
 ---------------------------------------------------------- */
 
 /*
- * TODO : Time frame ( 300ms ?)
- * TODO : Minimum delta ( 100px ?)
  * TODO : Trigger touchend when direction changes
  */
 
-var setSwipeEvent = function(el) {
-    var deltaHe = 0,
+var setSwipeEvent = function(el, options) {
+    var self = this,
+        deltaHe = 0,
         deltaWi = 0,
+        timeStart = 0,
+        timeEnd = 0,
         pos = {
             xStart: 0,
             xEnd: 0,
@@ -58,14 +59,26 @@ var setSwipeEvent = function(el) {
             yEnd: 0
         };
 
-    document.body.addEvent('touchstart', function(e) {
+    if ("hasswipeevent" in el || el.hasswipeevent === 1) {
+        return;
+    }
+    el.hasswipeevent = 1;
+
+    // Default values
+    options = (options && typeof options == 'object') || {};
+    options.maxDelay = (options.maxDelay && typeof options == 'number') || 1000;
+    options.minRange = (options.minRange && typeof options == 'number') || 75;
+
+    el.addEvent('touchstart', function(e) {
         if (e.touches && e.touches[0].pageX) {
+            timeStart = new Date().getTime();
             pos.xStart = e.touches[0].pageX;
             pos.yStart = e.touches[0].pageY;
         }
     });
-    document.body.addEvent('touchend', function(e) {
+    el.addEvent('touchend', function(e) {
         if (e.changedTouches && e.changedTouches[0].pageX) {
+            timeEnd = new Date().getTime();
             pos.xEnd = e.changedTouches[0].pageX;
             pos.yEnd = e.changedTouches[0].pageY;
             calculateEvent();
@@ -74,14 +87,15 @@ var setSwipeEvent = function(el) {
 
     function calculateEvent() {
 
-        var eventTriggered = false;
+        var eventTriggered = false,
+            delay = timeEnd - timeStart;
 
         // Compute deltas
         deltaWi = Math.abs(pos.xStart - pos.xEnd);
         deltaHe = Math.abs(pos.yStart - pos.yEnd);
 
         // Horizontal event
-        if (deltaHe < deltaWi) {
+        if (deltaWi > deltaHe && deltaWi > options.minRange && delay < options.maxDelay) {
             // To Right
             if (pos.xStart < pos.xEnd) {
                 eventTriggered = 'swipetoright';
@@ -91,8 +105,9 @@ var setSwipeEvent = function(el) {
                 eventTriggered = 'swipetoleft';
             }
         }
+
         // Vertical event
-        else {
+        if (deltaHe > deltaWi && deltaHe > options.minRange && delay < options.maxDelay) {
             // To Bottom
             if (pos.yStart < pos.yEnd) {
                 eventTriggered = 'swipetobottom';
@@ -109,6 +124,8 @@ var setSwipeEvent = function(el) {
         }
 
         // Reset values
+        timeStart = 0;
+        timeEnd = 0;
         deltaHe = 0;
         deltaWi = 0;
         pos = {
