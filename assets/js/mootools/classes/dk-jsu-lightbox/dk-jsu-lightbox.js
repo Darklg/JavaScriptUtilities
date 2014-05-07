@@ -1,27 +1,23 @@
 /*
  * Plugin Name: Lightbox
- * Version: 1.0.2
+ * Version: 1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
  */
-
 /* ----------------------------------------------------------
    Lightbox
 ---------------------------------------------------------- */
-
 /*
 TODO : class & zindex perso
 TODO : small screens
 TODO : deduplicate ( if has class dkjsu, return false )
 TODO : Stop lightbox launch if already opening
 */
-
 /*
 new dkJSULightbox({
     'triggers' : $$('.lightbox-me')
 });
 */
-
 var dkJSULightbox = new Class({
     initialize: function(opt) {
         this.opt = opt;
@@ -44,7 +40,6 @@ var dkJSULightbox = new Class({
     setEvents: function() {
         var self = this,
             opt = this.opt;
-
         // Click on trigger : Open Lightbox
         opt.triggers.addEvent('click', function(e) {
             e.preventDefault();
@@ -61,8 +56,20 @@ var dkJSULightbox = new Class({
             self.closeLightbox();
         });
         $(window).addEvent('keydown', function(e) {
-            if (e.key && e.key == 'esc') {
-                self.closeLightbox();
+            if (!e.key) {
+                return;
+            }
+            switch (e.key) {
+                case 'esc':
+                    self.closeLightbox();
+                    break;
+                case 'right':
+                    self.goToImage('next');
+                    break;
+                case 'left':
+                    self.goToImage('prev');
+                    break;
+                default:
             }
         });
     },
@@ -72,13 +79,11 @@ var dkJSULightbox = new Class({
         var urlExtension = url.pathname.split('.').pop().toLowerCase();
         var urlPathname = url.pathname.replace('/', '');
         var url_params = this.getUrlParams(url.search);
-
         // Detect image
         if (urlExtension == 'jpg') {
-            this.openImage(link.href);
+            this.openImage(link.href, link);
             return;
         }
-
         // Detect Youtube
         if ((url.hostname == 'youtube.com' || url.hostname == 'www.youtube.com') && url_params.v) {
             this.openVideo(url_params.v, 'youtube');
@@ -89,13 +94,11 @@ var dkJSULightbox = new Class({
             this.openVideo(urlPathname, 'vimeo');
             return;
         }
-
         // Detect external URL
         if (url.hostname != window.location.hostname) {
             this.openExternalURL(link.href);
             return;
         }
-
         this.openRelativeURL(link.href);
     },
     openExternalURL: function(url) {
@@ -121,45 +124,66 @@ var dkJSULightbox = new Class({
         this.loadContentInLightbox('<p>' + msg + '</p>', 'message');
         this.openLightbox();
     },
-    openImage: function(url) {
+    openImage: function(url, link) {
         var self = this;
+        // Get images selector
+        self.imagesGallery = '';
+        self.currentImage = '';
+
+        // Check for lightbox name
+        if ($(link).get('data-lightboxname') && !self.imagesGallery) {
+            var lbname = '[data-lightboxname="' + $(link).get('data-lightboxname') + '"]';
+            self.imagesGallery = $$(lbname);
+            self.imagesGallery.each(function(el, i) {
+                if (el.href == url) {
+                    self.currentImage = i;
+                }
+            });
+        }
+
+        // Load image
         var imageURL = new Image();
         imageURL.src = url;
-        var myImages = new Asset.image(url, {
+        new Asset.image(url, {
             onLoad: function() {
                 // Getting image size
                 var imageWidth = imageURL.width,
                     imageHeight = imageURL.height,
                     imageRatio = imageWidth / imageHeight;
-
-                // Getting window size
-                var windowWidth = window.getWidth() - 10,
-                    windowHeight = window.getHeight() - 10,
-                    windowRatio = windowWidth / windowHeight;
-
-                // Setting new image size
-                if (windowRatio > imageRatio) {
-                    if (imageHeight > windowHeight) {
-                        imageHeight = windowHeight;
-                        imageWidth = imageRatio * imageHeight;
-                    }
-                }
-                else {
-                    if (imageWidth > windowWidth) {
-                        imageWidth = windowWidth;
-                        imageHeight = imageWidth / imageRatio;
-                    }
-                }
                 // Loading image with CSS style
-                self.loadContentInLightbox('<img style="display:block;" width="' + imageWidth + '" height="' + imageHeight + '" src="' + url + '" alt="" />', 'image', {
+                self.loadContentInLightbox('<div class="icn-imgclose btn-close-lightbox">&times;</div><img width="' + imageWidth + '" height="' + imageHeight + '" src="' + url + '" alt="" />', 'image', {
+                    'text-align': 'center',
                     'width': imageWidth,
-                    'height': imageHeight,
-                    'margin-left': 0 - (imageWidth / 2),
-                    'margin-top': 0 - (imageHeight / 2)
+                    'height': imageHeight
                 });
                 self.openLightbox();
             }
         });
+    },
+    goToImage: function(nb) {
+        var self = this;
+        if (!self.imagesGallery) {
+            return false;
+        }
+        var nbImages = self.imagesGallery.length;
+
+        if (nb == 'next') {
+            nb = self.currentImage + 1;
+        }
+
+        if (nb == 'prev') {
+            nb = self.currentImage - 1;
+        }
+
+        if (nb < 0) {
+            nb = nbImages - 1;
+        }
+
+        if (nb >= nbImages) {
+            nb = 0;
+        }
+
+        self.openLink(self.imagesGallery[nb]);
 
     },
     openVideo: function(video_id, video_type) {
@@ -181,7 +205,6 @@ var dkJSULightbox = new Class({
         this.lightboxcontent.set('style', '');
         // Load additional style
         this.lightboxcontent.setStyles(style);
-
         this.lightbox.set('data-lb', type);
         this.lightboxcontent.set('html', content);
     },
@@ -196,6 +219,7 @@ var dkJSULightbox = new Class({
             this.loadContentInLightbox('', lbType);
         }
         this.lightbox.addClass('lb-is-hidden');
+        this.imagesGallery = '';
     },
     getUrlParams: function(params) {
         // src: http://geekswithblogs.net/PhubarBaz/archive/2011/11/21/getting-query-parameters-in-javascript.aspx
