@@ -45,24 +45,24 @@
 /* Lightbox AJAX */
 
 .lightbox-content {
-    top: 50%;
-    left: 50%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     width: 580px;
     height: 380px;
-    margin-top: -200px;
-    margin-left: -300px;
+    margin: auto;
     padding: 10px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    max-height: 90%;
+    max-width: 90%;
     overflow: auto;
-    background-color: #fff;
+    color: #333;
+    background: #FFF;
     -webkit-background-clip: border-box;
     -moz-background-clip: border-box;
     background-clip: border-box;
-    -webkit-box-shadow: 0 0 3px rgba(0,0,0,.5);
-    -moz-box-shadow: 0 0 3px rgba(0,0,0,.5);
-    box-shadow: 0 0 3px rgba(0,0,0,.5);
 }
 
 .fluid-lightbox .lightbox-content {
@@ -100,16 +100,57 @@
 /* Lightbox image */
 
 .lightbox[data-lb="image"] .lightbox-content {
+    top: 0!important;
+    right: 0!important;
+    bottom: 0!important;
+    left: 0!important;
+    margin: auto!important;
     padding: 0;
+    height: auto;
+    width: auto;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
+    overflow: hidden;
+    background: transparent;
     -webkit-background-clip: border-box;
     -moz-background-clip: border-box;
     background-clip: border-box;
 }
 
+.lightbox[data-lb="image"] .icn-imgclose {display: none;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    text-align: center;
+    font-size: 30px;
+    line-height: 20px;
+    vertical-align: middle;
+    color: #333;
+    opacity: 0.30;
+    background-color: #fff;
+    -webkit-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+    filter: alpha(opacity=30);
+}
+
+.lightbox[data-lb="image"] .lightbox-content:hover .icn-imgclose {
+    opacity: 0.75;
+    filter: alpha(opacity=75);
+}
+
+.lightbox[data-lb="image"] .lightbox-content:hover .icn-imgclose:hover {
+    opacity: 0.99;
+    filter: alpha(opacity=99);
+}
+
 .lightbox[data-lb="image"] img {
+    width: auto;
+    height: auto;
+    max-height: 100%;
     max-width: 100%;
 }
 
