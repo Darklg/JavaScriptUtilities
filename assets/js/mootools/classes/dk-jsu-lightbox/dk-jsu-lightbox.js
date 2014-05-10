@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Lightbox
- * Version: 1.1
+ * Version: 1.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
  */
@@ -9,8 +9,6 @@
 ---------------------------------------------------------- */
 /*
 TODO : class & zindex perso
-TODO : small screens
-TODO : deduplicate ( if has class dkjsu, return false )
 TODO : Stop lightbox launch if already opening
 */
 /*
@@ -19,16 +17,30 @@ new dkJSULightbox({
 });
 */
 var dkJSULightbox = new Class({
-    initialize: function(opt) {
-        this.opt = opt;
-        if (!opt.triggers) {
+    defaultSettings: {
+        triggers: false,
+        callback: function() {}
+    },
+    initialize: function(settings) {
+        if (window.hasDkJSULightbox) {
+            return false;
+        }
+        window.hasDkJSULightbox = true;
+        this.getSettings(settings);
+        if (!settings.triggers) {
             return;
         }
         this.createLightBox();
         this.setEvents();
     },
+    // Obtaining user settings
+    getSettings: function(settings) {
+        if (typeof settings != 'object') {
+            settings = {};
+        }
+        this.settings = Object.merge({}, this.defaultSettings, settings);
+    },
     createLightBox: function() {
-        var opt = this.opt;
         this.lightbox = new Element('.lightbox');
         this.lightboxfilter = new Element('.lightbox-filter');
         this.lightbox.adopt(this.lightboxfilter);
@@ -39,9 +51,9 @@ var dkJSULightbox = new Class({
     },
     setEvents: function() {
         var self = this,
-            opt = this.opt;
+            settings = this.settings;
         // Click on trigger : Open Lightbox
-        opt.triggers.addEvent('click', function(e) {
+        settings.triggers.addEvent('click', function(e) {
             e.preventDefault();
             self.openLink($(this));
         });
@@ -210,6 +222,9 @@ var dkJSULightbox = new Class({
     },
     openLightbox: function() {
         this.lightbox.removeClass('lb-is-hidden');
+        if (typeof this.settings.callback == 'function') {
+            this.settings.callback();
+        }
     },
     closeLightbox: function() {
         var lightbox = this.lightbox,
