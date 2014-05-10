@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+/* ----------------------------------------------------------
+  Scroller
+---------------------------------------------------------- */
+
+.elscroller {
+    z-index: 1;
+    position: relative;
+}
+
+.elscroller__navigation_el {
+    visibility: visible;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+}
+
+.elscroller__navigation .prev {
+    left: 0;
+}
+
+.elscroller__navigation .next {
+    right: 0;
+}
+
+/* Theme
+-------------------------- */
+
+.elscroller__navigation_el {
+    top: 50%;
+    height: 12px;
+    margin-top: -6px;
+    line-height: 12px;
+    opacity: 0.999;
+    -webkit-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+    filter: alpha(opacity=99);
+}
+
+.elscroller.is-first .elscroller__navigation .prev,
+.elscroller.is-last .elscroller__navigation .next {
+    visibility: hidden;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
