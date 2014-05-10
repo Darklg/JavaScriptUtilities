@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Element Scroller
- * Version: 0.1
+ * Version: 0.1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Element Scroller may be freely distributed under the MIT license.
  */
@@ -31,15 +31,21 @@ var elementScroller = function(el) {
         // Get max left
         maxLeft = elMaxPage * elPageWidth;
 
+    if (el.hasClass('dk-jsu-elscroller')) {
+        return false;
+    }
+
     if (nbEls <= elPerPage) {
         return false;
     }
+
+    el.addClass('dk-jsu-elscroller');
 
     // Set datas
     this.currentPage = 0;
     this.curLeft = 0;
 
-    // Functions
+    // Go to page
     this.goToPage = function(nb) {
         var newLeft = 0;
         if (nb == 'next') {
