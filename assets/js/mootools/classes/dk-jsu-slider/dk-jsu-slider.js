@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.4
+ * Version: 1.4.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -27,6 +27,7 @@ var dkJSUSlider = new Class({
         keyboardActions: true,
         loopBeforeFirst: true,
         loopAfterLast: true,
+        touchEvents: false,
         transition: function(oldSlide, newSlide, oldNb, nb, self) {
             newSlide.setStyles({
                 'opacity': 0,
@@ -203,6 +204,17 @@ var dkJSUSlider = new Class({
                 self.gotoSlide('next');
             }
         });
+
+        if(settings.touchEvents){
+            self.slider.addEvents({
+                swipetoright: function() {
+                    self.gotoSlide('prev');
+                },
+                swipetoleft: function() {
+                    self.gotoSlide('next');
+                }
+            });
+        }
 
         if (settings.keyboardActions) {
             $(window).addEvents({
