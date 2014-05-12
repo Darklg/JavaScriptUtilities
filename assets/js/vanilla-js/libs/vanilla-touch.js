@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Touch
- * Version: 0.2.1
+ * Version: 0.2.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -12,10 +12,10 @@
 var setTapEvent = function(el) {
     var duration = 300,
         timerStart, timerEnd;
-    el.addEvent('touchstart', function(e) {
+    el.addEventListener('touchstart', function(e) {
         timerStart = new Date().getTime();
     });
-    el.addEvent('touchend', function(e) {
+    el.addEventListener('touchend', function(e) {
         timerEnd = new Date().getTime();
         if (timerEnd - timerStart < duration) {
             triggerTap();
@@ -69,14 +69,14 @@ var setSwipeEvent = function(el, options) {
     options.maxDelay = (options.maxDelay && typeof options == 'number') || 1000;
     options.minRange = (options.minRange && typeof options == 'number') || 75;
 
-    el.addEvent('touchstart', function(e) {
+    el.addEventListener('touchstart', function(e) {
         if (e.touches && e.touches[0].pageX) {
             timeStart = new Date().getTime();
             pos.xStart = e.touches[0].pageX;
             pos.yStart = e.touches[0].pageY;
         }
     });
-    el.addEvent('touchend', function(e) {
+    el.addEventListener('touchend', function(e) {
         if (e.changedTouches && e.changedTouches[0].pageX) {
             timeEnd = new Date().getTime();
             pos.xEnd = e.changedTouches[0].pageX;
