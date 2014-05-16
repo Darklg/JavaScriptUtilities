@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Lightbox
- * Version: 1.2
+ * Version: 1.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Lightbox may be freely distributed under the MIT license.
  */
@@ -19,6 +19,8 @@ new dkJSULightbox({
 var dkJSULightbox = new Class({
     defaultSettings: {
         triggers: false,
+        removeScrollIframe: false,
+        htmlCloseButton: '<div class="main-close-lightbox btn-close-lightbox">&times;</div>',
         callback: function() {}
     },
     initialize: function(settings) {
@@ -67,6 +69,16 @@ var dkJSULightbox = new Class({
             e.preventDefault();
             self.closeLightbox();
         });
+        // Click on prev next
+        this.lightbox.addEvent('click:relay(.btn-go-lightbox)', function(e) {
+            e.preventDefault();
+            if ($(this).hasClass('prev')) {
+                self.goToImage('prev');
+            }
+            else {
+                self.goToImage('next');
+            }
+        });
         $(window).addEvent('keydown', function(e) {
             if (!e.key) {
                 return;
@@ -92,7 +104,7 @@ var dkJSULightbox = new Class({
         var urlPathname = url.pathname.replace('/', '');
         var url_params = this.getUrlParams(url.search);
         // Detect image
-        if (urlExtension == 'jpg') {
+        if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].indexOf(urlExtension) >= 0) {
             this.openImage(link.href, link);
             return;
         }
@@ -114,7 +126,7 @@ var dkJSULightbox = new Class({
         this.openRelativeURL(link.href);
     },
     openExternalURL: function(url) {
-        this.loadContentInLightbox('<iframe src="' + url + '" />', 'iframe');
+        this.loadContentInLightbox(this.settings.htmlCloseButton + '<iframe ' + (this.settings.removeScrollIframe ? 'scrolling="no"' : '') + ' src="' + url + '" />', 'iframe');
         this.openLightbox();
     },
     openRelativeURL: function(url) {
@@ -127,13 +139,13 @@ var dkJSULightbox = new Class({
                 'ajax': '1'
             },
             onComplete: function(response) {
-                self.loadContentInLightbox(response, 'content');
+                self.loadContentInLightbox(self.settings.htmlCloseButton + response, 'content');
                 self.openLightbox();
             }
         }).send();
     },
     openMessage: function(msg) {
-        this.loadContentInLightbox('<p>' + msg + '</p>', 'message');
+        this.loadContentInLightbox(this.settings.htmlCloseButton + '<p>' + msg + '</p>', 'message');
         this.openLightbox();
     },
     openImage: function(url, link) {
@@ -161,9 +173,15 @@ var dkJSULightbox = new Class({
                 // Getting image size
                 var imageWidth = imageURL.width,
                     imageHeight = imageURL.height,
-                    imageRatio = imageWidth / imageHeight;
+                    imageRatio = imageWidth / imageHeight,
+                    content = self.settings.htmlCloseButton;
+
+                if (self.imagesGallery.length > 1) {
+                    content += '<div class="prev btn-go-lightbox"></div><div class="next btn-go-lightbox"></div>';
+                }
+
                 // Loading image with CSS style
-                self.loadContentInLightbox('<div class="icn-imgclose btn-close-lightbox">&times;</div><img width="' + imageWidth + '" height="' + imageHeight + '" src="' + url + '" alt="" />', 'image', {
+                self.loadContentInLightbox(content + '<img width="' + imageWidth + '" height="' + imageHeight + '" src="' + url + '" alt="" />', 'image', {
                     'text-align': 'center',
                     'width': imageWidth,
                     'height': imageHeight
