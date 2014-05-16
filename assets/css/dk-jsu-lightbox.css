@@ -104,10 +104,10 @@
     right: 0!important;
     bottom: 0!important;
     left: 0!important;
+    width: auto;
+    height: auto;
     margin: auto!important;
     padding: 0;
-    height: auto;
-    width: auto;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
@@ -116,35 +116,6 @@
     -webkit-background-clip: border-box;
     -moz-background-clip: border-box;
     background-clip: border-box;
-}
-
-.lightbox[data-lb="image"] .icn-imgclose {display: none;
-    z-index: 1;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20px;
-    text-align: center;
-    font-size: 30px;
-    line-height: 20px;
-    vertical-align: middle;
-    color: #333;
-    opacity: 0.30;
-    background-color: #fff;
-    -webkit-transition: opacity 0.3s ease;
-    transition: opacity 0.3s ease;
-    cursor: pointer;
-    filter: alpha(opacity=30);
-}
-
-.lightbox[data-lb="image"] .lightbox-content:hover .icn-imgclose {
-    opacity: 0.75;
-    filter: alpha(opacity=75);
-}
-
-.lightbox[data-lb="image"] .lightbox-content:hover .icn-imgclose:hover {
-    opacity: 0.99;
-    filter: alpha(opacity=99);
 }
 
 .lightbox[data-lb="image"] img {
@@ -167,4 +138,72 @@
 .lightbox[data-lb="vimeo"] .lightbox-content {
     height: 328px;
     margin-top: -174px;
+}
+
+/* Elements
+-------------------------- */
+
+.main-close-lightbox,
+.btn-go-lightbox {
+    z-index: 1;
+    position: absolute;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 15px;
+    color: #fff;
+    background-color: rgba(0,0,0,.10);
+    -webkit-transition: background 0.3s ease;
+    transition: background 0.3s ease;
+    cursor: pointer;
+}
+
+.lightbox-content:hover .main-close-lightbox,
+.lightbox-content:hover .btn-go-lightbox {
+    background-color: rgba(0,0,0,.50);
+}
+
+.lightbox-content:hover .main-close-lightbox:hover,
+.lightbox-content:hover .btn-go-lightbox:hover {
+    background-color: rgba(0,0,0,.90);
+}
+
+/* Close */
+
+.main-close-lightbox {
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    line-height: 18px;
+}
+
+.main-close-lightbox:hover {
+    border-color: #c0c0c0;
+    background-color: #d0d0d0;
+}
+
+/* Arrows */
+
+.btn-go-lightbox {
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    line-height: 30px;
+}
+
+.btn-go-lightbox.prev {
+    left: 10px;
+}
+
+.btn-go-lightbox.prev:before {
+    content: '←';
+}
+
+.btn-go-lightbox.next {
+    right: 10px;
+}
+
+.btn-go-lightbox.next:before {
+    content: '→';
 }
