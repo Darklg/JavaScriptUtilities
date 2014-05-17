@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Touch
- * Version: 0.2.2
+ * Version: 0.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -12,15 +12,17 @@
 var setTapEvent = function(el) {
     var duration = 300,
         timerStart, timerEnd;
-    el.addEventListener('touchstart', function(e) {
+
+    function startTimer() {
         timerStart = new Date().getTime();
-    });
-    el.addEventListener('touchend', function(e) {
+    }
+
+    function endTimer() {
         timerEnd = new Date().getTime();
         if (timerEnd - timerStart < duration) {
             triggerTap();
         }
-    });
+    }
 
     function triggerTap() {
         // Vanilla JS
@@ -28,13 +30,23 @@ var setTapEvent = function(el) {
             window.triggerEvent(el, 'tap');
         }
         // Mootools
-        if ("fireEvent" in el) {
+        if ("MooTools" in window) {
             el.fireEvent('tap');
         }
         // jQuery
         if ("jQuery" in window) {
             jQuery(el).trigger('tap');
         }
+    }
+    if (window.navigator.msPointerEnabled) {
+        el.style.touchAction = "none";
+        el.style.msTouchAction = "none";
+        el.addEventListener('MSPointerDown', startTimer);
+        el.addEventListener('MSPointerUp', endTimer);
+    }
+    else {
+        el.addEventListener('touchstart', startTimer);
+        el.addEventListener('touchend', endTimer);
     }
 };
 
@@ -69,23 +81,48 @@ var setSwipeEvent = function(el, options) {
     options.maxDelay = (options.maxDelay && typeof options == 'number') || 1000;
     options.minRange = (options.minRange && typeof options == 'number') || 75;
 
-    el.addEventListener('touchstart', function(e) {
+    if (window.navigator.msPointerEnabled) {
+        // Disable touch actions on element
+        el.style.touchAction = "none";
+        el.style.msTouchAction = "none";
+        el.addEventListener('MSPointerDown', checkTouchStart);
+        el.addEventListener('MSPointerUp', checkTouchEnd);
+    }
+    else {
+        el.addEventListener('touchstart', checkTouchStart);
+        el.addEventListener('touchend', checkTouchEnd);
+    }
+
+    function checkTouchStart(e) {
+        timeStart = new Date().getTime();
         if (e.touches && e.touches[0].pageX) {
-            timeStart = new Date().getTime();
             pos.xStart = e.touches[0].pageX;
             pos.yStart = e.touches[0].pageY;
         }
-    });
-    el.addEventListener('touchend', function(e) {
+        else if (e.pageX && e.pageY) {
+            pos.xStart = e.pageX;
+            pos.yStart = e.pageY;
+        }
+    }
+
+    function checkTouchEnd(e) {
+        timeEnd = new Date().getTime();
         if (e.changedTouches && e.changedTouches[0].pageX) {
-            timeEnd = new Date().getTime();
             pos.xEnd = e.changedTouches[0].pageX;
             pos.yEnd = e.changedTouches[0].pageY;
-            calculateEvent();
         }
-    });
+        else if (e.pageX && e.pageY) {
+            pos.xEnd = e.pageX;
+            pos.yEnd = e.pageY;
+        }
+        else {
+            return;
+        }
+        calculateEvent(e);
 
-    function calculateEvent() {
+    }
+
+    function calculateEvent(e) {
 
         var eventTriggered = false,
             delay = timeEnd - timeStart;
@@ -142,7 +179,7 @@ var setSwipeEvent = function(el, options) {
             window.triggerEvent(el, eventTriggered);
         }
         // Mootools
-        if ("fireEvent" in el) {
+        if ("MooTools" in window) {
             el.fireEvent(eventTriggered);
         }
         // jQuery
