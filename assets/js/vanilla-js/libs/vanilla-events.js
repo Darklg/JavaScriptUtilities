@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Events
- * Version: 1.4
+ * Version: 1.5
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -110,4 +110,34 @@ if (!Element.prototype.triggerEvent) {
 
 window.eventPreventDefault = function(event) {
     return (event.preventDefault) ? event.preventDefault() : event.returnValue = false;
+};
+
+/* ----------------------------------------------------------
+  Custom events
+---------------------------------------------------------- */
+
+/* Resize end
+-------------------------- */
+
+var triggerWindowResizeEnd = function() {
+    var timer = false;
+    window.addEvent(window, 'resize', function() {
+        clearTimeout(timer);
+        timer = setTimeout(function() {
+            window.triggerEvent(window, 'resizeend');
+        }, 300);
+    });
+};
+
+/* Scroll end
+-------------------------- */
+
+var triggerWindowScrollEnd = function() {
+    var timer = false;
+    window.addEvent(window, 'scroll', function() {
+        clearTimeout(timer);
+        timer = setTimeout(function() {
+            window.triggerEvent(window, 'scrollend');
+        }, 300);
+    });
 };
