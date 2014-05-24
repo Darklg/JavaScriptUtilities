@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Events
- * Version: 1.5
+ * Version: 1.6
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -77,6 +77,24 @@ window.removeEvent = function(el, eventName, callback) {
 if (!Element.prototype.removeEvent) {
     Element.prototype.removeEvent = function(eventName, callback) {
         return window.removeEvent(this, eventName, callback);
+    };
+}
+
+/* ----------------------------------------------------------
+  One event
+---------------------------------------------------------- */
+
+window.oneEvent = function(el, eventName, callback) {
+    var newCallback = function(e) {
+        callback(e);
+        window.removeEvent(el, eventName, newCallback);
+    };
+    window.addEvent(el, eventName, newCallback);
+};
+
+if (!Element.prototype.oneEvent) {
+    Element.prototype.oneEvent = function(eventName, callback) {
+        return window.oneEvent(this, eventName, callback);
     };
 }
 
