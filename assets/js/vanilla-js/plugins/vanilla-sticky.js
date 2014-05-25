@@ -1,13 +1,9 @@
 /*
  * Plugin Name: Vanilla Sticky
- * Version: 0.1
+ * Version: 0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Sticky may be freely distributed under the MIT license.
  * Usage status: Work in progress
- */
-
-/*
- * Kill element margins & padding
  */
 
 var vanillaSticky = function(el, options) {
@@ -17,10 +13,6 @@ var vanillaSticky = function(el, options) {
         maxTop = false,
         wrapper = false,
         createParent = false;
-
-    if (!("addEventListener" in window)) {
-        return;
-    }
 
     function init() {
         // Set initial style
@@ -39,10 +31,10 @@ var vanillaSticky = function(el, options) {
         wrapper.style.minHeight = wrapper.clientHeight + 'px';
 
         // Launch events
-        events();
+        launchEvents();
     }
 
-    function events() {
+    function launchEvents() {
         // Scroll event
         if (window.addEventListener) {
             window.addEventListener('scroll', listenScroll);
@@ -53,12 +45,17 @@ var vanillaSticky = function(el, options) {
     }
 
     function listenScroll() {
-        // Fix element if over body scrolltop
-        if (maxScroll !== false && document.body.scrollTop > maxScroll) {
+        var scrollTop = getBodyScrollTop();
+
+        // Force element to stay into his container
+        if (maxScroll !== false && scrollTop > maxScroll) {
             el.style.top = maxTop + 'px';
             el.style.position = 'absolute';
+            return 0;
         }
-        else if (document.body.scrollTop > origElTop) {
+
+        // Element is fixed if window scroll is over its offset.
+        if (scrollTop > origElTop) {
             el.style.top = 0 + 'px';
             el.style.position = 'fixed';
         }
@@ -66,6 +63,10 @@ var vanillaSticky = function(el, options) {
             el.style.top = 0 + 'px';
             el.style.position = 'relative';
         }
+    }
+
+    function getBodyScrollTop() {
+        return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     }
 
     init();
