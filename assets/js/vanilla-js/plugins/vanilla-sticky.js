@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla Sticky
- * Version: 0.2
+ * Version: 0.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Sticky may be freely distributed under the MIT license.
  * Usage status: Work in progress
@@ -11,8 +11,7 @@ var vanillaSticky = function(el, options) {
     var origElTop = el.offsetTop,
         maxScroll = false,
         maxTop = false,
-        wrapper = false,
-        createParent = false;
+        wrapper = false;
 
     function init() {
         // Set initial style
@@ -54,13 +53,14 @@ var vanillaSticky = function(el, options) {
             return 0;
         }
 
+        // Force element top to 0
+        el.style.top = 0 + 'px';
+
         // Element is fixed if window scroll is over its offset.
         if (scrollTop > origElTop) {
-            el.style.top = 0 + 'px';
             el.style.position = 'fixed';
         }
         else {
-            el.style.top = 0 + 'px';
             el.style.position = 'relative';
         }
     }
