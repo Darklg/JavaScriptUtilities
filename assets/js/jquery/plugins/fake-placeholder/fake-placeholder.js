@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Placeholder
- * Version: 1.0.3
+ * Version: 1.0.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Placeholder may be freely distributed under the MIT license.
  */
@@ -54,12 +54,12 @@ if (!jQuery.fn.FakePlaceholder) {
             showPlaceholder: function() {
                 if (this.el.val() === '') {
                     this.el.addClass('with-placeholder');
-                    this.el.attr('value', this.el.attr('data-fakeplaceholder'));
+                    this.el.val(this.el.attr('data-fakeplaceholder'));
                 }
             },
             hidePlaceholder: function() {
                 if (this.el.val() == this.el.attr('data-fakeplaceholder')) {
-                    this.el.attr('value', '');
+                    this.el.val('');
                     this.el.removeClass('with-placeholder');
                 }
             }
