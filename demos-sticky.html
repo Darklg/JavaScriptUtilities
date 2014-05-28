@@ -1,0 +1,29 @@
+---
+layout: default
+---
+<script>
+window.domReady(function() {
+    var els = $$_('h3', document.getElementById('sticky'));
+    for (var el in els) {
+        if (els.hasOwnProperty(el) && typeof els[el] == 'object' && ('tagName' in els[el])) {
+            new vanillaSticky(els[el], {
+                stickyParent: els[el].parentNode
+            });
+        }
+    }
+});
+</script>
+<div id="sticky">
+    <div>
+        <h3>az</h3>
+        <p>If you haven't found it yet, keep looking. Don't settle. As with all matters of the heart, you'll know when you find it. And, like any great relationship, it just gets better and better as the years roll on.</p>
+    </div>
+    <div>
+        <h3>bz</h3>
+        <p>If you haven't found it yet, keep looking. Don't settle. As with all matters of the heart, you'll know when you find it. And, like any great relationship, it just gets better and better as the years roll on.</p>
+    </div>
+    <div>
+        <h3>cz</h3>
+        <p>If you haven't found it yet, keep looking. Don't settle. As with all matters of the heart, you'll know when you find it. And, like any great relationship, it just gets better and better as the years roll on.</p>
+    </div>
+</div>
