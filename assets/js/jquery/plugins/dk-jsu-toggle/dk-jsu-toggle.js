@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Toggle
- * Version: 0.2
+ * Version: 0.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Toggle may be freely distributed under the MIT license.
  */
@@ -18,7 +18,7 @@ if (!jQuery.fn.dkJSUToggle) {
         // Main Class
         var dkJSUToggle = {
             init: function(el) {
-                this.$body = $('body');
+                this.$doc = $(document);
                 this.isOpen = false;
                 this.el = el;
                 this.setToggler();
@@ -41,8 +41,9 @@ if (!jQuery.fn.dkJSUToggle) {
                     self.isOpen = self.elTarget.hasClass(self.toggleClass);
                 });
                 // Close on outside click
-                self.$body.on('click', function(e) {
-                    if (self.isOpen && !self.el.is(e.target) && self.el.has(e.target).length === 0) {
+                self.$doc.on('click', function(e) {
+                    var target = jQuery(e.target);
+                    if (self.isOpen && !self.el.is(target) && !$.contains(self.elTarget[0], target[0])) {
                         self.elTarget.removeClass(self.toggleClass);
                         self.isOpen = false;
                     }
