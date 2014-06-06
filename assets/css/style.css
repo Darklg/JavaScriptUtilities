@@ -75,8 +75,8 @@ a {
 }
 
 img {
-    max-width: 100%;
     height: auto;
+    max-width: 100%;
 }
 
 a:hover,
@@ -241,6 +241,77 @@ a:active {
         opacity: 0.99;
         filter: alpha(opacity=99);
     }
+}
+
+/* ----------------------------------------------------------
+  Grid
+---------------------------------------------------------- */
+
+.cssc-grid {
+    clear: both;
+    max-width: 100%;
+}
+
+.cssc-grid > * {
+    float: left;
+    zoom: 1;
+    min-height: 1px;
+}
+
+.cssc-grid.fluid-grid {
+    z-index: 1;
+    position: relative;
+    width: auto;
+    margin: 0 -10px;
+    max-width: none;
+}
+
+.cssc-grid.fluid-grid > * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 10px;
+}
+
+/* IE < 8 Fixes */
+
+.lt_ie8 .cssc-grid.fluid-grid {
+    width: 100%;
+}
+
+.lt_ie8 .cssc-grid.fluid-grid > * {
+    padding: 0;
+}
+
+.fluid-grid .col-20p {
+    width: 20%;
+}
+
+.fluid-grid .col-25p {
+    width: 25%;
+}
+
+.fluid-grid .col-33p {
+    width: 33.333%;
+}
+
+.fluid-grid .col-40p {
+    width: 40%;
+}
+
+.fluid-grid .col-50p {
+    width: 50%;
+}
+
+.cssc-grid:before,
+.cssc-grid:after,
+.clearfix:after {
+    content: " ";
+    display: block;
+    visibility: hidden;
+    clear: both;
+    max-height: 0;
+    overflow: hidden;
 }
 
 /* ----------------------------------------------------------
