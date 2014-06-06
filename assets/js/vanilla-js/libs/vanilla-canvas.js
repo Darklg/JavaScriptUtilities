@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Canvas
- * Version: 2.3
+ * Version: 2.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -8,9 +8,15 @@
 var dkJSUCanvas = function(canvas, args) {
     var self = this;
 
+    if (!canvas) {
+        console.error('The canvas is not defined');
+        return false;
+    }
+
     // Set Vars
     self.canvas = canvas;
     self.args = args || {};
+    self.args.callback = ("callback" in self.args && typeof self.args.callback == 'function') ? self.args.callback : function() {};
     self.canvParent = self.canvas.parentNode;
     self.coverParent = self.args.coverParent || false;
 
@@ -48,6 +54,8 @@ var dkJSUCanvas = function(canvas, args) {
         // Draw video
         self.context.drawImage(self.video, self.dim.left, self.dim.top, self.dim.width, self.dim.height);
 
+        self.args.callback(self);
+
         // Test if video is paused
         if (self.video.paused || self.video.ended) {
             return false;
@@ -72,6 +80,8 @@ var dkJSUCanvas = function(canvas, args) {
 
         // Draw image
         self.context.drawImage(image, dim.left, dim.top, dim.width, dim.height);
+
+        self.args.callback(self);
 
     };
 
@@ -157,6 +167,18 @@ var dkJSUCanvas = function(canvas, args) {
         return pixels;
     };
 
+    /* Invert */
+
+    canvasFilters.invert = function(pixels, adjustment) {
+        var d = pixels.data;
+        for (var i = 0; i < d.length; i += 4) {
+            d[i + 0] = 255 - d[i + 0];
+            d[i + 1] = 255 - d[i + 1];
+            d[i + 2] = 255 - d[i + 2];
+        }
+        return pixels;
+    };
+
     /* ----------------------------------------------------------
       Utilities
     ---------------------------------------------------------- */
@@ -222,3 +244,4 @@ window.requestAnimFrame = (function() {
             window.setTimeout(callback, 40);
         };
 })();
+

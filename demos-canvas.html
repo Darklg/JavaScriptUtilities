@@ -1,0 +1,49 @@
+---
+layout: default
+---
+
+
+<h2>Video cover</h2>
+<div class="cssc-grid fluid-grid">
+    <div class="col-50p">
+        <canvas id="main-canvas"><video id="main-video" src="assets/videos/big_buck_bunny.ogg" ></video></canvas>
+    </div>
+    <div class="col-50p">
+        <script class="script-visible" contenteditable>window.domReady(function(){
+    var dkcanv = new dkJSUCanvas($_('main-canvas'));
+    dkcanv.coverVideo();
+    $_('main-video').play();
+});
+</script>
+    </div>
+</div>
+
+<h2>Image cover</h2>
+<div class="cssc-grid fluid-grid">
+    <div class="col-50p">
+        <canvas id="image-canvas"><img src="assets/img/slider0.jpg" alt="" /></canvas>
+    </div>
+    <div class="col-50p">
+        <script class="script-visible" contenteditable>window.domReady(function(){
+    var dkcanv = new dkJSUCanvas($_('image-canvas'));
+    dkcanv.coverImage();
+});
+</script>
+    </div>
+</div>
+
+<h2>Image cover with effect</h2>
+<div class="cssc-grid fluid-grid">
+    <div class="col-50p">
+        <canvas id="image-canvas-effect"><img src="assets/img/slider1.jpg" alt="" /></canvas>
+    </div>
+    <div class="col-50p">
+        <script class="script-visible" contenteditable>window.domReady(function(){
+    var dkcanv = new dkJSUCanvas($_('image-canvas-effect'));
+    dkcanv.coverImage();
+    dkcanv.applyFilter('grayscale');
+    dkcanv.applyFilter('brightness', 50);
+});
+</script>
+    </div>
+</div>
