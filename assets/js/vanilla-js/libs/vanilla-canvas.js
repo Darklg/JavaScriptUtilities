@@ -1,26 +1,31 @@
 /*
  * Plugin Name: Vanilla-JS Canvas
- * Version: 2.4
+ * Version: 2.5
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
 
-var dkJSUCanvas = function(canvas, args) {
+/**
+ * @param {Element} canvas The Canvas Element
+ * @param {Object} settings The desired setttings
+ */
+var dkJSUCanvas = function(canvas, settings) {
     var self = this;
 
-    if (!canvas) {
-        console.error('The canvas is not defined');
-        return false;
-    }
-
     // Set Vars
-    self.canvas = canvas;
-    self.args = args || {};
-    self.args.callback = ("callback" in self.args && typeof self.args.callback == 'function') ? self.args.callback : function() {};
-    self.canvParent = self.canvas.parentNode;
-    self.coverParent = self.args.coverParent || false;
+    self.settings = {};
+    self.defaultSettings = {};
 
-    var __construct = function() {
+    var __construct = function(canvas, settings) {
+        if (!canvas) {
+            console.error('The canvas is not defined');
+            return false;
+        }
+
+        self.canvas = canvas;
+        self.canvParent = self.canvas.parentNode;
+
+        self.getSettings(settings);
         self.setCanvasSize();
         self.setEvents();
 
@@ -54,7 +59,7 @@ var dkJSUCanvas = function(canvas, args) {
         // Draw video
         self.context.drawImage(self.video, self.dim.left, self.dim.top, self.dim.width, self.dim.height);
 
-        self.args.callback(self);
+        self.settings.callback(self);
 
         // Test if video is paused
         if (self.video.paused || self.video.ended) {
@@ -81,7 +86,7 @@ var dkJSUCanvas = function(canvas, args) {
         // Draw image
         self.context.drawImage(image, dim.left, dim.top, dim.width, dim.height);
 
-        self.args.callback(self);
+        self.settings.callback(self);
 
     };
 
@@ -90,7 +95,7 @@ var dkJSUCanvas = function(canvas, args) {
     ---------------------------------------------------------- */
 
     self.setEvents = function() {
-        if (self.coverParent) {
+        if (self.settings.coverParent) {
             window.addEventListener('resize', function() {
                 self.setCanvasSize();
                 self.dim = self.getCoverDimensions(self.video);
@@ -108,7 +113,7 @@ var dkJSUCanvas = function(canvas, args) {
         return self.context.getImageData(0, 0, self.canvas.width, self.canvas.height);
     };
 
-    self.filterImage = function(filter, arg1, arg2, arg3) {
+    self.filterImage = function(filter, arg1, arg2, arg3, arg4) {
         var args = [self.getPixels()];
         for (var i = 1; i < arguments.length; i++) {
             args.push(arguments[i]);
@@ -116,17 +121,17 @@ var dkJSUCanvas = function(canvas, args) {
         return filter.apply(null, args);
     };
 
-    self.runFilter = function(filter, arg1, arg2, arg3) {
-        var idata = self.filterImage(filter, arg1, arg2, arg3);
+    self.runFilter = function(filter, arg1, arg2, arg3, arg4) {
+        var idata = self.filterImage(filter, arg1, arg2, arg3, arg4);
         self.context.putImageData(idata, 0, 0);
         return self;
     };
 
     /* Wrappers */
 
-    self.applyFilter = function(filter, arg1, arg2, arg3) {
+    self.applyFilter = function(filter, arg1, arg2, arg3, arg4) {
         if (filter in canvasFilters) {
-            self.runFilter(canvasFilters[filter], arg1);
+            self.runFilter(canvasFilters[filter], arg1, arg2, arg3, arg4);
         }
         else {
             console.log('This filter is inexistant');
@@ -141,7 +146,7 @@ var dkJSUCanvas = function(canvas, args) {
 
     /* Grayscale */
 
-    canvasFilters.grayscale = function(pixels, args) {
+    canvasFilters.grayscale = function(pixels) {
         var d = pixels.data;
         for (var i = 0; i < d.length; i += 4) {
             var r = d[i];
@@ -159,6 +164,9 @@ var dkJSUCanvas = function(canvas, args) {
 
     canvasFilters.brightness = function(pixels, adjustment) {
         var d = pixels.data;
+        if (!adjustment) {
+            adjustment = 20;
+        }
         for (var i = 0; i < d.length; i += 4) {
             d[i] += adjustment;
             d[i + 1] += adjustment;
@@ -169,14 +177,62 @@ var dkJSUCanvas = function(canvas, args) {
 
     /* Invert */
 
-    canvasFilters.invert = function(pixels, adjustment) {
+    canvasFilters.invert = function(pixels) {
         var d = pixels.data;
         for (var i = 0; i < d.length; i += 4) {
-            d[i + 0] = 255 - d[i + 0];
+            d[i] = 255 - d[i];
             d[i + 1] = 255 - d[i + 1];
             d[i + 2] = 255 - d[i + 2];
         }
         return pixels;
+    };
+
+    /**
+     * @param {Object} pixels The pixels obtained by the class
+     * @param {Object} settings The original pixels to show in the green area
+     * @param {Array} rgbValues The greenScreen rgb color (r,g,b)
+     * @param {Number} rgbValues The greenScreen rgb color (r,g,b)
+     */
+    canvasFilters.greenScreen = function(pixels, origPixels, rgbValues, pas) {
+        r = parseInt(rgbValues[0] || 255, 10);
+        g = parseInt(rgbValues[1] || 255, 10);
+        b = parseInt(rgbValues[2] || 255, 10);
+        pas = parseInt(pas || 50, 10);
+        var d = pixels.data,
+            dLength = d.length,
+            od = origPixels.data,
+            rMin = Math.max(0, r - pas),
+            gMin = Math.max(0, g - pas),
+            bMin = Math.max(0, b - pas),
+            rMax = Math.min(255, r + pas),
+            gMax = Math.min(255, g + pas),
+            bMax = Math.min(255, b + pas);
+        for (var i = 0; i < dLength; i += 4) {
+            if (
+                d[i] >= rMin && d[i + 1] >= gMin && d[i + 2] >= bMin &&
+                d[i] <= rMax && d[i + 1] <= gMax && d[i + 2] <= bMax
+            ) {
+                d[i] = od[i];
+                d[i + 1] = od[i + 1];
+                d[i + 2] = od[i + 2];
+            }
+        }
+        return pixels;
+    };
+
+    /* ----------------------------------------------------------
+      Special effects
+    ---------------------------------------------------------- */
+
+    /* Green Screen */
+    self.setGreenScreen = function(imgElement, videoElement, rgbValues, pas) {
+        self.coverImage(imgElement);
+        var origPixels = self.getPixels();
+        self.settings.callback = function(self) {
+            self.applyFilter('greenScreen', origPixels, rgbValues, pas);
+        };
+        self.coverVideo(videoElement);
+        videoElement.play();
     };
 
     /* ----------------------------------------------------------
@@ -187,7 +243,7 @@ var dkJSUCanvas = function(canvas, args) {
         self.cH = self.canvas.clientHeight;
         self.cW = self.canvas.clientWidth;
 
-        if (self.coverParent) {
+        if (self.settings.coverParent) {
             self.cH = self.canvParent.offsetHeight;
             self.cW = self.canvParent.offsetWidth;
         }
@@ -234,7 +290,20 @@ var dkJSUCanvas = function(canvas, args) {
 
     };
 
-    __construct();
+    /* ----------------------------------------------------------
+      Utilities
+    ---------------------------------------------------------- */
+
+    self.getSettings = function(settings) {
+        if (!settings || typeof settings != 'object') {
+            settings = {};
+            self.settings = self.defaultSettings;
+        }
+        self.settings.coverParent = settings.coverParent || false;
+        self.settings.callback = ("callback" in settings && typeof settings.callback == 'function') ? settings.callback : function() {};
+    };
+
+    __construct(canvas, settings);
 
 };
 
