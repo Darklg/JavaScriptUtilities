@@ -2,13 +2,14 @@
 layout: default
 ---
 
-
 <h2>Video cover</h2>
 <div class="cssc-grid fluid-grid">
-    <div class="col-50p">
-        <canvas id="main-canvas"><video id="main-video" src="assets/videos/big_buck_bunny.ogg" ></video></canvas>
+    <div class="col-40p">
+        <canvas id="main-canvas">
+        <video id="main-video" src="assets/videos/big_buck_bunny.ogg" loop></video>
+        </canvas>
     </div>
-    <div class="col-50p">
+    <div class="col-60p">
         <script class="script-visible" contenteditable>window.domReady(function(){
     var dkcanv = new dkJSUCanvas($_('main-canvas'));
     dkcanv.coverVideo();
@@ -20,10 +21,10 @@ layout: default
 
 <h2>Image cover</h2>
 <div class="cssc-grid fluid-grid">
-    <div class="col-50p">
+    <div class="col-40p">
         <canvas id="image-canvas"><img src="assets/img/slider0.jpg" alt="" /></canvas>
     </div>
-    <div class="col-50p">
+    <div class="col-60p">
         <script class="script-visible" contenteditable>window.domReady(function(){
     var dkcanv = new dkJSUCanvas($_('image-canvas'));
     dkcanv.coverImage();
@@ -34,10 +35,10 @@ layout: default
 
 <h2>Image cover with effect</h2>
 <div class="cssc-grid fluid-grid">
-    <div class="col-50p">
+    <div class="col-40p">
         <canvas id="image-canvas-effect"><img src="assets/img/slider1.jpg" alt="" /></canvas>
     </div>
-    <div class="col-50p">
+    <div class="col-60p">
         <script class="script-visible" contenteditable>window.domReady(function(){
     var dkcanv = new dkJSUCanvas($_('image-canvas-effect'));
     dkcanv.coverImage();
