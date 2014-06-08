@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Canvas
- * Version: 2.5
+ * Version: 2.6
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -57,9 +57,10 @@ var dkJSUCanvas = function(canvas, settings) {
     self.drawVideo = function() {
 
         // Draw video
-        self.context.drawImage(self.video, self.dim.left, self.dim.top, self.dim.width, self.dim.height);
-
-        self.settings.callback(self);
+        if (!self.documentIsHidden) {
+            self.context.drawImage(self.video, self.dim.left, self.dim.top, self.dim.width, self.dim.height);
+            self.settings.callback(self);
+        }
 
         // Test if video is paused
         if (self.video.paused || self.video.ended) {
@@ -86,8 +87,6 @@ var dkJSUCanvas = function(canvas, settings) {
         // Draw image
         self.context.drawImage(image, dim.left, dim.top, dim.width, dim.height);
 
-        self.settings.callback(self);
-
     };
 
     /* ----------------------------------------------------------
@@ -96,11 +95,43 @@ var dkJSUCanvas = function(canvas, settings) {
 
     self.setEvents = function() {
         if (self.settings.coverParent) {
-            window.addEventListener('resize', function() {
-                self.setCanvasSize();
-                self.dim = self.getCoverDimensions(self.video);
-            }, true);
+            window.addEventListener('resize', self.canvasResize, true);
         }
+        self.setEventVisibility();
+    };
+
+    /* Canvas resize */
+    self.canvasResize = function() {
+        self.setCanvasSize();
+        self.dim = self.getCoverDimensions(self.video);
+    };
+
+    self.setEventVisibility = function() {
+        var hidden = "webkitHidden",
+            visibilityChange = "webkitvisibilitychange",
+            visibilityState = "webkitVisibilityState";
+
+        if (typeof document.hidden !== "undefined") {
+            hidden = "hidden";
+            visibilityChange = "visibilitychange";
+            visibilityState = "visibilityState";
+        }
+        else if (typeof document.mozHidden !== "undefined") {
+            hidden = "mozHidden";
+            visibilityChange = "mozvisibilitychange";
+            visibilityState = "mozVisibilityState";
+        }
+        else if (typeof document.msHidden !== "undefined") {
+            hidden = "msHidden";
+            visibilityChange = "msvisibilitychange";
+            visibilityState = "msVisibilityState";
+        }
+
+        /* Check visibility */
+        self.documentIsHidden = document[hidden];
+        document.addEventListener(visibilityChange, function() {
+            self.documentIsHidden = document[hidden];
+        }, false);
     };
 
     /* ----------------------------------------------------------
@@ -233,6 +264,22 @@ var dkJSUCanvas = function(canvas, settings) {
         };
         self.coverVideo(videoElement);
         videoElement.play();
+    };
+
+    /* Add pattern */
+    self.addPattern = function(imgElement, keepPattern) {
+        var pat = false;
+        if (keepPattern && self.cachedPattern) {
+            pat = self.cachedPattern;
+        }
+        else {
+            pat = self.context.createPattern(imgElement, "repeat");
+            self.cachedPattern = pat;
+        }
+
+        self.context.rect(0, 0, self.canvas.width, self.canvas.height);
+        self.context.fillStyle = pat;
+        self.context.fill();
     };
 
     /* ----------------------------------------------------------
