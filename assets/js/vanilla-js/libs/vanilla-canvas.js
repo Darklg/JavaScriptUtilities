@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Canvas
- * Version: 2.6
+ * Version: 2.6.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -81,12 +81,15 @@ var dkJSUCanvas = function(canvas, settings) {
             return;
         }
 
-        // Obtain dimensions
-        var dim = self.getCoverDimensions(image);
+        var imageLoad = new Image();
+        imageLoad.onload = function() {
+            // Obtain dimensions
+            var dim = self.getCoverDimensions(image);
 
-        // Draw image
-        self.context.drawImage(image, dim.left, dim.top, dim.width, dim.height);
-
+            // Draw image
+            self.context.drawImage(image, dim.left, dim.top, dim.width, dim.height);
+        };
+        imageLoad.src = image.src;
     };
 
     /* ----------------------------------------------------------
@@ -276,7 +279,6 @@ var dkJSUCanvas = function(canvas, settings) {
             pat = self.context.createPattern(imgElement, "repeat");
             self.cachedPattern = pat;
         }
-
         self.context.rect(0, 0, self.canvas.width, self.canvas.height);
         self.context.fillStyle = pat;
         self.context.fill();
