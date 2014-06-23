@@ -40,10 +40,13 @@ layout: default
     </div>
     <div class="col-60p">
         <script class="script-visible" contenteditable>window.domReady(function(){
-    var dkcanv = new dkJSUCanvas($_('image-canvas-effect'));
+    var dkcanv = new dkJSUCanvas($_('image-canvas-effect'), {
+            callback: function(self){
+                self.applyFilter('grayscale');
+                self.applyFilter('brightness', 50);
+            }
+        });
     dkcanv.coverImage();
-    dkcanv.applyFilter('grayscale');
-    dkcanv.applyFilter('brightness', 50);
 });
 </script>
     </div>
