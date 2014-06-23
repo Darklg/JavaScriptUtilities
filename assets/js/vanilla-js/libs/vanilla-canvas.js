@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Canvas
- * Version: 2.6.1
+ * Version: 2.6.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -14,7 +14,9 @@ var dkJSUCanvas = function(canvas, settings) {
 
     // Set Vars
     self.settings = {};
-    self.defaultSettings = {};
+    self.defaultSettings = {
+        callback: function(self){}
+    };
 
     var __construct = function(canvas, settings) {
         if (!canvas) {
@@ -88,6 +90,10 @@ var dkJSUCanvas = function(canvas, settings) {
 
             // Draw image
             self.context.drawImage(image, dim.left, dim.top, dim.width, dim.height);
+
+            // Callback
+            self.settings.callback(self);
+
         };
         imageLoad.src = image.src;
     };
