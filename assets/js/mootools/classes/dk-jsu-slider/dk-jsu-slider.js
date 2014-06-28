@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.4.1
+ * Version: 1.4.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -46,7 +46,8 @@ var dkJSUSlider = new Class({
                     self.canSlide = 1;
                 }
             }).tween("opacity", [0, 1]);
-        }
+        },
+        wrapperClassName: ''
     },
     autoSlideTimeout: false,
     canSlide: 1,
@@ -122,6 +123,7 @@ var dkJSUSlider = new Class({
         var settings = this.settings;
 
         this.wrapper = new Element('div.dk-jsu-slider-wrapper');
+        this.wrapper.addClass(settings.wrapperClassName);
         this.wrapper.wraps(this.slider);
 
         // Style slider
@@ -205,7 +207,7 @@ var dkJSUSlider = new Class({
             }
         });
 
-        if(settings.touchEvents){
+        if (settings.touchEvents) {
             self.slider.addEvents({
                 swipetoright: function() {
                     self.gotoSlide('prev');
