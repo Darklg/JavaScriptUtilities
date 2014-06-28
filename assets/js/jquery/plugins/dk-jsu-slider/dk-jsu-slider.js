@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.0.6
+ * Version: 1.0.7
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -46,7 +46,8 @@ if (!jQuery.fn.dkJSUSlider) {
                         // Authorizing a new slide
                         self.canSlide = 1;
                     }, 300);
-                }
+                },
+                wrapperClassName: ''
             },
             autoSlideTimeout: false,
             canSlide: 1,
@@ -98,6 +99,7 @@ if (!jQuery.fn.dkJSUSlider) {
                 // Wrapper
                 this.slider.wrap(jQuery('<div class="dk-jsu-slider-wrapper"></div>'));
                 this.wrapper = this.slider.parent();
+                this.wrapper.addClass(settings.wrapperClassName);
 
                 // Style slider
                 this.slider.css({
