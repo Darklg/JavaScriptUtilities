@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.11.1
+ * Version: 1.12
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -163,7 +163,7 @@ var serializeForm = function(form) {
                 name = els[el].getAttribute('name');
                 value = els[el].value;
                 // Empty value for non checked checkbox & radio
-                if ( !! type && (type == 'checkbox' || type == 'radio') && !els[el].checked) {
+                if (!!type && (type == 'checkbox' || type == 'radio') && !els[el].checked) {
                     value = '';
                 }
                 // Break if name is not available
@@ -294,7 +294,8 @@ var removeData = function(el, name) {
 ---------------------------------------------------------- */
 
 var mergeObjects = function() {
-    var objectReturn = {}, o;
+    var objectReturn = {},
+        o;
     for (var n in arguments) {
         if (arguments.hasOwnProperty(n) && typeof arguments[n] == 'object') {
             for (o in arguments[n]) {
@@ -350,4 +351,16 @@ var imageAppear = function(el, callBack, imgSrc) {
     imageScrollEvent(el, callBack, function() {
         return getBodyScrollTop() + getWindowInnerHeight();
     }, imgSrc);
+};
+
+/* ----------------------------------------------------------
+  Wide text : adapt text size to the parent container width
+---------------------------------------------------------- */
+
+var setWideText = function(el) {
+    var elWi = el.offsetWidth,
+        dWi = el.parentNode.offsetWidth,
+        elStyle = getComputedStyle(el, null),
+        elFontSize = parseInt(elStyle.fontSize, 10);
+    el.style.fontSize = (elFontSize * dWi / elWi) + 'px';
 };
