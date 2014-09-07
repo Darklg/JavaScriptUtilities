@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.3.1
+ * Version: 1.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
@@ -19,11 +19,6 @@ if (!jQuery.fn.FakeSelect) {
             dataPlugin: 'plugin_fakeselect',
             defaultSettings: {
                 'CSSClasses': ''
-            },
-            defaultStyles: {
-                'position': 'absolute',
-                'top': 0,
-                'left': 0
             },
             init: function(el, opt) {
                 this.el = el;
@@ -51,24 +46,7 @@ if (!jQuery.fn.FakeSelect) {
             setWrapper: function() {
                 var settings = this.settings;
                 this.wrapper = $('<div class="fakeselect-wrapper ' + settings.CSSClasses + '"></div>');
-                this.wrapper.css({
-                    'position': 'relative'
-                });
-                this.el.css(this.defaultStyles).css({
-                    'opacity': '0.01',
-                    'filter': 'alpha(opacity=1)',
-                    'z-index': 2,
-                    '-webkit-appearance': 'menulist-button',
-                    'padding': 0,
-                    'margin': 0,
-                    'width': '100%'
-                });
                 this.cover = $('<div class="fakeselect-cover"></div>');
-                this.cover.css(this.defaultStyles);
-                this.cover.css({
-                    'z-index': 1,
-                    'right': 0
-                });
                 this.el.wrap(this.wrapper);
                 this.wrapper = this.el.parent();
                 this.wrapper.append(this.cover);
