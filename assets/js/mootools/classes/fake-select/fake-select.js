@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 1.4.1
+ * Version: 1.5
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  */
@@ -17,11 +17,6 @@ new FakeSelect(el, {
 */
 
 var FakeSelect = new Class({
-    defaultStyles: {
-        'position': 'absolute',
-        'top': 0,
-        'left': 0
-    },
     settings: {},
     defaultSettings: {
         'wrapperClass': 'fakeselect-wrapper',
@@ -58,25 +53,7 @@ var FakeSelect = new Class({
             el = this.el,
             settings = this.settings;
         this.wrapper = new Element('div.' + settings.wrapperClass);
-        this.wrapper.setStyles({
-            'position': 'relative'
-        });
         this.cover = new Element('div.' + settings.coverClass);
-        el.setStyles(self.defaultStyles);
-        el.setStyles({
-            'opacity': '0.01',
-            'filter': 'alpha(opacity=1)',
-            'z-index': 2,
-            '-webkit-appearance': 'menulist-button',
-            'padding': 0,
-            'margin': 0,
-            'width': '100%'
-        });
-        this.cover.setStyles(self.defaultStyles);
-        this.cover.setStyles({
-            'z-index': 1,
-            'right': 0
-        });
         this.wrapper.adopt(this.cover);
         this.wrapper.wraps(el);
     },
