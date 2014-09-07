@@ -6,27 +6,47 @@
 
 .fakeselect-wrapper {
     display: block;
+    z-index: 1;
+    position: relative;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.fakeselect-wrapper select,
+.fakeselect-cover {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    font: inherit;
 }
 
 .fakeselect-cover {
+    z-index: 1;
+    right: 0;
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.fakeselect-wrapper select,
-.fakeselect-cover {
-    height: 100%;
-    font: inherit;
-}
-
 .fakeselect-wrapper select {
+    z-index: 2;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    opacity: 0.01;
     cursor: pointer;
+    filter: alpha(opacity=1);
 }
 
 .fakeselect-wrapper select[disabled] ~ .fakeselect-cover,
