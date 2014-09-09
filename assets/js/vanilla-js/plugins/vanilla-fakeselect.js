@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Select
- * Version: 0.2.2
+ * Version: 0.2.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Select may be freely distributed under the MIT license.
  * Required: Vanilla Classes
@@ -38,8 +38,7 @@ var vanillaFakeSelect = function(settings) {
         // Wrap select
         els.wrapper = self.wrapElement(els.select);
         els.wrapper
-            .addClass('fakeselect-wrapper')
-            .addClass('vanilla-fakeselect');
+            .addClass('fakeselect-wrapper');
         // Create cover
         els.cover = document.createElement('div');
         els.cover.addClass('fakeselect-cover');
