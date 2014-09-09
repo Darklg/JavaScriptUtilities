@@ -54,36 +54,6 @@
     cursor: not-allowed;
 }
 
-/* CSS/JS
--------------------------- */
-
-.vanilla-fakeselect {
-    z-index: 1;
-    position: relative;
-}
-
-.vanilla-fakeselect select,
-.vanilla-fakeselect .fakeselect-cover {
-    z-index: 1;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.vanilla-fakeselect select {
-    z-index: 2;
-    -webkit-appearance: menulist-button;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    opacity: 0.01;
-    filter: alpha(opacity=1);
-}
-
-.vanilla-fakeselect .fakeselect-cover {
-    right: 0;
-}
-
 /* Theme
 -------------------------- */
 
