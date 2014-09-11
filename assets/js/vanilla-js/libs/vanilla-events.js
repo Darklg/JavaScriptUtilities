@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Events
- * Version: 1.6
+ * Version: 1.7
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -102,16 +102,19 @@ if (!Element.prototype.oneEvent) {
   Trigger event
 ---------------------------------------------------------- */
 
-window.triggerEvent = function(el, eventName) {
+window.triggerEvent = function(el, eventName, parameters) {
     var e = false;
+    parameters = parameters || {};
     if (document.createEventObject) {
         e = document.createEventObject();
         e.button = 1;
+        e.jsuparams = parameters;
         return el.fireEvent("on" + eventName, e);
     }
     else {
         e = document.createEvent("HTMLEvents");
         e.initEvent(eventName, true, false);
+        e.jsuparams = parameters;
         return el.dispatchEvent(e);
     }
 };
@@ -137,25 +140,29 @@ window.eventPreventDefault = function(event) {
 /* Resize end
 -------------------------- */
 
-var triggerWindowResizeEnd = function() {
-    var timer = false;
-    window.addEvent(window, 'resize', function() {
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            window.triggerEvent(window, 'resizeend');
-        }, 300);
-    });
+var setTriggerResizeEnd = function(el) {
+    var timer = false,
+        actionFunction = function() {
+            clearTimeout(timer);
+            timer = setTimeout(triggerFunction, 300);
+        },
+        triggerFunction = function() {
+            window.triggerEvent(el, 'resizeend');
+        };
+    window.addEvent(el, 'resize', actionFunction);
 };
 
 /* Scroll end
 -------------------------- */
 
-var triggerWindowScrollEnd = function() {
-    var timer = false;
-    window.addEvent(window, 'scroll', function() {
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            window.triggerEvent(window, 'scrollend');
-        }, 300);
-    });
+var setTriggerScrollEnd = function(el) {
+    var timer = false,
+        actionFunction = function() {
+            clearTimeout(timer);
+            timer = setTimeout(triggerFunction, 300);
+        },
+        triggerFunction = function() {
+            window.triggerEvent(el, 'scrollend');
+        };
+    window.addEvent(el, 'scroll', actionFunction);
 };
