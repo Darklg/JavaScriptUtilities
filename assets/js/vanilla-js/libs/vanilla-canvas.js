@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Canvas
- * Version: 2.6.2
+ * Version: 2.6.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -15,7 +15,7 @@ var dkJSUCanvas = function(canvas, settings) {
     // Set Vars
     self.settings = {};
     self.defaultSettings = {
-        callback: function(self){}
+        callback: function(self) {}
     };
 
     var __construct = function(canvas, settings) {
@@ -60,8 +60,16 @@ var dkJSUCanvas = function(canvas, settings) {
 
         // Draw video
         if (!self.documentIsHidden) {
-            self.context.drawImage(self.video, self.dim.left, self.dim.top, self.dim.width, self.dim.height);
-            self.settings.callback(self);
+            try {
+                self.context.drawImage(self.video, self.dim.left, self.dim.top, self.dim.width, self.dim.height);
+                self.settings.callback(self);
+            }
+            catch (e) {
+                /* Bugfix Firefox : http://stackoverflow.com/a/18580878 */
+                if (e.name != "NS_ERROR_NOT_AVAILABLE") {
+                    throw e;
+                }
+            }
         }
 
         // Test if video is paused
