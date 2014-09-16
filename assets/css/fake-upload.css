@@ -4,18 +4,51 @@
   Fake Upload
 ---------------------------------------------------------- */
 
+/* Core
+-------------------------- */
+
+.fakeupload-wrapper {
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.fakeupload-wrapper .fakeupload-button,
+.fakeupload-wrapper input,
 .fakeupload-cover {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.fakeupload-cover {
+    left: 0;
+    overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
+}
+
+.fakeupload-wrapper input {
+    z-index: 2;
+    height: 100px;
+    opacity: 0.01;
+    cursor: pointer;
+    filter: alpha(opacity=01);
+}
+
+.fakeupload-wrapper .fakeupload-button {
+    right: auto;
+    bottom: 0;
+    left: 0;
 }
 
 /* Theme
 -------------------------- */
 
 .fakeupload-wrapper,
-.fakeupload-wrapper input,
 .fakeupload-cover {
     height: 25px;
     line-height: 25px;
@@ -36,4 +69,23 @@
 .fake-upload-default-txt {
     font-style: italic;
     color: #888;
+}
+
+/* Button */
+
+.fakeupload-wrapper.has-fake-button {
+    width: 215px;
+    padding-left: 135px;
+}
+
+.fakeupload-wrapper.has-fake-button .fakeupload-cover {
+    left: 135px;
+}
+
+.fakeupload-wrapper .fakeupload-button {
+    width: 130px;
+    border: 1px solid #000;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
 }

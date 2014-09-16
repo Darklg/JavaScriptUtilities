@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.2
+ * Version: 1.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
@@ -20,12 +20,6 @@ var FakeUpload = new Class({
     defaultSettings: {
         inputTxt: 'Browse ...',
         inputClass: 'fake-upload-default-txt'
-    },
-    defaultStyles: {
-        'cursor': 'pointer',
-        'position': 'absolute',
-        'top': 0,
-        'right': 0
     },
     initialize: function(el, settings) {
         var self = this;
@@ -50,29 +44,12 @@ var FakeUpload = new Class({
     // Set wrappers elements
     setWrapper: function() {
         var self = this,
-            el = this.el;
-        var wrapper = new Element('div.fakeupload-wrapper');
-        wrapper.setStyles({
-            'cursor': 'pointer',
-            'overflow': 'hidden',
-            'position': 'relative'
-        });
-        var cover = new Element('div.fakeupload-cover');
-        cover.setStyles(self.defaultStyles);
+            el = this.el,
+            wrapper = new Element('div.fakeupload-wrapper'),
+            cover = new Element('div.fakeupload-cover');
+
         this.setDefaultStatus(cover);
-        cover.setStyles({
-            'left': 0,
-            'z-index': 1
-        });
         el.set('size', 100);
-        el.setStyles(self.defaultStyles);
-        el.setStyles({
-            'height': 100,
-            'z-index': 2,
-            'cursor': 'pointer',
-            'filter': 'alpha(opacity=01)',
-            'opacity': '0.01'
-        });
         wrapper.adopt(cover);
         wrapper.wraps(el);
     },
