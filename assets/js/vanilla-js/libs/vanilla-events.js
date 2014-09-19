@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Events
- * Version: 1.7
+ * Version: 1.8
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -137,32 +137,33 @@ window.eventPreventDefault = function(event) {
   Custom events
 ---------------------------------------------------------- */
 
-/* Resize end
+/* Trigger an event after
+ * a delay resetted each
+ * time the event is called
 -------------------------- */
 
-var setTriggerResizeEnd = function(el) {
+window.eventTriggeredAfterDelay = function(el, opt) {
+    if (typeof opt != 'object' || !opt) {
+        opt = {};
+    }
+
+    if (!opt.originalEvent) {
+        opt.originalEvent = 'click';
+    }
+    if (!opt.newEvent) {
+        opt.newEvent = opt.originalEvent + 'end';
+    }
+    if (!opt.delay) {
+        opt.delay = 300;
+    }
+
     var timer = false,
         actionFunction = function() {
             clearTimeout(timer);
-            timer = setTimeout(triggerFunction, 300);
+            timer = setTimeout(triggerFunction, opt.delay);
         },
         triggerFunction = function() {
-            window.triggerEvent(el, 'resizeend');
+            window.triggerEvent(el, opt.newEvent);
         };
-    window.addEvent(el, 'resize', actionFunction);
-};
-
-/* Scroll end
--------------------------- */
-
-var setTriggerScrollEnd = function(el) {
-    var timer = false,
-        actionFunction = function() {
-            clearTimeout(timer);
-            timer = setTimeout(triggerFunction, 300);
-        },
-        triggerFunction = function() {
-            window.triggerEvent(el, 'scrollend');
-        };
-    window.addEvent(el, 'scroll', actionFunction);
+    window.addEvent(el, opt.originalEvent, actionFunction);
 };
