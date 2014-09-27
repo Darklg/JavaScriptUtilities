@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Touch
- * Version: 0.3
+ * Version: 0.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -11,17 +11,48 @@
 
 var setTapEvent = function(el) {
     var duration = 300,
+        distance = 5,
+        posStart = [0, 0],
+        posEnd = [1, 1],
         timerStart, timerEnd;
 
-    function startTimer() {
+    el.hasTap = false;
+
+    function startWatchTap(e) {
+        if (e.clientX) {
+            posStart = [e.clientX, e.clientY];
+        }
         timerStart = new Date().getTime();
     }
 
-    function endTimer() {
-        timerEnd = new Date().getTime();
-        if (timerEnd - timerStart < duration) {
-            triggerTap();
+    function endWatchTap(e) {
+        if (e.clientX) {
+            posEnd = [e.clientX, e.clientY];
         }
+
+        // Check duration between start & end
+        timerEnd = new Date().getTime();
+        if (timerEnd - timerStart >= duration) {
+            return;
+        }
+
+        for (var i = 0; i <= 1; i++) {
+            if (posStart[i] > posEnd[i] + distance || posStart[i] < posEnd[i] - distance) {
+                return;
+            }
+        }
+
+        // Disable tap monitoring for 1000ms after a tap event
+        // To prevent double tap
+        if (el.hasTap) {
+            return;
+        }
+        el.hasTap = true;
+        setTimeout(function() {
+            el.hasTap = false;
+        }, 1000);
+
+        triggerTap();
     }
 
     function triggerTap() {
@@ -38,15 +69,16 @@ var setTapEvent = function(el) {
             jQuery(el).trigger('tap');
         }
     }
+
     if (window.navigator.msPointerEnabled) {
         el.style.touchAction = "none";
         el.style.msTouchAction = "none";
-        el.addEventListener('MSPointerDown', startTimer);
-        el.addEventListener('MSPointerUp', endTimer);
+        el.addEventListener('MSPointerDown', startWatchTap);
+        el.addEventListener('MSPointerUp', endWatchTap);
     }
     else {
-        el.addEventListener('touchstart', startTimer);
-        el.addEventListener('touchend', endTimer);
+        el.addEventListener('touchstart', startWatchTap);
+        el.addEventListener('touchend', endWatchTap);
     }
 };
 
