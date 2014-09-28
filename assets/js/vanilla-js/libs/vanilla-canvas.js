@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Canvas
- * Version: 2.6.3
+ * Version: 2.7
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -370,6 +370,10 @@ var dkJSUCanvas = function(canvas, settings) {
 
 };
 
+/* ----------------------------------------------------------
+  Request animation frame
+---------------------------------------------------------- */
+
 window.requestAnimFrame = (function() {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
         function(callback) {
@@ -377,3 +381,36 @@ window.requestAnimFrame = (function() {
         };
 })();
 
+/* ----------------------------------------------------------
+  Revert an image
+---------------------------------------------------------- */
+
+window.revertImage = function(el, direction) {
+    var canvas = document.createElement('canvas'),
+        newImg = new Image(),
+        ctx = canvas.getContext('2d');
+
+    // Create canvas with original image
+    newImg.onload = function() {
+        canvas.width = newImg.width;
+        canvas.height = newImg.height;
+        var wi = canvas.width,
+            he = canvas.height,
+            left = wi / 2,
+            top = he / 2;
+
+        // Set context
+        ctx.translate(left, top);
+        if (direction == 'vertical') {
+            ctx.scale(1, -1);
+        }
+        else {
+            ctx.scale(-1, 1);
+        }
+        ctx.drawImage(newImg, 0 - left, 0 - top);
+
+        //append
+        el.src = canvas.toDataURL('image/png');
+    };
+    newImg.src = el.src;
+};
