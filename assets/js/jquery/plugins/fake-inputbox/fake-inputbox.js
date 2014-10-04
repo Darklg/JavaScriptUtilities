@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Input Box
- * Version: 1.1.1
+ * Version: 1.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Input Box may be freely distributed under the MIT license.
  */
@@ -17,11 +17,21 @@ if (!jQuery.fn.fakeInputBox) {
     (function($, window, document) {
         // Main Class
         var fakeInputBox = {
-            defaultSettings: {},
+            defaultSettings: {
+                wrapperCSSClass: 'fake-inputbox-wrapper',
+                coverCSSClass: 'fake-inputbox-cover'
+            },
             settings: {},
             init: function(el, settings) {
                 this.el = el;
                 this.getSettings(settings);
+                // If double launch : reload wrapper class
+                if (el.hasClass('has-fake-inputbox')) {
+                    this.wrapper = el.closest('.' + this.settings.wrapperCSSClass);
+                    this.setCSSClass();
+                    return;
+                }
+                el.addClass('has-fake-inputbox');
                 this.setElements();
                 this.setEvents();
             },
@@ -42,13 +52,13 @@ if (!jQuery.fn.fakeInputBox) {
                 this.elName = this.el.attr('name');
 
                 // Set wrapper
-                this.wrapper = jQuery('<span class="fake-inputbox-wrapper"></span>');
+                this.wrapper = jQuery('<span class="' + settings.wrapperCSSClass + '"></span>');
                 this.wrapper.css({
                     'position': 'relative',
                     'overflow': 'hidden'
                 });
                 // Set cover
-                this.cover = jQuery('<span class="fake-inputbox-cover"></span>');
+                this.cover = jQuery('<span class="' + settings.coverCSSClass + '"></span>');
 
                 this.el.css({
                     'position': 'absolute',
@@ -94,13 +104,7 @@ if (!jQuery.fn.fakeInputBox) {
         // Using the fakeInputBox class as a jQuery plugin
         $.fn.fakeInputBox = function(settings) {
             this.each(function() {
-                var $this = $(this),
-                    dataPlugin = 'plugin_fakeInputBox'.toLowerCase();
-                // Handling duplicate calls
-                if (!$this.hasClass(dataPlugin)) {
-                    $.extend(true, {}, fakeInputBox).init($this, settings);
-                    $this.addClass(dataPlugin);
-                }
+                $.extend(true, {}, fakeInputBox).init($(this), settings);
             });
             return this;
         };
