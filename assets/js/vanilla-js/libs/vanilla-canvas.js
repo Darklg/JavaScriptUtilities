@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Canvas
- * Version: 2.7
+ * Version: 2.8
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -47,6 +47,8 @@ var dkJSUCanvas = function(canvas, settings) {
             return;
         }
 
+        self.videoSrc = self.video.src;
+
         // Obtain dimensions
         self.dim = self.getCoverDimensions(self.video);
 
@@ -72,15 +74,24 @@ var dkJSUCanvas = function(canvas, settings) {
             }
         }
 
+        // If video src change, get new dimensions
+        if (self.videoSrc != self.video.src) {
+            self.videoSrc = self.video.src;
+            var setDimItv = setInterval(function() {
+                var vW = self.resetCoverDimension();
+                if (vW > 0) {
+                    clearInterval(setDimItv);
+                }
+            }, 200);
+        }
+
         // Test if video is paused
         if (self.video.paused || self.video.ended) {
             return false;
         }
 
         // Launch next frame
-        requestAnimFrame(function() {
-            self.drawVideo();
-        });
+        requestAnimFrame(self.drawVideo);
     };
 
     // Cover Image
@@ -101,6 +112,9 @@ var dkJSUCanvas = function(canvas, settings) {
 
             // Callback
             self.settings.callback(self);
+
+            // Kill load event
+            imageLoad.onload = function() {};
 
         };
         imageLoad.src = image.src;
@@ -242,10 +256,11 @@ var dkJSUCanvas = function(canvas, settings) {
      * @param {Number} rgbValues The greenScreen rgb color (r,g,b)
      */
     canvasFilters.greenScreen = function(pixels, origPixels, rgbValues, pas) {
-        r = parseInt(rgbValues[0] || 255, 10);
-        g = parseInt(rgbValues[1] || 255, 10);
-        b = parseInt(rgbValues[2] || 255, 10);
-        pas = parseInt(pas || 50, 10);
+        rgbValues = rgbValues || [255, 255, 255];
+        r = parseInt(rgbValues[0], 10) || 255;
+        g = parseInt(rgbValues[1], 10) || 255;
+        b = parseInt(rgbValues[2], 10) || 255;
+        pas = parseInt(pas, 10) || 50;
         var d = pixels.data,
             dLength = d.length,
             od = origPixels.data,
@@ -324,18 +339,24 @@ var dkJSUCanvas = function(canvas, settings) {
         return canvas.children[0];
     };
 
+    self.resetCoverDimension = function() {
+        self.dim = self.getCoverDimensions(self.video, self.video.videoHeight, self.video.videoWidth);
+        return self.video.videoHeight;
+    };
+
     // Get Cover dimensions for an element
-    self.getCoverDimensions = function(image) {
+    self.getCoverDimensions = function(image, iH, iW) {
         // Get Image size
         var iReturn = {
-                left: 0,
-                top: 0,
-                width: 10,
-                height: 10
-            },
-            iH = image.height || 9,
-            iW = image.width || 16,
-            iRatio = iH / iW;
+            left: 0,
+            top: 0,
+            width: 10,
+            height: 10
+        };
+        iH = iH || image.height || 9;
+        iW = iW || image.width || 16;
+
+        var iRatio = iH / iW;
 
         // Get image position
         if (self.cRatio < iRatio) {
