@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.0.7
+ * Version: 1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -21,6 +21,7 @@ if (!jQuery.fn.dkJSUSlider) {
             defaultSettings: {
                 autoSlide: true,
                 autoSlideDuration: 7000,
+                bulletsType: 'default',
                 createNavigation: true,
                 createPagination: true,
                 currentSlide: 0,
@@ -125,9 +126,16 @@ if (!jQuery.fn.dkJSUSlider) {
 
                 // Set Pagination
                 if (settings.showPagination && settings.createPagination) {
+                    var bullet = '';
                     this.pagination = jQuery('<div class="pagination"></div>');
+
                     for (var i = 0; i < settings.nbSlides; i++) {
-                        this.pagers[i] = jQuery('<span data-i="' + i + '">&bull;</span>');
+                        bullet = '&bull';
+                        if (settings.bulletsType == 'numbers') {
+                            bullet = i + 1;
+                        }
+
+                        this.pagers[i] = jQuery('<span data-i="' + i + '">' + bullet + '</span>');
                         this.pagination.append(this.pagers[i]);
                     }
                     this.pagination.css(this.defaultPagiStyles);
