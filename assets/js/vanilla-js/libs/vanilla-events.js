@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Events
- * Version: 1.8
+ * Version: 1.9
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -166,4 +166,22 @@ window.eventTriggeredAfterDelay = function(el, opt) {
             window.triggerEvent(el, opt.newEvent);
         };
     window.addEvent(el, opt.originalEvent, actionFunction);
+};
+
+/* Watch for keyboard keys
+-------------------------- */
+
+/* http://unixpapa.com/js/key.html */
+
+window.watchKeyBoardKeys = function() {
+    window.addEvent(window, 'keypress', function(event) {
+        var char = 0;
+        if (event.which === null) {
+            char = String.fromCharCode(event.keyCode);
+        }
+        else if (event.which !== 0 && event.charCode !== 0) {
+            char = String.fromCharCode(event.which);
+        }
+        window.triggerEvent(window, 'keypress_' + char);
+    });
 };
