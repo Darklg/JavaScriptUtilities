@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.1
+ * Version: 1.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -20,6 +20,7 @@ if (!jQuery.fn.dkJSUSlider) {
             settings: {},
             defaultSettings: {
                 autoSlide: true,
+                autoSlideForce: false,
                 autoSlideDuration: 7000,
                 bulletsType: 'default',
                 createNavigation: true,
@@ -130,7 +131,7 @@ if (!jQuery.fn.dkJSUSlider) {
                     this.pagination = jQuery('<div class="pagination"></div>');
 
                     for (var i = 0; i < settings.nbSlides; i++) {
-                        bullet = '&bull';
+                        bullet = '&bull;';
                         if (settings.bulletsType == 'numbers') {
                             bullet = i + 1;
                         }
@@ -165,14 +166,17 @@ if (!jQuery.fn.dkJSUSlider) {
                 // Auto slide
                 if (settings.autoSlide) {
                     self.autoSlideEvent();
-                    // autoSlide stops on mouse enter and restarts on leave
-                    self.wrapper.on('mouseenter', function() {
-                        self.mouseInside = true;
-                        clearTimeout(self.autoSlideTimeout);
-                    }).on('mouseleave', function() {
-                        self.mouseInside = false;
-                        self.autoSlideEvent();
-                    });
+
+                    if (!settings.autoSlideForce) {
+                        // autoSlide stops on mouse enter and restarts on leave
+                        self.wrapper.on('mouseenter', function() {
+                            self.mouseInside = true;
+                            clearTimeout(self.autoSlideTimeout);
+                        }).on('mouseleave', function() {
+                            self.mouseInside = false;
+                            self.autoSlideEvent();
+                        });
+                    }
                 }
 
                 // Navigation
