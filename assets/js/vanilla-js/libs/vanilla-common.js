@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.12
+ * Version: 1.13
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -108,6 +108,39 @@ var callOnImgLoad = function(url, callback) {
     // Set image load
     img.src = url;
 };
+
+/* Callback on element load
+-------------------------- */
+
+var callOnItemLoad = function(url, callback) {
+    var el, type = 'image',
+        ext = url.split('.').pop(),
+        funCallback = function() {
+            callback();
+            el.removeEventListener('loadeddata', funCallback);
+            callback = null;
+            type = null;
+            url = null;
+            ext = null;
+            el = null;
+        };
+
+    // Create a new element
+    switch (ext) {
+        case 'mp4':
+            type = 'video';
+            el = document.createElement('video');
+            el.addEventListener('loadeddata', funCallback, 0);
+            break;
+        default:
+            el = new Image();
+            el.onload = funCallback;
+    }
+
+    // Add content
+    el.src = url;
+};
+
 
 /* Get Element Visibility
 -------------------------- */
