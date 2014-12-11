@@ -1,0 +1,18 @@
+---
+layout: default
+---
+
+<h2>Accelerometer</h2>
+<div class="cssc-grid fluid-grid">
+    <div class="col-40p">
+        <div id="main-accel" style="height:100px;width:300px;background-repeat:no-repeat;background-image: url(http://lorempixel.com/300/100);"></div>
+    </div>
+    <div class="col-60p">
+        <script class="script-visible" contenteditable>window.domReady(function(){
+    var dkAccel = new dkJSUAccelerometer($_('main-accel'), {
+        property: 'background-position'
+    });
+});
+</script>
+    </div>
+</div>
