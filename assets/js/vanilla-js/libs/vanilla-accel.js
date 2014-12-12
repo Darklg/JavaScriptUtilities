@@ -1,22 +1,32 @@
 /*
  * Plugin Name: Vanilla-JS Accelerometer
- * Version: 0.2
+ * Version: 0.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
 
 var dkJSUAccelerometer = function(item, settings) {
-    var self = this;
+    var self = this,
+        isTouchScreen = ("ontouchstart" in window || navigator.msMaxTouchPoints);
+
     self.defaultSettings = {
         property: 'transform3d',
-        startAtInitialPosition: true
+        useMouseIfNotTouchscreen: true,
+        startAtInitialPosition: true,
+        moveRadius: 20
     };
     self.properties = {
         offsetX: false,
         offsetY: false,
+        startX: -180,
+        endX: 180,
+        startY: -180,
+        endY: 180,
         x: false,
         y: false
     };
+
+    // Init class
     self.init = function(item, settings) {
         if (!item) {
             return;
@@ -25,40 +35,80 @@ var dkJSUAccelerometer = function(item, settings) {
         self.getSettings(settings);
         self.setEvents();
     };
-    self.setEvents = function() {
-        // Cancel if accelerometer is not supported
-        if (!window.DeviceOrientationEvent) {
-            return;
-        }
-        window.addEventListener('deviceorientation', function(e) {
-            // Load initial values to use as an offset
-            if (self.properties.offsetX === false) {
-                self.properties.offsetX = e.gamma;
-                self.properties.offsetY = e.beta;
-            }
-            self.properties.x = e.gamma;
-            self.properties.y = e.beta;
-            self.triggerPropertyChange();
-        }, false);
-    };
-    self.triggerPropertyChange = function() {
-        var x = 0 - self.properties.x,
-            y = 0 - self.properties.y;
 
-        if (self.settings.startAtInitialPosition) {
-            x += self.properties.offsetX;
-            y += self.properties.offsetY;
+    // Load initial events
+    self.setEvents = function() {
+
+        // If accelerometer is supported
+        if (window.DeviceOrientationEvent && (isTouchScreen && self.defaultSettings.useMouseIfNotTouchscreen)) {
+            window.addEventListener('deviceorientation', function(e) {
+
+                // Load initial values to use as an offset
+                if (self.properties.offsetX === false) {
+                    self.properties.offsetX = e.gamma;
+                    self.properties.offsetY = e.beta;
+                }
+
+                self.properties.x = e.gamma;
+                self.properties.y = e.beta;
+                self.triggerPropertyChange();
+            }, false);
+        }
+        else {
+            window.addEventListener('mousemove', function(e) {
+                var w = (window.innerWidth / 2);
+                var h = (window.innerHeight / 2);
+
+                // Max-min values
+                self.properties.startX = -w;
+                self.properties.endX = w;
+                self.properties.startY = -h;
+                self.properties.endY = h;
+
+                // Distance from the center of the screen
+                self.properties.x = e.x - w;
+                self.properties.y = e.y - h;
+                self.triggerPropertyChange();
+            });
+        }
+    };
+
+    // Load values
+    self.loadValues = function(x, y) {
+        // Load initial values to use as an offset
+        if (self.properties.offsetX === false) {
+            self.properties.offsetX = x;
+            self.properties.offsetY = y;
+        }
+        self.properties.x = x;
+        self.properties.y = y;
+    };
+
+    // Change property on target
+    self.triggerPropertyChange = function() {
+        var prop = self.properties,
+            x = prop.x,
+            y = prop.y;
+
+        if (window.DeviceOrientationEvent && self.settings.startAtInitialPosition) {
+            x -= prop.offsetX;
+            y -= prop.offsetY;
+        }
+
+        if (self.defaultSettings.moveRadius) {
+            x = x / (prop.endX / self.defaultSettings.moveRadius);
+            y = y / (prop.endY / self.defaultSettings.moveRadius);
         }
 
         switch (self.settings.property) {
             case 'transform3d':
-                var t = 'translate(' + x + 'px, ' + y + 'px)';
+                var t = 'translate(' + (0 - x) + 'px, ' + (0 - y) + 'px)';
                 self.item.style.WebkitTransform = t;
                 self.item.style.MozTransform = t;
                 self.item.style.transform = t;
                 break;
             case 'background-position':
-                self.item.style.backgroundPosition = x + 'px ' + y + 'px';
+                self.item.style.backgroundPosition = (0 - x) + 'px ' + (0 - y) + 'px';
                 break;
             default:
         }
