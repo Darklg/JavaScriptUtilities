@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Events
- * Version: 1.9
+ * Version: 1.10
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -174,14 +174,29 @@ window.eventTriggeredAfterDelay = function(el, opt) {
 /* http://unixpapa.com/js/key.html */
 
 window.watchKeyBoardKeys = function() {
+    window.addEvent(window, 'keydown', function(event) {
+        if (!event.keyCode) {
+            return;
+        }
+        var event_name = '';
+        switch (event.keyCode) {
+            case 27:
+                event_name = 'keypress_echap';
+                break;
+            default:
+        }
+        if (event_name !== '') {
+            window.triggerEvent(window, event_name);
+        }
+    });
     window.addEvent(window, 'keypress', function(event) {
-        var char = 0;
+        var charID = 0;
         if (event.which === null) {
-            char = String.fromCharCode(event.keyCode);
+            charID = String.fromCharCode(event.keyCode);
         }
         else if (event.which !== 0 && event.charCode !== 0) {
-            char = String.fromCharCode(event.which);
+            charID = String.fromCharCode(event.which);
         }
-        window.triggerEvent(window, 'keypress_' + char);
+        window.triggerEvent(window, 'keypress_' + charID);
     });
 };
