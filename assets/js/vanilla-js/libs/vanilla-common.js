@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.13
+ * Version: 1.13.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -114,16 +114,22 @@ var callOnImgLoad = function(url, callback) {
 
 var callOnItemLoad = function(url, callback) {
     var el, type = 'image',
-        ext = url.split('.').pop(),
+        ext = false,
+        url_split = url.split('.'),
         funCallback = function() {
             callback();
             el.removeEventListener('loadeddata', funCallback);
+            url_split = null;
             callback = null;
             type = null;
             url = null;
             ext = null;
             el = null;
         };
+
+    if (typeof url_split == 'object') {
+        ext = url_split.pop();
+    }
 
     // Create a new element
     switch (ext) {
@@ -140,7 +146,6 @@ var callOnItemLoad = function(url, callback) {
     // Add content
     el.src = url;
 };
-
 
 /* Get Element Visibility
 -------------------------- */
