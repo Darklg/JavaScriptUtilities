@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS GeoLocalisation
- * Version: 0.1
+ * Version: 0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -33,6 +33,10 @@ var dkJSUGeoLocalisation = function(params) {
         return hasGeoloc;
     }
 
+    /* ----------------------------------------------------------
+      Main functions
+    ---------------------------------------------------------- */
+
     this.getCurrentPosition = function(position) {
         coords = position.coords;
         params.callback(coords);
@@ -53,6 +57,37 @@ var dkJSUGeoLocalisation = function(params) {
         // Distance in km
         return R * b;
     };
+
+    // Get closest item from position
+    this.getClosestFromPosition = function(items, position) {
+        position = position || self.getPosition();
+        var itLen = items.length,
+            tmpDist = false,
+            tmpPos = false,
+            closestDist = 1000000000,
+            closest = false;
+        for (var i = 0; i < itLen; i++) {
+            tmpPos = items[i].position;
+            tmpDist = self.getDistance(position.latitude, position.longitude, tmpPos.latitude, tmpPos.longitude);
+            if (tmpDist < closestDist) {
+                closestDist = tmpDist;
+                closest = i;
+            }
+        }
+        return items[closest];
+    };
+
+    /* ----------------------------------------------------------
+      Getters
+    ---------------------------------------------------------- */
+
+    this.getPosition = function() {
+        return coords;
+    };
+
+    /* ----------------------------------------------------------
+      Utilities
+    ---------------------------------------------------------- */
 
     function deg2rad(deg) {
         return deg * (Math.PI / 180);
