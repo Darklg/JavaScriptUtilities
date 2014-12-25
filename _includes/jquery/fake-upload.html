@@ -7,9 +7,9 @@
 </header>
 <p>Fake upload field with native UI for directory selection.</p>
 <script class="script-visible" contenteditable>jQuery(document).ready(function(){
-    jQuery('input.fake-upload').FakeUpload({
-        defaultTxt : 'Browse ...'
-    });
+    // Default
+    jQuery('input.fake-upload').FakeUpload();
+    // Customized
     jQuery('input.fakae-upload').FakeUpload({
         defaultTxt : 'Parcourir ...',
         hasFakeButton : 1,
