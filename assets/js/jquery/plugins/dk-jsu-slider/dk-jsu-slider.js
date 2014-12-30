@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.2
+ * Version: 1.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -53,10 +53,6 @@ if (!jQuery.fn.dkJSUSlider) {
             },
             autoSlideTimeout: false,
             canSlide: 1,
-            defaultPagiStyles: {
-                'position': 'absolute',
-                'z-index': 3
-            },
             mouseInside: false,
             navigation: false,
             pagination: false,
@@ -103,25 +99,9 @@ if (!jQuery.fn.dkJSUSlider) {
                 this.wrapper = this.slider.parent();
                 this.wrapper.addClass(settings.wrapperClassName);
 
-                // Style slider
-                this.slider.css({
-                    'position': 'relative'
-                });
-
-                // Style slides
-                this.slides.css({
-                    'position': 'absolute',
-                    'top': 0,
-                    'left': 0,
-                    'height': '100%',
-                    'width': '100%',
-                    'z-index': 0
-                });
-
                 // Set Navigation
                 if (settings.showNavigation && settings.createNavigation) {
                     this.navigation = jQuery('<div class="navigation"><div class="prev">prev</div><div class="next">next</div></div>');
-                    this.navigation.children().css(this.defaultPagiStyles);
                     this.wrapper.append(this.navigation);
                 }
 
@@ -139,7 +119,6 @@ if (!jQuery.fn.dkJSUSlider) {
                         this.pagers[i] = jQuery('<span data-i="' + i + '">' + bullet + '</span>');
                         this.pagination.append(this.pagers[i]);
                     }
-                    this.pagination.css(this.defaultPagiStyles);
                     this.wrapper.append(this.pagination);
                 }
 
@@ -149,11 +128,13 @@ if (!jQuery.fn.dkJSUSlider) {
                 var self = this,
                     settings = this.settings;
 
-                self.slider.on('prevslide', function() {
-                    self.gotoSlide('prev');
-                }).on('nextslide', function() {
-                    self.gotoSlide('next');
-                });
+                self.slider
+                    .on('prevslide', function() {
+                        self.gotoSlide('prev');
+                    })
+                    .on('nextslide', function() {
+                        self.gotoSlide('next');
+                    });
 
                 // Pagination
                 if (settings.showPagination && self.pagination) {
