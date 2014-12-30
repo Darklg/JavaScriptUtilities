@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.4.2
+ * Version: 1.4.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -51,10 +51,6 @@ var dkJSUSlider = new Class({
     },
     autoSlideTimeout: false,
     canSlide: 1,
-    defaultPagiStyles: {
-        'position': 'absolute',
-        'z-index': 3
-    },
     mouseInside: false,
     navigation: false,
     pagination: false,
@@ -126,26 +122,10 @@ var dkJSUSlider = new Class({
         this.wrapper.addClass(settings.wrapperClassName);
         this.wrapper.wraps(this.slider);
 
-        // Style slider
-        this.slider.setStyles({
-            'position': 'relative'
-        });
-
-        // Style slides
-        this.slides.setStyles({
-            'position': 'absolute',
-            'top': 0,
-            'left': 0,
-            'height': '100%',
-            'width': '100%',
-            'z-index': 0
-        });
-
         if (settings.showNavigation && settings.createNavigation) {
             // Set Navigation
             this.navigation = new Element('div.navigation');
             this.navigation.set('html', '<div class="prev">prev</div><div class="next">next</div>');
-            this.navigation.getChildren().setStyles(this.defaultPagiStyles);
             this.wrapper.adopt(this.navigation);
         }
         if (settings.showPagination && settings.createPagination) {
@@ -155,7 +135,6 @@ var dkJSUSlider = new Class({
                 this.pagers[i] = new Element('span').set('html', '&bull;').set('data-i', i);
                 this.pagination.adopt(this.pagers[i]);
             }
-            this.pagination.setStyles(this.defaultPagiStyles);
             this.wrapper.adopt(this.pagination);
         }
     },
