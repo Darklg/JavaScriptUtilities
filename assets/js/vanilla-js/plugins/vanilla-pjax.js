@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla Pushstate/AJAX
- * Version: 0.4
+ * Version: 0.4.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla AJAX, Vanilla Arrays, Vanilla Classes
@@ -39,7 +39,7 @@ var vanillaPJAX = function(settings) {
         self.setClickables(document);
         // Handle history back
         window.addEvent(window, 'popstate', function(e) {
-            self.goToUrl(document.location);
+            self.goToUrl(document.location.href);
         });
     };
     self.setClickables = function(parent) {
@@ -103,7 +103,7 @@ var vanillaPJAX = function(settings) {
         }
         // Change URL
         if ('pushState' in history) {
-            history.pushState({}, "", url);
+            history.pushState({}, document.title, url);
         }
         else {
             document.location.hash = '!' + urlDetails.pathname;
