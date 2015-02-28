@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Scroller
- * Version: 0.1
+ * Version: 0.2
  * Plugin URL: https: //github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Scroller may be freely distributed under the MIT license.
  */
@@ -18,16 +18,22 @@ if (!jQuery.fn.dkJSUScroller) {
         "use strict";
         // Main Class
         var dkJSUScroller = {
-            defaultSettings: {},
+            defaultSettings: {
+                animSpeed: 200,
+                listLeft: 0,
+                listSelector: '[data-floating="list"]',
+                minLeft: 0,
+                naviSelector: 'a[rel]',
+                scrollAmount: 0,
+                wrapperSelector: '[data-floating="wrapper"]',
+            },
             settings: {},
             init: function(el, settings) {
                 this.el = el;
-                this.listLeft = 0;
                 this.getSettings(settings);
                 this.setElements();
-                this.setValues();
                 this.setEvents();
-                this.minLeft = 0;
+                this.setValues();
             },
             // Obtaining user settings
             getSettings: function(settings) {
@@ -36,16 +42,42 @@ if (!jQuery.fn.dkJSUScroller) {
                 }
                 this.settings = $.extend(true, {}, this.defaultSettings, settings);
             },
-
             // Setting elements
             setElements: function() {
-                var self = this;
-                self.wrapper = self.el.find('[data-floating="wrapper"]');
-                self.list = self.el.find('[data-floating="list"]');
-                self.navi = self.el.children('a[rel]');
+                var self = this,
+                    settings = self.settings;
+                self.wrapper = self.el.find(settings.wrapperSelector);
+                self.list = self.el.find(settings.listSelector);
+                self.navi = self.el.find(settings.naviSelector);
+            },
+            // Setting events
+            setEvents: function() {
+                var self = this,
+                    settings = self.settings,
+                    resizeTimeout = false;
+                // Change value on resize
+                jQuery(window).resize(function() {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(function() {
+                        self.setValues();
+                    }, 100);
+                });
+                // Set navigation
+                self.navi.on('click', function(e) {
+                    e.preventDefault();
+                    var newLeft = settings.listLeft;
+                    if (jQuery(this).attr('rel') == 'next') {
+                        newLeft = newLeft - settings.scrollAmount;
+                    }
+                    else {
+                        newLeft = newLeft + settings.scrollAmount;
+                    }
+                    self.goToLeft(newLeft);
+                });
             },
             setValues: function() {
                 var self = this,
+                    settings = self.settings,
                     listChildren = self.list.children(),
                     lastChild = listChildren.last(),
                     itemWidth = lastChild.width();
@@ -53,52 +85,29 @@ if (!jQuery.fn.dkJSUScroller) {
                 self.listWidth = lastChild.position().left + itemWidth;
                 // Min left
                 if (self.listWidth > self.wrapper.width()) {
-                    self.minLeft = self.wrapper.width() - self.listWidth;
+                    settings.minLeft = self.wrapper.width() - self.listWidth;
                 }
                 // Scroll amount
-                self.scrollAmount = listChildren.eq(1).position().left;
+                if (listChildren.length > 1 && settings.scrollAmount === 0) {
+                    settings.scrollAmount = listChildren.eq(1).position().left;
+                }
                 // Ensure min left
-                self.setListLeft(0);
-
-            },
-            // Setting events
-            setEvents: function() {
-                var self = this;
-                // Change value on resize
-                jQuery(window).resize(function() {
-                    self.setValues();
-                });
-                // Set navigation
-                self.navi.on('click', function(e) {
-                    e.preventDefault();
-                    var rel = jQuery(this).attr('rel'),
-                        newLeft = self.listLeft;
-                    if (rel == 'next') {
-                        newLeft = newLeft - self.scrollAmount;
-                    }
-                    else {
-                        newLeft = newLeft + self.scrollAmount;
-                    }
-                    self.goToLeft(newLeft);
-                });
+                self.goToLeft(0);
             },
             goToLeft: function(left) {
-                var self = this;
+                var self = this,
+                    settings = self.settings;
                 left = left ||  0;
                 if (left > 0) {
                     left = 0;
                 }
-                if (left < self.minLeft) {
-                    left = self.minLeft;
+                if (left < settings.minLeft) {
+                    left = settings.minLeft;
                 }
-                this.setListLeft(left);
-            },
-            setListLeft: function(left) {
-                var self = this;
-                self.listLeft = left;
+                settings.listLeft = left;
                 self.list.animate({
                     'left': left
-                }, 200);
+                }, settings.animSpeed);
             },
         };
         // Using the dkJSUScroller class as a jQuery plugin
