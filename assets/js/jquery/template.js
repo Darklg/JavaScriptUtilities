@@ -1,5 +1,6 @@
 ;if (!jQuery.fn.replaceThisStringWithAnID) {
     (function($, window, document) {
+        "use strict";
         // Main Class
         var replaceThisStringWithAnID = {
             defaultSettings: {},
