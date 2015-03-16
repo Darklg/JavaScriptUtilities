@@ -78,6 +78,12 @@ if (!jQuery.fn.fakeInputBox) {
                 var self = this,
                     settings = this.settings;
                 self.setCSSClass();
+                
+                self.el.on('focus', function() {
+                    self.wrapper.addClass('has-focus');
+                }).on('blur', function() {
+                    self.wrapper.removeClass('has-focus');
+                });
 
                 if (this.elType == 'radio') {
                     $('[name="' + this.elName + '"]').on('change', function() {
