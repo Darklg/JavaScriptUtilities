@@ -30,8 +30,7 @@ if (!jQuery.fn.FakeSelect) {
                     this.getSettings(opt);
                     this.setWrapper();
                     this.setEvents();
-                }
-                else {
+                } else {
                     this.cover = this.el.siblings('.fakeselect-cover');
                     this.wrapper = this.el.parent();
                 }
@@ -64,8 +63,15 @@ if (!jQuery.fn.FakeSelect) {
                 });
             },
             setValue: function() {
+                var firstElem = this.el.children(':first-child'),
+                    selectedElem = this.el.children(':selected');
                 this.wrapper.css('display', this.el.css('display'));
-                this.cover.html(this.el.children(':selected').text());
+                this.cover.html(selectedElem.text());
+                if (selectedElem.is(firstElem)) {
+                    this.wrapper.removeClass("is-selected");
+                } else {
+                    this.wrapper.addClass("is-selected");
+                }
             }
         };
         $.fn.FakeSelect = function(opt) {
