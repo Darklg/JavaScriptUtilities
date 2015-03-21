@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla Pushstate/AJAX
- * Version: 0.5
+ * Version: 0.6
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  * Required: Vanilla Events, Vanilla AJAX, Vanilla Arrays, Vanilla Classes
@@ -10,15 +10,15 @@
  * Todo :
  * - Parse content to extract only area
  */
-
 var vanillaPJAX = function(settings) {
-    var self = this;
+    var self = this,
+        hasPushState = ('pushState' in history);
     self.isLoading = false;
     self.currentLocation = document.location;
     self.defaultSettings = {
         targetContainer: document.body,
         ajaxParam: 'ajax',
-        callbackBeforeAJAX: function(newUrl) {},
+        callbackBeforeAJAX: function(newUrl, item) {},
         callbackAfterAJAX: function(newUrl, content) {},
         callbackAfterLoad: function(newUrl) {},
         filterContent: function(content) {
@@ -38,9 +38,15 @@ var vanillaPJAX = function(settings) {
         // Click event on all A elements
         self.setClickables(document);
         // Handle history back
-        window.addEvent(window, 'popstate', function(e) {
+        window.addEvent(window, 'popstate', function() {
             self.goToUrl(document.location.href);
         });
+        if (!hasPushState) {
+            // Load initial page
+            window.domReady(self.gotoHashBang);
+            // Check for hash change
+            window.addEvent(window, 'hashchange', self.gotoHashBang);
+        }
     };
     self.setClickables = function(parent) {
         var links = parent.getElementsByTagName('A');
@@ -70,6 +76,12 @@ var vanillaPJAX = function(settings) {
         }
         return true;
     };
+    self.gotoHashBang = function() {
+        var link = document.location.hash;
+        if (link.slice(0, 2) == '#!') {
+            self.goToUrl(link.slice(2));
+        }
+    };
     self.clickAction = function(e) {
         if (e.metaKey || e.ctrlKey ||  e.altKey || e.shiftKey) {
             return;
@@ -92,7 +104,7 @@ var vanillaPJAX = function(settings) {
         new jsuAJAX({
             url: url,
             callback: function(content) {
-                settings.callbackAfterAJAX(url, content, item);
+                settings.callbackAfterAJAX(url, content);
                 self.loadContent(content, url);
             },
             data: data
@@ -106,7 +118,7 @@ var vanillaPJAX = function(settings) {
             return;
         }
         // Change URL
-        if ('pushState' in history) {
+        if (hasPushState) {
             history.pushState({}, document.title, url);
         }
         else {
