@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Input Box
- * Version: 1.2.1
+ * Version: 1.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Input Box may be freely distributed under the MIT license.
  */
@@ -78,6 +78,18 @@ if (!jQuery.fn.fakeInputBox) {
                 var self = this,
                     settings = this.settings;
                 self.setCSSClass();
+
+                self.el.on('focus', function() {
+                    self.wrapper.addClass('has-focus');
+                }).on('blur', function() {
+                    self.wrapper.removeClass('has-focus');
+                });
+
+                self.el.on('mousedown', function() {
+                    self.wrapper.addClass('is-active');
+                }).on('mouseup', function() {
+                    self.wrapper.removeClass('is-active');
+                });
 
                 if (this.elType == 'radio') {
                     $('[name="' + this.elName + '"]').on('change', function() {
