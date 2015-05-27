@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Scroll Animations
- * Version: 0.1
+ * Version: 0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -53,7 +53,7 @@ var dkJSUScrollAnims = function(items, opt) {
             offsetY: -100
         };
 
-        if(typeof opt != 'object'){
+        if (typeof opt != 'object') {
             return options;
         }
 
@@ -166,10 +166,15 @@ var dkJSUScrollAnims = function(items, opt) {
 
     /* Reset item positions */
     this.resetItemPositions = function() {
-        var tmpPos;
+        var tmpPos,
+            tmpOff;
         for (var i = 0, len = self.items.length; i < len; i++) {
             tmpPos = self.getPositionForItem(self.items[i].el);
             self.items[i].top = tmpPos.top + window.pageYOffset;
+            tmpOff = self.items[i].el.getAttribute('data-offset');
+            if (isNumber(tmpOff)) {
+                self.items[i].top -= parseInt(tmpOff, 10);
+            }
         }
     };
 
