@@ -1,14 +1,14 @@
 /*
  * Plugin Name: Vanilla-JS Scroll Animations
- * Version: 0.2
+ * Version: 0.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
 
 /*
-* var scrollItems = document.querySelectorAll('img[height]');
-* var scrollAnim = new dkJSUScrollAnims(scrollItems, {});
-*/
+ * var scrollItems = document.querySelectorAll('img[height]');
+ * var scrollAnim = new dkJSUScrollAnims(scrollItems, {});
+ */
 
 var dkJSUScrollAnims = function(items, opt) {
     'use strict';
@@ -127,12 +127,25 @@ var dkJSUScrollAnims = function(items, opt) {
             delay = parseInt(item.el.getAttribute('data-delay'), 10);
         }
 
-        // Add data active
-        setTimeout(function() {
-            item.el.setAttribute('data-active', '1');
-            item.isActive = 1;
-        }, delay);
+        if (item.el.getAttribute('data-usechildren') && item.el.getAttribute('data-usechildren') == '1' && item.el.hasChildNodes()) {
+            var children = item.el.children;
+            for (var ii = 0, i = 0, len = children.length; i < len; i++) {
+                self.activateElement(children[i], i * delay);
+            }
+        }
+        else {
+            self.activateElement(item.el, delay);
+        }
+
     };
+
+    // Set Activate item
+    this.activateElement = function(el, delay) {
+        console.log(el);
+        setTimeout(function() {
+            el.setAttribute('data-active', '1');
+        }, delay);
+    }
 
     /* Set active items */
     this.setActiveItems = function(border) {
