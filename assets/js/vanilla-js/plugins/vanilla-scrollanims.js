@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Scroll Animations
- * Version: 0.3
+ * Version: 0.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -65,13 +65,27 @@ var dkJSUScrollAnims = function(items, opt) {
     };
 
     this.getItems = function(items) {
-        var finalItems = [];
+        var finalItems = [],
+            tmpItem,
+            ii,
+            sublen;
+
         for (var i = 0, len = items.length; i < len; i++) {
             if (items[i]) {
-                finalItems.push({
+                tmpItem = {
                     el: items[i],
                     isVisible: 0
-                });
+                };
+
+                if (items[i].getAttribute('data-usechildren') && items[i].getAttribute('data-usechildren') == '1' && items[i].hasChildNodes()) {
+                    tmpItem.children = items[i].children;
+                    // Use a special selector for children if specified
+                    if (items[i].getAttribute('data-childselector')) {
+                        tmpItem.children = items[i].querySelectorAll(items[i].getAttribute('data-childselector'));
+                    }
+                }
+
+                finalItems.push(tmpItem);
             }
         }
         return finalItems;
@@ -127,10 +141,10 @@ var dkJSUScrollAnims = function(items, opt) {
             delay = parseInt(item.el.getAttribute('data-delay'), 10);
         }
 
-        if (item.el.getAttribute('data-usechildren') && item.el.getAttribute('data-usechildren') == '1' && item.el.hasChildNodes()) {
-            var children = item.el.children;
-            for (var ii = 0, i = 0, len = children.length; i < len; i++) {
-                self.activateElement(children[i], i * delay);
+        if (item.children) {
+            // Activate each children with a delay
+            for (var i = 0, len = item.children.length; i < len; i++) {
+                self.activateElement(item.children[i], i * delay);
             }
         }
         else {
@@ -141,7 +155,6 @@ var dkJSUScrollAnims = function(items, opt) {
 
     // Set Activate item
     this.activateElement = function(el, delay) {
-        console.log(el);
         setTimeout(function() {
             el.setAttribute('data-active', '1');
         }, delay);

@@ -8,7 +8,7 @@ layout: default
 </script>
 
 <style>
-.has-scrollanim-children > *,
+.has-scrollanim-children img,
 .has-scrollanim {
     opacity: 0;
     -webkit-transition: all 0.5s ease;
@@ -16,7 +16,7 @@ layout: default
     transform: translateX(30px);
 }
 
-.has-scrollanim-children > [data-active],
+.has-scrollanim-children img[data-active],
 .has-scrollanim[data-active] {
     opacity: 0.99;
     transform: translateX(0);
@@ -39,17 +39,19 @@ layout: default
 <p>Here’s to the crazy ones. The misfits. The rebels. The troublemakers. The round pegs in the square holes. The ones who see things differently. They’re not fond of rules. And they have no respect for the status quo. You can quote them, disagree with them, glorify or vilify them. About the only thing you can’t do is ignore them. Because they change things. They push the human race forward. And while some may see them as the crazy ones, we see genius. Because the people who are crazy enough to think they can change the world are the ones who do.</p>
 
 <h3>Example using children elements</h3>
-<div class="has-scrollanim-children" data-usechildren="1" data-delay="100">
-    <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
-    <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
-    <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
-    <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
-    <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
-    <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
-    <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
-    <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
-    <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
-    <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
+<div class="has-scrollanim-children" data-childselector="img" data-usechildren="1" data-delay="100">
+    <p>
+        <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
+        <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
+        <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
+        <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
+        <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
+        <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
+        <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
+        <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
+        <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
+        <img src="assets/img/image-1.jpg" height="100" width="150" alt="" />
+    </p>
 </div>
 
 <p>The world needs dreamers and the world needs doers. But above all, the world needs dreamers who do — Sarah Ban Breathnach. Everyone who has ever taken a shower has had an idea. It’s the person who gets out of the shower, dries off, and does something about it that makes a difference — Nolan Bushnell. </p>
