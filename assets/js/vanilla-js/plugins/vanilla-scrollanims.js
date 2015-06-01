@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Scroll Animations
- * Version: 0.4
+ * Version: 0.5
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -50,7 +50,8 @@ var dkJSUScrollAnims = function(items, opt) {
 
     this.getOptions = function(opt) {
         var options = {
-            offsetY: -100
+            offsetY: -100,
+            attributeName: 'active'
         };
 
         if (typeof opt != 'object') {
@@ -59,6 +60,10 @@ var dkJSUScrollAnims = function(items, opt) {
 
         if (opt.offsetY && isNumber(opt.offsetY)) {
             options.offsetY = parseInt(opt.offsetY, 10);
+        }
+
+        if (opt.attributeName) {
+            options.attributeName = opt.attributeName;
         }
 
         return options;
@@ -156,7 +161,8 @@ var dkJSUScrollAnims = function(items, opt) {
     // Set Activate item
     this.activateElement = function(el, delay) {
         setTimeout(function() {
-            el.setAttribute('data-active', '1');
+            el.setAttribute('data-' + self.opt.attributeName, '1');
+            triggerEvent(el, 'activescrollanim');
         }, delay);
     }
 
@@ -211,6 +217,23 @@ var dkJSUScrollAnims = function(items, opt) {
     function isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
+
+    function triggerEvent(el, eventName, parameters) {
+        var e = false;
+        parameters = parameters || {};
+        if (document.createEventObject) {
+            e = document.createEventObject();
+            e.button = 1;
+            e.jsuparams = parameters;
+            return el.fireEvent("on" + eventName, e);
+        }
+        else {
+            e = document.createEvent("HTMLEvents");
+            e.initEvent(eventName, true, false);
+            e.jsuparams = parameters;
+            return el.dispatchEvent(e);
+        }
+    };
 
     /* ----------------------------------------------------------
       Launch
