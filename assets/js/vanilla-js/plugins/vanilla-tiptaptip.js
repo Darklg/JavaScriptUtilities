@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Tip Tap Tip
- * Version: 0.1
+ * Version: 0.1.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -26,19 +26,19 @@ var dkJSUTipTapTip = function(item, options) {
     };
 
     self.getOptions = function(opt) {
-        var options = {
+        var baseOptions = {
             delay: 50
         };
 
         if (typeof opt != 'object') {
-            return options;
+            return baseOptions;
         }
 
         if (opt.delay && isNumber(opt.delay)) {
-            options.delay = parseInt(opt.delay, 10);
+            baseOptions.delay = parseInt(opt.delay, 10);
         }
 
-        return options;
+        return baseOptions;
     };
 
     /* ----------------------------------------------------------
@@ -49,12 +49,14 @@ var dkJSUTipTapTip = function(item, options) {
         if (!self.item) {
             return false;
         }
-        var interval = setInterval(function() {
-            self.item.appendChild(document.createTextNode(self.taptext.shift()));
-            if (self.taptext.length <= 0) {
-                clearInterval(interval);
-            }
-        }, self.opt.delay);
+        self.interval = setInterval(self.intervalTap, self.opt.delay);
+    };
+
+    self.intervalTap = function() {
+        self.item.appendChild(document.createTextNode(self.taptext.shift()));
+        if (self.taptext.length <= 0) {
+            clearInterval(self.interval);
+        }
     };
 
     /* ----------------------------------------------------------
