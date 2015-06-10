@@ -58,12 +58,12 @@
     "assets/js/mootools/classes/dk-jsu-lightbox/dk-jsu-lightbox.js",
     "assets/js/mootools/classes/dk-smooth-scroll/dk-smooth-scroll.js",
     "assets/js/mootools/classes/dk-jsu-tabs/dk-jsu-tabs.js",
-    "assets/js/mootools/classes/dk-jsu-elscroller/dk-jsu-elscroller.js",
+    "assets/js/mootools/classes/dk-jsu-elscroller/dk-jsu-elscroller.js"
   ],
   "dependencies": {
     "jquery": "~1.7.2",
     "mootools": "~1.4.5",
-    "mootools-more": "~1.4.0.1"
+    "mootools-more": "1.4.0.1"
   },
   "license": "MIT"
 }
