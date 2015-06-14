@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.2.1
+ * Version: 1.2.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -31,7 +31,8 @@ if (!jQuery.fn.dkJSUSlider) {
                 loopAfterLast: true,
                 showNavigation: true,
                 showPagination: true,
-                transition: function(oldSlide, newSlide, oldNb, nb, self) {
+                transition: function(oldSlide, newSlide, oldNb, nb) {
+                    var self = this;
                     newSlide.css({
                         'opacity': 0,
                         'z-index': 2
@@ -260,7 +261,7 @@ if (!jQuery.fn.dkJSUSlider) {
                 newSlide = this.slides.eq(nb);
 
                 if (typeof this.settings.transition == 'function') {
-                    this.settings.transition(oldSlide, newSlide, oldNb, nb, this);
+                    this.settings.transition.call(this,oldSlide, newSlide, oldNb, nb);
                 }
                 else {
                     oldSlide.css({
