@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.2.2
+ * Version: 1.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -15,10 +15,12 @@
 
 if (!jQuery.fn.dkJSUSlider) {
     (function($, window, document) {
+        'use strict';
         // Main Class
         var dkJSUSlider = {
             settings: {},
             defaultSettings: {
+                addCSSClasses: false,
                 autoSlide: true,
                 autoSlideForce: false,
                 autoSlideDuration: 7000,
@@ -29,6 +31,8 @@ if (!jQuery.fn.dkJSUSlider) {
                 keyboardActions: true,
                 loopBeforeFirst: true,
                 loopAfterLast: true,
+                paginationPrevLabel: 'Prev',
+                paginationNextLabel: 'Next',
                 showNavigation: true,
                 showPagination: true,
                 transition: function(oldSlide, newSlide, oldNb, nb) {
@@ -68,7 +72,7 @@ if (!jQuery.fn.dkJSUSlider) {
                     // Set Slide 0
                     this.slides.eq(0).css({
                         'z-index': 1
-                    });
+                    }).attr('data-current-slide','1');
                     if (this.settings.showPagination && this.pagers[0]) {
                         this.pagers[0].addClass('current');
                     }
@@ -92,8 +96,11 @@ if (!jQuery.fn.dkJSUSlider) {
             },
             // Creating & setting elements
             setElements: function() {
-                var self = this,
-                    settings = this.settings;
+                var settings = this.settings;
+
+                if (settings.addCSSClasses) {
+                    this.slider.addClass('dk-jsu-slider');
+                }
 
                 // Wrapper
                 this.slider.wrap(jQuery('<div class="dk-jsu-slider-wrapper"></div>'));
@@ -102,7 +109,7 @@ if (!jQuery.fn.dkJSUSlider) {
 
                 // Set Navigation
                 if (settings.showNavigation && settings.createNavigation) {
-                    this.navigation = jQuery('<div class="navigation"><div class="prev">prev</div><div class="next">next</div></div>');
+                    this.navigation = jQuery('<div class="navigation"><div class="prev">' + settings.paginationPrevLabel + '</div><div class="next">' + settings.paginationNextLabel + '</div></div>');
                     this.wrapper.append(this.navigation);
                 }
 
@@ -205,7 +212,7 @@ if (!jQuery.fn.dkJSUSlider) {
             },
             isPageVisible: function() {
                 var isVisible = true;
-                if ("visibilityState" in document && document.visibilityState === 'hidden') {
+                if ('visibilityState' in document && document.visibilityState === 'hidden') {
                     isVisible = false;
                 }
                 return isVisible;
@@ -257,11 +264,13 @@ if (!jQuery.fn.dkJSUSlider) {
                 }
 
                 this.settings.currentSlide = nb;
-                oldSlide = this.slides.eq(oldNb);
-                newSlide = this.slides.eq(nb);
+                var oldSlide = this.slides.eq(oldNb);
+                var newSlide = this.slides.eq(nb);
+                newSlide.attr('data-current-slide','1');
+                oldSlide.attr('data-current-slide','0');
 
                 if (typeof this.settings.transition == 'function') {
-                    this.settings.transition.call(this,oldSlide, newSlide, oldNb, nb);
+                    this.settings.transition.call(this, oldSlide, newSlide, oldNb, nb);
                 }
                 else {
                     oldSlide.css({
