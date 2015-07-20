@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Scroll Animations
- * Version: 0.6
+ * Version: 0.6.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -15,7 +15,7 @@ var dkJSUScrollAnims = function(items, opt) {
 
     var self = this;
 
-    if (!document.addEventListener || !items || !window.hasOwnProperty('innerHeight')) {
+    if (!document.addEventListener || !items) {
         return false;
     }
 
@@ -137,7 +137,8 @@ var dkJSUScrollAnims = function(items, opt) {
 
     this.scrollEvent = function() {
         // Get top border
-        var border = window.innerHeight + window.pageYOffset + self.opt.offsetY;
+        var innerHeight = (window.innerHeight || document.body.innerHeight),
+            border = innerHeight + window.pageYOffset + self.opt.offsetY;
 
         // Set active items
         self.setActiveItems(border);
