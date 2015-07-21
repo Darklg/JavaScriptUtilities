@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Scroll Animations
- * Version: 0.6.1
+ * Version: 0.7
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -51,7 +51,8 @@ var dkJSUScrollAnims = function(items, opt) {
     this.getOptions = function(opt) {
         var options = {
             offsetY: -100,
-            attributeName: 'active'
+            attributeName: 'active',
+            afterGetItems: function(el) {}
         };
 
         if (typeof opt != 'object') {
@@ -64,6 +65,9 @@ var dkJSUScrollAnims = function(items, opt) {
 
         if (opt.attributeName) {
             options.attributeName = opt.attributeName;
+        }
+        if (opt.afterGetItems && typeof opt.afterGetItems == 'function') {
+            options.afterGetItems = opt.afterGetItems;
         }
 
         return options;
@@ -106,10 +110,12 @@ var dkJSUScrollAnims = function(items, opt) {
         if (item.children) {
             for (var i = 0, len = item.children.length; i < len; i++) {
                 item.children[i].setAttribute('data-hasscrollanim', '1');
+                this.opt.afterGetItems(item.children[i]);
             }
         }
         else {
             item.el.setAttribute('data-hasscrollanim', '1');
+            this.opt.afterGetItems(item.el);
         }
     };
 
