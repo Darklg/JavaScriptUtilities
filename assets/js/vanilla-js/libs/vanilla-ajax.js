@@ -1,6 +1,6 @@
 /*
  * Plugin Name: AJAX
- * Version: 1.1
+ * Version: 1.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -10,12 +10,17 @@ new jsuAJAX({
     url: 'index.html',
     method: 'GET',
     callback: function(response, status){alert(response);},
-    data: 'ajax=1&test=abc'
+    data: {
+        ajax: 1,
+        test: 'abc'
+    }
 });
- */
+*/
 
 var jsuAJAX = function(args) {
-    var xmlHttpReq = false;
+    'use strict';
+    var xmlHttpReq = false,
+        ndata = [];
 
     /* Test url */
     if (!args.url) {
@@ -32,14 +37,16 @@ var jsuAJAX = function(args) {
     /* Test data */
     args.data = args.data || '';
     if (typeof args.data == 'object') {
-        var ndata = '';
+
         for (var i in args.data) {
-            if (ndata !== '') {
-                ndata += '&';
-            }
-            ndata += i + '=' + args.data[i];
+            ndata.push(encodeURIComponent(i) + '=' + encodeURIComponent(args.data[i]));
         }
-        args.data = ndata;
+        args.data = ndata.join('&');
+    }
+
+    /* Set url */
+    if (args.method == 'GET') {
+        args.url += '?' + args.data;
     }
 
     /* Set XHR Object */
@@ -50,24 +57,20 @@ var jsuAJAX = function(args) {
         xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
     }
 
-    if (args.method == 'GET') {
-        args.url += '?' + args.data;
-    }
-
-    /* Open request */
-    xmlHttpReq.open(args.method, args.url, true);
-    xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
     xmlHttpReq.onreadystatechange = function() {
         /* Callback when complete */
-        if (this.readyState == 4) {
+        if (this.readyState == 4 && this.status >= 200 && this.status < 400) {
             args.callback(this.responseText, this.status);
         }
     };
 
+    /* Open request */
+    xmlHttpReq.open(args.method, args.url, true);
+
     var dataSend = {};
     if (args.method == 'POST') {
         dataSend = args.data;
+        xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     }
 
     /* Send request */
