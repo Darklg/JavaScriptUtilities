@@ -1,0 +1,3 @@
+[submodule "modules/vanillaScrollAnims"]
+	path = modules/vanillaScrollAnims
+	url = https://github.com/JavaScriptUtilities/vanillaScrollAnims.git
