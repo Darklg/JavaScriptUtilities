@@ -1,3 +1,6 @@
 [submodule "modules/vanillaScrollAnims"]
 	path = modules/vanillaScrollAnims
 	url = https://github.com/JavaScriptUtilities/vanillaScrollAnims.git
+[submodule "modules/vanillaPJAX"]
+	path = modules/vanillaPJAX
+	url = git@github.com:JavaScriptUtilities/vanillaPJAX.git
