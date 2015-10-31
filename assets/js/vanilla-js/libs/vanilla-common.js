@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.13.1
+ * Version: 1.14
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -92,6 +92,23 @@ var debounce = function(func, wait, immediate) {
         }
     };
 };
+
+/* Callback when all images are loaded
+-------------------------- */
+
+var callOnAllImgLoad = function(urls, callback) {
+    var remainingPics = urls.length;
+
+    function hasLoadedCallback() {
+        remainingPics--;
+        if (remainingPics <= 0) {
+            callback();
+        }
+    }
+    for (var i = 0, len = urls.length; i < len; i++) {
+        callOnImgLoad(urls[i], hasLoadedCallback);
+    }
+}
 
 /* Callback on image load
 -------------------------- */
