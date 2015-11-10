@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.3
+ * Version: 1.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -72,7 +72,7 @@ if (!jQuery.fn.dkJSUSlider) {
                     // Set Slide 0
                     this.slides.eq(0).css({
                         'z-index': 1
-                    }).attr('data-current-slide','1');
+                    }).attr('data-current-slide', '1');
                     if (this.settings.showPagination && this.pagers[0]) {
                         this.pagers[0].addClass('current');
                     }
@@ -142,6 +142,9 @@ if (!jQuery.fn.dkJSUSlider) {
                     })
                     .on('nextslide', function() {
                         self.gotoSlide('next');
+                    })
+                    .on('gotoslide', function(e, i) {
+                        self.gotoSlide(i);
                     });
 
                 // Pagination
@@ -266,9 +269,9 @@ if (!jQuery.fn.dkJSUSlider) {
                 this.settings.currentSlide = nb;
                 var oldSlide = this.slides.eq(oldNb);
                 var newSlide = this.slides.eq(nb);
-                newSlide.attr('data-current-slide','1');
-                oldSlide.attr('data-current-slide','0');
-
+                newSlide.attr('data-current-slide', '1');
+                oldSlide.attr('data-current-slide', '0');
+                this.slider.trigger('goingtoslide', [oldNb, nb]);
                 if (typeof this.settings.transition == 'function') {
                     this.settings.transition.call(this, oldSlide, newSlide, oldNb, nb);
                 }
