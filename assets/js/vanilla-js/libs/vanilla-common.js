@@ -108,7 +108,7 @@ var callOnAllImgLoad = function(urls, callback) {
     for (var i = 0, len = urls.length; i < len; i++) {
         callOnImgLoad(urls[i], hasLoadedCallback);
     }
-}
+};
 
 /* Callback on image load
 -------------------------- */
