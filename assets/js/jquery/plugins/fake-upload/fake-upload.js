@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.2
+ * Version: 1.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
@@ -22,6 +22,7 @@ if (!jQuery.fn.FakeUpload) {
             defaultSettings: {
                 defaultClass: 'fake-upload-default-txt',
                 defaultTxt: 'Browse ...',
+                fakeButtonClass: 'cssc-button',
                 hasFakeButton: 0,
                 hasFakeButtonTxt: 'Choose a file',
             },
@@ -57,7 +58,7 @@ if (!jQuery.fn.FakeUpload) {
 
                 /* Fake button */
                 if (settings.hasFakeButton) {
-                    this.fakeButton = $('<div class="fakeupload-button cssc-button"></div>');
+                    this.fakeButton = $('<div class="fakeupload-button ' + settings.fakeButtonClass + '"></div>');
                     this.fakeButton.html(settings.hasFakeButtonTxt);
                     this.wrapper.append(this.fakeButton);
                     this.wrapper.addClass('has-fake-button');
