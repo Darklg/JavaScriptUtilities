@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.4
+ * Version: 1.5
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -159,6 +159,14 @@ if (!jQuery.fn.dkJSUSlider) {
                 if (settings.autoSlide) {
                     self.autoSlideEvent();
 
+                    self.wrapper.on('stopautoplay', function() {
+                        self.mouseInside = true;
+                        clearTimeout(self.autoSlideTimeout);
+                    }).on('startautoplay', function() {
+                        self.mouseInside = false;
+                        self.autoSlideEvent();
+                    });
+
                     if (!settings.autoSlideForce) {
                         // autoSlide stops on mouse enter and restarts on leave
                         self.wrapper.on('mouseenter', function() {
@@ -271,7 +279,7 @@ if (!jQuery.fn.dkJSUSlider) {
                 var newSlide = this.slides.eq(nb);
                 newSlide.attr('data-current-slide', '1');
                 oldSlide.attr('data-current-slide', '0');
-                this.slider.trigger('goingtoslide', [oldNb, nb]);
+                this.slider.trigger('goingtoslide', [oldNb, nb, oldSlide, newSlide]);
                 if (typeof this.settings.transition == 'function') {
                     this.settings.transition.call(this, oldSlide, newSlide, oldNb, nb);
                 }
