@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Panels
- * Version: 0.1
+ * Version: 0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Panels may be freely distributed under the MIT license.
  */
@@ -30,7 +30,9 @@ if (!jQuery.fn.dkJSUPanels) {
         // Main Class
         var dkJSUPanels = {
             defaultSettings: {
-                attrSelector: 'data-togglebodyclass'
+                attrSelector: 'data-togglebodyclass',
+                attrTarget: 'data-haspanel',
+                useClassname: true
             },
             init: function(el, settings) {
                 this.el = el;
@@ -62,20 +64,41 @@ if (!jQuery.fn.dkJSUPanels) {
             triggerCallback: function(e) {
                 var bodyClass = jQuery(e.currentTarget).attr(this.settings.attrSelector);
                 e.preventDefault();
-                if (!this.el.hasClass(bodyClass)) {
+                if (!this.hasPanel(bodyClass)) {
                     this.clearHeaderPanels();
-                    this.el.addClass(bodyClass);
+                    this.setPanel(bodyClass);
                 }
                 else {
                     this.clearHeaderPanels();
                 }
             },
+            hasPanel: function(panel) {
+                if (this.settings.useClassname) {
+                    return this.el.hasClass(panel);
+                }
+                else {
+                    return this.el.attr(this.settings.attrTarget) == panel;
+                }
+            },
+            setPanel: function(panel) {
+                if (this.settings.useClassname) {
+                    this.el.addClass(panel);
+                }
+                else {
+                    this.el.attr(this.settings.attrTarget, panel);
+                }
+            },
             clearHeaderPanels: function() {
-                var bodyClass = '';
-                jQuery('[' + this.settings.attrSelector + ']').each(jQuery.proxy(function(i, el) {
-                    bodyClass += ' ' + jQuery(el).attr(this.settings.attrSelector);
-                }, this));
-                this.el.removeClass(bodyClass);
+                if (this.settings.useClassname) {
+                    var bodyClass = '';
+                    jQuery('[' + this.settings.attrSelector + ']').each(jQuery.proxy(function(i, el) {
+                        bodyClass += ' ' + jQuery(el).attr(this.settings.attrSelector);
+                    }, this));
+                    this.el.removeClass(bodyClass);
+                }
+                else {
+                    this.el.attr(this.settings.attrTarget, '');
+                }
             },
         };
         // Using the dkJSUPanels class as a jQuery plugin
