@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Touch
- * Version: 0.4
+ * Version: 0.5
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -218,5 +218,30 @@ var setSwipeEvent = function(el, options) {
         if ("jQuery" in window) {
             jQuery(el).trigger(eventTriggered);
         }
+    }
+};
+
+/* ----------------------------------------------------------
+  Detect touch / mouse hybrid screens
+---------------------------------------------------------- */
+
+var vanillaDetectHybridScreens = function() {
+    var currentScreenMode = '';
+    window.addEventListener('mousemove', function(e) {
+        if (currentScreenMode == 'mouse') {
+            return;
+        }
+        setCurrentScreenMode('mouse');
+    }, false);
+    window.addEventListener('touchstart', function(e) {
+        if (currentScreenMode == 'touch') {
+            return;
+        }
+        setCurrentScreenMode('touch');
+    }, false);
+
+    function setCurrentScreenMode(mode) {
+        currentScreenMode = mode;
+        document.body.setAttribute('data-inputmode', mode);
     }
 };
