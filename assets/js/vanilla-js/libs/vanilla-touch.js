@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Touch
- * Version: 0.5
+ * Version: 0.6
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -109,9 +109,14 @@ var setSwipeEvent = function(el, options) {
     el.hasswipeevent = 1;
 
     // Default values
-    options = (options && typeof options == 'object') || {};
-    options.maxDelay = (options.maxDelay && typeof options == 'number') || 1000;
-    options.minRange = (options.minRange && typeof options == 'number') || 75;
+    options = (options && typeof options == 'object') ? options : {};
+    options.maxDelay = (options.maxDelay && typeof options.maxDelay == 'number') ? options.maxDelay : 1000;
+    options.minRange = (options.minRange && typeof options.minRange == 'number') ? options.minRange : 75;
+
+    options.evtSwipeToRight = (options.evtSwipeToRight && typeof options.evtSwipeToRight == 'string') ? options.evtSwipeToRight : 'swipetoright';
+    options.evtSwipeToLeft = (options.evtSwipeToLeft && typeof options.evtSwipeToLeft == 'string') ? options.evtSwipeToLeft : 'swipetoleft';
+    options.evtSwipeToBottom = (options.evtSwipeToBottom && typeof options.evtSwipeToBottom == 'string') ? options.evtSwipeToBottom : 'swipetobottom';
+    options.evtSwipeToTop = (options.evtSwipeToTop && typeof options.evtSwipeToTop == 'string') ? options.evtSwipeToTop : 'swipetotop';
 
     if (window.navigator.msPointerEnabled) {
         // Disable touch actions on element
@@ -167,11 +172,11 @@ var setSwipeEvent = function(el, options) {
         if (deltaWi > deltaHe && deltaWi > options.minRange && delay < options.maxDelay) {
             // To Right
             if (pos.xStart < pos.xEnd) {
-                eventTriggered = 'swipetoright';
+                eventTriggered = options.evtSwipeToRight;
             }
             // To left
             else {
-                eventTriggered = 'swipetoleft';
+                eventTriggered = options.evtSwipeToLeft;
             }
         }
 
@@ -179,11 +184,11 @@ var setSwipeEvent = function(el, options) {
         if (deltaHe > deltaWi && deltaHe > options.minRange && delay < options.maxDelay) {
             // To Bottom
             if (pos.yStart < pos.yEnd) {
-                eventTriggered = 'swipetobottom';
+                eventTriggered = options.evtSwipeToBottom;
             }
             // To top
             else {
-                eventTriggered = 'swipetotop';
+                eventTriggered = options.evtSwipeToTop;
             }
         }
 
