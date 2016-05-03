@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.5
+ * Version: 1.6
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -137,6 +137,9 @@ if (!jQuery.fn.dkJSUSlider) {
                     settings = this.settings;
 
                 self.slider
+                    .on('destroyslider', jQuery.proxy(self.destroySlider, this));
+
+                self.slider
                     .on('prevslide', function() {
                         self.gotoSlide('prev');
                     })
@@ -194,7 +197,7 @@ if (!jQuery.fn.dkJSUSlider) {
 
                 // Keyboard navigation
                 if (settings.keyboardActions) {
-                    jQuery(window).on('keydown', function(e) {
+                    jQuery(window).on('keydown.dkjsuslider', function(e) {
                         if (e.keyCode && document.activeElement) {
                             // If is not focused
                             if (['input', 'textarea'].indexOf(document.activeElement.tagName.toLowerCase()) == -1) {
@@ -209,6 +212,43 @@ if (!jQuery.fn.dkJSUSlider) {
                         }
                     });
                 }
+            },
+            destroySlider: function() {
+                // Disable events
+                this.slider.off('stopautoplay');
+                this.slider.off('startautoplay');
+                this.slider.off('prevslide');
+                this.slider.off('nextslide');
+                this.slider.off('gotoslide');
+                this.wrapper.off('mouseleave');
+                this.wrapper.off('mouseenter');
+
+                // Disable events
+                this.pagination.off('click');
+                this.navigation.children().off('click');
+                jQuery(window).off('.dkjsuslider');
+
+                // Disable autoslide
+                clearTimeout(this.autoSlideTimeout);
+
+                // Remove classes
+                this.slider.removeClass('dk-jsu-slider');
+                this.slides.each(function() {
+                    jQuery(this)
+                        .attr('style', '')
+                        .removeAttr('data-i')
+                        .removeAttr('data-current-slide')
+                        .removeClass('dk-jsu-slide');
+                });
+
+                // Append slider to wrapper
+                this.slider.insertAfter(this.wrapper);
+
+                // Delete items
+                this.pagination.remove();
+                this.navigation.remove();
+                this.wrapper.remove();
+
             },
             autoSlideEvent: function() {
                 var self = this,
