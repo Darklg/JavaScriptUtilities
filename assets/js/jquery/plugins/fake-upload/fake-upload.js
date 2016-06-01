@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.2.1
+ * Version: 1.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
@@ -25,6 +25,9 @@ if (!jQuery.fn.FakeUpload) {
                 fakeButtonClass: 'cssc-button',
                 hasFakeButton: 0,
                 hasFakeButtonTxt: 'Choose a file',
+                hasImgPreview: 0,
+                imgPreviewEl: false,
+                imgPreviewClass: 'cssc-imgpreview'
             },
             settings: {},
             init: function(el, settings) {
@@ -48,7 +51,7 @@ if (!jQuery.fn.FakeUpload) {
             setWrapper: function() {
                 var self = this,
                     settings = self.settings;
-                this.wrapper = $('<div class="fakeupload-wrapper"></div>');
+                this.wrapper = $('<div class="fakeupload-wrapper fakeupload-wrapper--jq"></div>');
                 this.cover = $('<div class="fakeupload-cover"></div>');
                 this.setDefaultStatus();
                 this.el.attr('size', 100);
@@ -63,11 +66,23 @@ if (!jQuery.fn.FakeUpload) {
                     this.wrapper.append(this.fakeButton);
                     this.wrapper.addClass('has-fake-button');
                 }
+
+                /* Image preview */
+                if (settings.hasImgPreview) {
+                    this.el.attr('accept', 'image/*');
+                    if (settings.imgPreviewEl) {
+                        this.imgPreview = settings.imgPreviewEl;
+                    }
+                    else {
+                        this.imgPreview = $('<div class="imgpreview ' + settings.imgPreviewClass + '"></div>');
+                        this.wrapper.append(this.imgPreview);
+                    }
+                }
             },
             setEvents: function() {
                 var self = this,
                     settings = self.settings;
-                // Change the shown file name
+                // Change the displayed file name
                 this.el.on('change', function() {
                     var newValue = $(this).val().replace('C:\\fakepath\\', '');
                     if (newValue === '') {
@@ -75,6 +90,24 @@ if (!jQuery.fn.FakeUpload) {
                     }
                     else {
                         self.cover.html(newValue).removeClass(settings.defaultClass);
+                        (function() {
+                            if (!settings.hasImgPreview || !('FileReader' in window)) {
+                                return;
+                            }
+                            // Empty preview
+                            self.imgPreview.html('');
+                            var reader = new FileReader(),
+                                imgItem = $('<img src="#" />');
+
+                            // Get loaded data and insert thumbnail.
+                            reader.onload = function(e) {
+                                imgItem.attr('src', e.target.result);
+                                self.imgPreview.append(imgItem);
+                            };
+
+                            // Read the image file as a data URL.
+                            reader.readAsDataURL(self.el.get(0).files[0]);
+                        }());
                     }
                 });
                 // Move the input element for a good behavior
