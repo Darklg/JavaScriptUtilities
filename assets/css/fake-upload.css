@@ -14,6 +14,7 @@
     cursor: pointer;
 }
 
+.fakeupload-wrapper .fakeupload-imgpreview,
 .fakeupload-wrapper .fakeupload-button,
 .fakeupload-wrapper input,
 .fakeupload-cover {
@@ -55,7 +56,9 @@
 }
 
 .fakeupload-wrapper {
-    width: 350px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    max-width: 350px;
     border: 1px solid #ccc;
     background-color: #fff;
 }
@@ -74,7 +77,6 @@
 /* Button */
 
 .fakeupload-wrapper.has-fake-button {
-    width: 215px;
     padding-left: 135px;
 }
 
@@ -88,4 +90,22 @@
     text-align: center;
     font-size: 11px;
     font-weight: bold;
+}
+
+/* Image */
+
+.fakeupload-wrapper.has-fake-image--default .fakeupload-cover {
+    padding-right: 30px;
+}
+
+.fakeupload-wrapper .fakeupload-imgpreview {
+    bottom: 0;
+    width: 25px;
+    background: transparent no-repeat center center;
+    background-size: cover;
+}
+
+.fakeupload-imgpreview img {
+    width: 100%;
+    height: auto;
 }

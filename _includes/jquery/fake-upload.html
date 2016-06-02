@@ -9,10 +9,10 @@
 <script class="script-visible" contenteditable>jQuery(document).ready(function(){
     // Default
     jQuery('input.fake-upload').FakeUpload();
-    // Customized
-    jQuery('input.fakae-upload').FakeUpload({
+    // With custom text and image preview
+    jQuery('input.fake-upload-image').FakeUpload({
         defaultTxt : 'Parcourir ...',
-        imgPreviewEl: jQuery('.img-preview-fakae'),
+        hasImgPreview : 1,
         hasFakeButton : 1,
         hasFakeButtonTxt : 'Choisir un fichier',
     });
@@ -21,6 +21,6 @@
     <input type="file" name="fake-upload-test" class="fake-upload" />
 </div>
 <div class="script-result">
-    <input type="file" name="fake-upcummiguload-test" class="fakae-upload" />
+    <input type="file" name="fake-upload-test--image" class="fake-upload-image" />
     <div class="img-preview-fakae"></div>
 </div>

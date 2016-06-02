@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.3
+ * Version: 1.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
@@ -26,8 +26,9 @@ if (!jQuery.fn.FakeUpload) {
                 hasFakeButton: 0,
                 hasFakeButtonTxt: 'Choose a file',
                 hasImgPreview: 0,
-                imgPreviewEl: false,
-                imgPreviewClass: 'cssc-imgpreview'
+                imgPreviewBg: 0,
+                imgPreviewClass: 'cssc-imgpreview',
+                imgPreviewEl: 0,
             },
             settings: {},
             init: function(el, settings) {
@@ -70,11 +71,13 @@ if (!jQuery.fn.FakeUpload) {
                 /* Image preview */
                 if (settings.hasImgPreview) {
                     this.el.attr('accept', 'image/*');
+                    this.wrapper.addClass('has-fake-image');
                     if (settings.imgPreviewEl) {
                         this.imgPreview = settings.imgPreviewEl;
                     }
                     else {
-                        this.imgPreview = $('<div class="imgpreview ' + settings.imgPreviewClass + '"></div>');
+                        this.wrapper.addClass('has-fake-image--default');
+                        this.imgPreview = $('<div class="fakeupload-imgpreview ' + settings.imgPreviewClass + '"></div>');
                         this.wrapper.append(this.imgPreview);
                     }
                 }
@@ -96,13 +99,20 @@ if (!jQuery.fn.FakeUpload) {
                             }
                             // Empty preview
                             self.imgPreview.html('');
-                            var reader = new FileReader(),
-                                imgItem = $('<img src="#" />');
+                            var reader = new FileReader();
+                            if (!settings.imgPreviewBg) {
+                                var imgItem = $('<img src="#" />');
+                            }
 
                             // Get loaded data and insert thumbnail.
                             reader.onload = function(e) {
-                                imgItem.attr('src', e.target.result);
-                                self.imgPreview.append(imgItem);
+                                if (!settings.imgPreviewBg) {
+                                    imgItem.attr('src', e.target.result);
+                                    self.imgPreview.append(imgItem);
+                                }
+                                else {
+                                    self.imgPreview.css('background-image', 'url(' + e.target.result + ')');
+                                }
                             };
 
                             // Read the image file as a data URL.
@@ -133,6 +143,9 @@ if (!jQuery.fn.FakeUpload) {
                 if (!this.cover.hasClass(settings.defaultClass)) {
                     this.cover.addClass(settings.defaultClass);
                     this.cover.html(settings.defaultTxt);
+                }
+                if (this.imgPreview) {
+                    this.imgPreview.html('').attr('style', '');
                 }
             }
         };
