@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.4
+ * Version: 1.4.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
@@ -34,10 +34,11 @@ if (!jQuery.fn.FakeUpload) {
             init: function(el, settings) {
                 this.el = el;
                 this.getSettings(settings);
-                if (el.hasClass('has-fakeupload') || el.attr('type') != 'file') {
+                if (!el.get(0) || el.hasClass('has-fakeupload') || el.attr('type') != 'file') {
                     return;
                 }
                 this.el.addClass('has-fakeupload');
+                this.advancedupload = this.isAdvancedUpload();
                 this.setWrapper();
                 this.setEvents();
             },
@@ -93,31 +94,7 @@ if (!jQuery.fn.FakeUpload) {
                     }
                     else {
                         self.cover.html(newValue).removeClass(settings.defaultClass);
-                        (function() {
-                            if (!settings.hasImgPreview || !('FileReader' in window)) {
-                                return;
-                            }
-                            // Empty preview
-                            self.imgPreview.html('');
-                            var reader = new FileReader();
-                            if (!settings.imgPreviewBg) {
-                                var imgItem = $('<img src="#" />');
-                            }
-
-                            // Get loaded data and insert thumbnail.
-                            reader.onload = function(e) {
-                                if (!settings.imgPreviewBg) {
-                                    imgItem.attr('src', e.target.result);
-                                    self.imgPreview.append(imgItem);
-                                }
-                                else {
-                                    self.imgPreview.css('background-image', 'url(' + e.target.result + ')');
-                                }
-                            };
-
-                            // Read the image file as a data URL.
-                            reader.readAsDataURL(self.el.get(0).files[0]);
-                        }());
+                        jQuery.proxy(self.setImagePreview, self)();
                     }
                 });
                 // Move the input element for a good behavior
@@ -137,6 +114,33 @@ if (!jQuery.fn.FakeUpload) {
                     });
                 });
             },
+            setImagePreview: function(){
+                var self = this,
+                    settings = self.settings;
+                if (!this.settings.hasImgPreview || !self.advancedupload) {
+                    return;
+                }
+                // Empty preview
+                self.imgPreview.html('');
+                var reader = new FileReader();
+                if (!settings.imgPreviewBg) {
+                    var imgItem = $('<img src="#" />');
+                }
+
+                // Get loaded data and insert thumbnail.
+                reader.onload = function(e) {
+                    if (!settings.imgPreviewBg) {
+                        imgItem.attr('src', e.target.result);
+                        self.imgPreview.append(imgItem);
+                    }
+                    else {
+                        self.imgPreview.css('background-image', 'url(' + e.target.result + ')');
+                    }
+                };
+
+                // Read the image file as a data URL.
+                reader.readAsDataURL(self.el.get(0).files[0]);
+            },
             setDefaultStatus: function() {
                 var self = this,
                     settings = self.settings;
@@ -147,6 +151,10 @@ if (!jQuery.fn.FakeUpload) {
                 if (this.imgPreview) {
                     this.imgPreview.html('').attr('style', '');
                 }
+            },
+            isAdvancedUpload: function() {
+                var div = document.createElement('div');
+                return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
             }
         };
         $.fn.FakeUpload = function(params) {
