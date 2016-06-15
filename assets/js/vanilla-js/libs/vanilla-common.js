@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.14
+ * Version: 1.15
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -130,17 +130,16 @@ var callOnImgLoad = function(url, callback) {
 -------------------------- */
 
 var callOnItemLoad = function(url, callback) {
-    var el, type = 'image',
+    var el,
+        d,
+        type = 'image',
         ext = false,
         url_split = url.split('.'),
         funCallback = function() {
             callback();
             el.removeEventListener('loadeddata', funCallback);
-            url_split = null;
-            callback = null;
-            type = null;
-            url = null;
-            ext = null;
+            el.src = '';
+            d.removeChild(el);
             el = null;
         };
 
@@ -148,17 +147,22 @@ var callOnItemLoad = function(url, callback) {
         ext = url_split.pop();
     }
 
+    d = document.createDocumentFragment();
+
     // Create a new element
     switch (ext) {
         case 'mp4':
             type = 'video';
             el = document.createElement('video');
+            el.pause();
             el.addEventListener('loadeddata', funCallback, 0);
             break;
         default:
             el = new Image();
             el.onload = funCallback;
     }
+
+    d.appendChild(el);
 
     // Add content
     el.src = url;
@@ -289,7 +293,7 @@ var morphCSS = function(element, settings) {
 ---------------------------------------------------------- */
 
 var morphHTMLNumber = function(options) {
-    var finalValue, intervalValue, interval;
+    var finalValue, intervalValue, interval, startValue;
     if (!options.el) {
         return false;
     }
