@@ -1,6 +1,6 @@
 /*
  * Plugin Name: AJAX
- * Version: 1.2
+ * Version: 1.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -20,6 +20,7 @@ new jsuAJAX({
 var jsuAJAX = function(args) {
     'use strict';
     var xmlHttpReq = false,
+        sepUrlData = '?',
         ndata = [];
 
     /* Test url */
@@ -34,19 +35,30 @@ var jsuAJAX = function(args) {
     args.method = args.method || 'GET';
     args.method = args.method.toUpperCase();
 
+    /* Keep empty values in data */
+    args.keepEmptyValues = args.keepEmptyValues || false;
+
     /* Test data */
     args.data = args.data || '';
     if (typeof args.data == 'object') {
 
         for (var i in args.data) {
+            if (args.data[i].length === 0 && !args.keepEmptyValues) {
+                continue;
+            }
             ndata.push(encodeURIComponent(i) + '=' + encodeURIComponent(args.data[i]));
         }
         args.data = ndata.join('&');
     }
 
+    /* Set URL separator */
+    if (args.url.indexOf('?') > -1) {
+        sepUrlData = '&';
+    }
+
     /* Set url */
     if (args.method == 'GET') {
-        args.url += '?' + args.data;
+        args.url += sepUrlData + args.data;
     }
 
     /* Set XHR Object */
