@@ -1,19 +1,23 @@
 /*
  * Plugin Name: AJAX
- * Version: 1.2.2
+ * Version: 1.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
 
 /*
 new jsuAJAX({
-    url: 'index.html',
-    method: 'GET',
     callback: function(response, status){alert(response);},
+    callbackError: function(response, status){alert(response);},
     data: {
         ajax: 1,
         test: 'abc'
-    }
+    },
+    dataType: 'json',
+    headers: [['name','value']],
+    keepEmptyValues: true,
+    method: 'GET',
+    url: 'index.html'
 });
 */
 
@@ -32,8 +36,14 @@ var jsuAJAX = function(args) {
         return false;
     }
 
+    /* Headers */
+    args.headers = args.headers || [];
+    args.contentType = args.contentType || 'application/x-www-form-urlencoded';
+    args.dataType = args.dataType || 'default';
+
     /* Test callback */
     args.callback = args.callback || function(response, status) {};
+    args.callbackError = args.callbackError || function(response, status) {};
 
     /* Test method */
     args.method = args.method || 'GET';
@@ -65,12 +75,31 @@ var jsuAJAX = function(args) {
         args.url += sepUrlData + args.data;
     }
 
+    function getResponseData(resp, type) {
+        resp = resp || '';
+        type = type || 'default';
+        switch (type) {
+            case 'json':
+                return JSON.parse(resp);
+            default:
+                return resp;
+        }
+    }
+
     /* Set XHR Object */
     xmlHttpReq = new XMLHttpRequest();
     xmlHttpReq.onreadystatechange = function() {
         /* Callback when complete */
-        if (this.readyState == 4 && this.status >= 200 && this.status < 400) {
-            args.callback(this.responseText, this.status);
+        if (this.readyState != 4) {
+            return false;
+        }
+
+        if (this.status >= 200 && this.status < 400) {
+            args.callback(getResponseData(this.responseText, args.dataType), this.status);
+        }
+
+        if (this.status >= 400) {
+            args.callbackError(this.responseText, this.status);
         }
     };
 
@@ -80,7 +109,11 @@ var jsuAJAX = function(args) {
     var dataSend = {};
     if (args.method == 'POST') {
         dataSend = args.data;
-        xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xmlHttpReq.setRequestHeader('Content-Type', args.contentType);
+    }
+
+    for (var ii = 0, len = args.headers.length; ii < len; ii++) {
+        xmlHttpReq.setRequestHeader(args.headers[ii][0], args.headers[ii][1]);
     }
 
     /* Send request */
