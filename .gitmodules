@@ -4,3 +4,6 @@
 [submodule "modules/vanillaPJAX"]
 	path = modules/vanillaPJAX
 	url = https://github.com/JavaScriptUtilities/vanillaPJAX.git
+[submodule "modules/vanillaFakeSelect"]
+	path = modules/vanillaFakeSelect
+	url = https://github.com/JavaScriptUtilities/vanillaFakeSelect.git
