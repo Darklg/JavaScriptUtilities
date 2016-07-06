@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.4.1
+ * Version: 1.5
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
@@ -18,6 +18,10 @@ jQuery('input.fake-upload').FakeUpload({
 if (!jQuery.fn.FakeUpload) {
     (function($) {
         'use strict';
+
+        var _pluginID = 'FakeUpload'.toLowerCase(),
+            _dataPlugin = 'plugin_' + _pluginID;
+
         var FakeUpload = {
             defaultSettings: {
                 defaultClass: 'fake-upload-default-txt',
@@ -48,6 +52,16 @@ if (!jQuery.fn.FakeUpload) {
                     settings = {};
                 }
                 this.settings = $.extend(true, {}, this.defaultSettings, settings);
+
+                try {
+                    // Obtain settings from attribute
+                    var tmpDataSettings = JSON.parse(this.el.attr('data-fakeupload-settings'));
+                    if (typeof tmpDataSettings == 'object') {
+                        this.settings = $.extend(true, {}, this.settings, tmpDataSettings);
+                    }
+                }
+                catch (e) {}
+
             },
             // Set wrappers elements
             setWrapper: function() {
@@ -94,7 +108,7 @@ if (!jQuery.fn.FakeUpload) {
                     }
                     else {
                         self.cover.html(newValue).removeClass(settings.defaultClass);
-                        jQuery.proxy(self.setImagePreview, self)();
+                        $.proxy(self.setImagePreview, self)();
                     }
                 });
                 // Move the input element for a good behavior
@@ -114,7 +128,7 @@ if (!jQuery.fn.FakeUpload) {
                     });
                 });
             },
-            setImagePreview: function(){
+            setImagePreview: function() {
                 var self = this,
                     settings = self.settings;
                 if (!this.settings.hasImgPreview || !self.advancedupload) {
@@ -159,11 +173,10 @@ if (!jQuery.fn.FakeUpload) {
         };
         $.fn.FakeUpload = function(params) {
             this.each(function() {
-                var $this = $(this),
-                    dataPlugin = 'plugin_FakeUpload'.toLowerCase();
-                if (!$this.hasClass(dataPlugin)) {
+                var $this = $(this);
+                if (!$this.hasClass(_dataPlugin)) {
                     $.extend(true, {}, FakeUpload).init($this, params);
-                    $this.addClass(dataPlugin);
+                    $this.addClass(_dataPlugin);
                 }
             });
             return this;
