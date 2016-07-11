@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Slider
- * Version: 1.6
+ * Version: 1.6.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Slider may be freely distributed under the MIT license.
  */
@@ -25,6 +25,9 @@ if (!jQuery.fn.dkJSUSlider) {
                 autoSlideForce: false,
                 autoSlideDuration: 7000,
                 bulletsType: 'default',
+                bulletsContent: function(i) {
+                    return '&bull;';
+                },
                 createNavigation: true,
                 createPagination: true,
                 currentSlide: 0,
@@ -98,6 +101,7 @@ if (!jQuery.fn.dkJSUSlider) {
             setElements: function() {
                 var settings = this.settings;
 
+                // Slider
                 if (settings.addCSSClasses) {
                     this.slider.addClass('dk-jsu-slider');
                 }
@@ -117,9 +121,8 @@ if (!jQuery.fn.dkJSUSlider) {
                 if (settings.showPagination && settings.createPagination) {
                     var bullet = '';
                     this.pagination = jQuery('<div class="pagination"></div>');
-
                     for (var i = 0; i < settings.nbSlides; i++) {
-                        bullet = '&bull;';
+                        bullet = settings.bulletsContent(i);
                         if (settings.bulletsType == 'numbers') {
                             bullet = i + 1;
                         }
@@ -152,7 +155,7 @@ if (!jQuery.fn.dkJSUSlider) {
 
                 // Pagination
                 if (settings.showPagination && self.pagination) {
-                    self.pagination.on('click', '[data-i]', function(e) {
+                    self.pagination.on('click', '[data-i]', function dkjsuslider_paginationclick(e) {
                         if (e) e.preventDefault();
                         self.gotoSlide(parseInt(jQuery(this).attr('data-i'), 10));
                     });
@@ -161,15 +164,6 @@ if (!jQuery.fn.dkJSUSlider) {
                 // Auto slide
                 if (settings.autoSlide) {
                     self.autoSlideEvent();
-
-                    self.wrapper.on('stopautoplay', function() {
-                        self.mouseInside = true;
-                        clearTimeout(self.autoSlideTimeout);
-                    }).on('startautoplay', function() {
-                        self.mouseInside = false;
-                        self.autoSlideEvent();
-                    });
-
                     if (!settings.autoSlideForce) {
                         // autoSlide stops on mouse enter and restarts on leave
                         self.wrapper.on('mouseenter', function() {
@@ -181,10 +175,17 @@ if (!jQuery.fn.dkJSUSlider) {
                         });
                     }
                 }
+                self.wrapper.on('stopautoplay', function() {
+                    self.mouseInside = true;
+                    clearTimeout(self.autoSlideTimeout);
+                }).on('startautoplay', function() {
+                    self.mouseInside = false;
+                    self.autoSlideEvent();
+                });
 
                 // Navigation
                 if (settings.showNavigation && self.navigation) {
-                    self.navigation.children().on('click', function(e) {
+                    self.navigation.children().on('click', function dkjsuslider_navigationclick(e) {
                         if (e) e.preventDefault();
                         if (jQuery(this).hasClass('prev')) {
                             self.gotoSlide('prev');
@@ -197,7 +198,7 @@ if (!jQuery.fn.dkJSUSlider) {
 
                 // Keyboard navigation
                 if (settings.keyboardActions) {
-                    jQuery(window).on('keydown.dkjsuslider', function(e) {
+                    jQuery(window).on('keydown.dkjsuslider', function dkjsuslider_keyboard(e) {
                         if (e.keyCode && document.activeElement) {
                             // If is not focused
                             if (['input', 'textarea'].indexOf(document.activeElement.tagName.toLowerCase()) == -1) {
@@ -220,6 +221,7 @@ if (!jQuery.fn.dkJSUSlider) {
                 this.slider.off('prevslide');
                 this.slider.off('nextslide');
                 this.slider.off('gotoslide');
+                this.slider.off('destroyslider');
                 this.wrapper.off('mouseleave');
                 this.wrapper.off('mouseenter');
 
@@ -233,6 +235,7 @@ if (!jQuery.fn.dkJSUSlider) {
 
                 // Remove classes
                 this.slider.removeClass('dk-jsu-slider');
+                this.slider.removeClass('plugin_dkjsuslider');
                 this.slides.each(function() {
                     jQuery(this)
                         .attr('style', '')
