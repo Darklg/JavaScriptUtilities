@@ -7,3 +7,6 @@
 [submodule "modules/vanillaFakeSelect"]
 	path = modules/vanillaFakeSelect
 	url = https://github.com/JavaScriptUtilities/vanillaFakeSelect.git
+[submodule "modules/vanillaLazyLoad"]
+	path = modules/vanillaLazyLoad
+	url = https://github.com/JavaScriptUtilities/vanillaLazyLoad.git
