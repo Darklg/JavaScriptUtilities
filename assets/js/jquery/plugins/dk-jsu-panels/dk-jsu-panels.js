@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Panels
- * Version: 0.2
+ * Version: 0.2.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Panels may be freely distributed under the MIT license.
  */
@@ -32,6 +32,7 @@ if (!jQuery.fn.dkJSUPanels) {
             defaultSettings: {
                 attrSelector: 'data-togglebodyclass',
                 attrTarget: 'data-haspanel',
+                clearOnResize: true,
                 useClassname: true
             },
             init: function(el, settings) {
@@ -56,6 +57,11 @@ if (!jQuery.fn.dkJSUPanels) {
                         this.clearHeaderPanels();
                     }
                 }, this));
+                if (this.settings.clearOnResize) {
+                    jQuery(window).on('resize', jQuery.proxy(function(e) {
+                        this.clearHeaderPanels();
+                    }, this));
+                }
             },
             filterCallback: function(e) {
                 e.preventDefault();
