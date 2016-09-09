@@ -10,3 +10,9 @@
 [submodule "modules/vanillaLazyLoad"]
 	path = modules/vanillaLazyLoad
 	url = https://github.com/JavaScriptUtilities/vanillaLazyLoad.git
+[submodule "modules/vanillaSticky"]
+	path = modules/vanillaSticky
+	url = https://github.com/JavaScriptUtilities/vanillaSticky.git
+[submodule "modules/vanillaInfiniteScroll"]
+	path = modules/vanillaInfiniteScroll
+	url = https://github.com/JavaScriptUtilities/vanillaInfiniteScroll.git
