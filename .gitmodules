@@ -16,3 +16,6 @@
 [submodule "modules/vanillaInfiniteScroll"]
 	path = modules/vanillaInfiniteScroll
 	url = https://github.com/JavaScriptUtilities/vanillaInfiniteScroll.git
+[submodule "modules/vanillaMoveBlocks"]
+	path = modules/vanillaMoveBlocks
+	url = https://github.com/JavaScriptUtilities/vanillaMoveBlocks.git
