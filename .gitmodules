@@ -19,3 +19,6 @@
 [submodule "modules/vanillaMoveBlocks"]
 	path = modules/vanillaMoveBlocks
 	url = https://github.com/JavaScriptUtilities/vanillaMoveBlocks.git
+[submodule "modules/vanillaJsuParallax"]
+	path = modules/vanillaJsuParallax
+	url = https://github.com/JavaScriptUtilities/vanillaJsuParallax.git
