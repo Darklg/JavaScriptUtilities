@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Panels
- * Version: 0.2.1
+ * Version: 0.2.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Panels may be freely distributed under the MIT license.
  */
@@ -62,6 +62,13 @@ if (!jQuery.fn.dkJSUPanels) {
                         this.clearHeaderPanels();
                     }, this));
                 }
+                jQuery(window).on('click', '.close-header-panels', jQuery.proxy(function(e) {
+                    e.preventDefault();
+                    this.clearHeaderPanels();
+                }, this));
+                jQuery(window).on('clearHeaderPanels', jQuery.proxy(function(e) {
+                    this.clearHeaderPanels();
+                }, this));
             },
             filterCallback: function(e) {
                 e.preventDefault();
