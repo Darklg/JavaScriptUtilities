@@ -1,6 +1,6 @@
 /*
  * Plugin Name: AJAX Cache
- * Version: 0.1
+ * Version: 0.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities AJAX Cache be freely distributed under the MIT license.
  */
@@ -11,12 +11,14 @@ var vanillaAjaxCache = function(settings) {
     settings.duration = settings.duration || 3600;
     settings.target = settings.target || false;
     settings.url = settings.url || false;
-    settings.key = settings.key || false;
+    settings.key = settings.key || settings.url.replace(/([^a-z]+)/g, '');
+    settings.callback_beforeinsert = settings.callback_beforeinsert || function(item, value) {};
+    settings.callback_afterinsert = settings.callback_afterinsert || function(item, value) {};
 
     var currentTime = Math.floor(new Date().getTime() / 1000);
 
     /* We need some values to continue */
-    if (!settings.url || !settings.target || !settings.key) {
+    if (!settings.url || !settings.target) {
         return false;
     }
 
@@ -26,9 +28,9 @@ var vanillaAjaxCache = function(settings) {
     /* Key exists */
     if (!!localStorage.getItem(ckey) && !!localStorage.getItem(ckeytime)) {
         /* Content not expired */
-        var loginTime = parseInt(localStorage.getItem(ckeytime),10);
+        var loginTime = parseInt(localStorage.getItem(ckeytime), 10);
         if (loginTime + settings.duration > currentTime) {
-            settings.target.innerHTML = localStorage.getItem(ckey);
+            inject_content(ckey);
             return;
         }
         /* Content expired */
@@ -38,16 +40,32 @@ var vanillaAjaxCache = function(settings) {
         }
     }
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', settings.url);
-    settings.target.setAttribute('data-vanillaajaxcacheloading', '1');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            settings.target.setAttribute('data-vanillaajaxcacheloading', '');
-            localStorage.setItem(ckey, xhr.responseText);
-            localStorage.setItem(ckeytime, currentTime);
-            settings.target.innerHTML = localStorage.getItem(ckey);
-        }
-    };
-    xhr.send();
+    make_ajax_request();
+
+    /* ----------------------------------------------------------
+      App
+    ---------------------------------------------------------- */
+
+    function make_ajax_request() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', settings.url);
+        settings.target.setAttribute('data-vanillaajaxcacheloading', '1');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                settings.target.setAttribute('data-vanillaajaxcacheloading', '');
+                localStorage.setItem(ckey, xhr.responseText);
+                localStorage.setItem(ckeytime, currentTime);
+                inject_content(ckey);
+            }
+        };
+        xhr.send();
+    }
+
+    function inject_content() {
+        var value = localStorage.getItem(ckey),
+            item = settings.target;
+        settings.callback_beforeinsert(item, value);
+        item.innerHTML = value;
+        settings.callback_afterinsert(item, value);
+    }
 };
