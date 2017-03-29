@@ -1,6 +1,6 @@
 /*
  * Plugin Name: AJAX Cache
- * Version: 0.2.1
+ * Version: 0.2.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities AJAX Cache be freely distributed under the MIT license.
  */
@@ -49,19 +49,33 @@ var vanillaAjaxCache = function(settings) {
     ---------------------------------------------------------- */
 
     function make_ajax_request() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', settings.url);
         settings.callback_beforeajax(settings);
         settings.target.setAttribute('data-vanillaajaxcacheloading', '1');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                settings.target.setAttribute('data-vanillaajaxcacheloading', '');
-                localStorage.setItem(ckey, xhr.responseText);
-                localStorage.setItem(ckeytime, currentTime);
-                inject_content(ckey);
-            }
-        };
-        xhr.send();
+        if (typeof jQuery === 'undefined') {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', settings.url);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    ajax_success(xhr.responseText);
+                }
+            };
+            xhr.send();
+        } else {
+            jQuery.ajax({
+                type: 'GET',
+                url: settings.url,
+                success: function(resp) {
+                    ajax_success(resp);
+                }
+            });
+        }
+    }
+
+    function ajax_success(responseText) {
+        settings.target.setAttribute('data-vanillaajaxcacheloading', '');
+        localStorage.setItem(ckey, responseText);
+        localStorage.setItem(ckeytime, currentTime);
+        inject_content(ckey);
     }
 
     function inject_content() {
