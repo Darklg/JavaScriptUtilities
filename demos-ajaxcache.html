@@ -4,8 +4,8 @@ layout: default
 
 <h2>AJAX Cache</h2>
 <div id="target"></div>
-<script class="script-visible" contenteditable>new vanillaAjaxCache( {
+<script class="script-visible" contenteditable>new vanillaAjaxCache({
     url: 'assets/html/ajax.html',
-    target: $_('target')
+    target: document.querySelector('#target')
 });
 </script>

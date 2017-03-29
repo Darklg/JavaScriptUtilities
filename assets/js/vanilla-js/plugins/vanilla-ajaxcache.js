@@ -1,6 +1,6 @@
 /*
  * Plugin Name: AJAX Cache
- * Version: 0.2.2
+ * Version: 0.3.0
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities AJAX Cache be freely distributed under the MIT license.
  */
@@ -15,6 +15,7 @@ var vanillaAjaxCache = function(settings) {
     settings.callback_beforeajax = settings.callback_beforeajax || function(item, value) {};
     settings.callback_beforeinsert = settings.callback_beforeinsert || function(item, value) {};
     settings.callback_afterinsert = settings.callback_afterinsert || function(item, value) {};
+    settings.targetlength = 0;
 
     var currentTime = Math.floor(new Date().getTime() / 1000);
 
@@ -22,6 +23,12 @@ var vanillaAjaxCache = function(settings) {
     if (!settings.url || !settings.target) {
         return false;
     }
+
+    /* Target should be a collection */
+    if ('tagName' in settings.target) {
+        settings.target = new Array(settings.target);
+    }
+    settings.targetlength = settings.target.length;
 
     var ckey = 'vanillaajaxcache____' + settings.key,
         ckeytime = ckey + '____time';
@@ -50,29 +57,23 @@ var vanillaAjaxCache = function(settings) {
 
     function make_ajax_request() {
         settings.callback_beforeajax(settings);
-        settings.target.setAttribute('data-vanillaajaxcacheloading', '1');
-        if (typeof jQuery === 'undefined') {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', settings.url);
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    ajax_success(xhr.responseText);
-                }
-            };
-            xhr.send();
-        } else {
-            jQuery.ajax({
-                type: 'GET',
-                url: settings.url,
-                success: function(resp) {
-                    ajax_success(resp);
-                }
-            });
+        for (var i = 0; i < settings.targetlength; i++) {
+            settings.target[i].setAttribute('data-vanillaajaxcacheloading', '1');
         }
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', settings.url);
+        xhr.onload = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                ajax_success(xhr.responseText);
+            }
+        };
+        xhr.send();
     }
 
     function ajax_success(responseText) {
-        settings.target.setAttribute('data-vanillaajaxcacheloading', '');
+        for (var i = 0; i < settings.targetlength; i++) {
+            settings.target[i].setAttribute('data-vanillaajaxcacheloading', '');
+        }
         localStorage.setItem(ckey, responseText);
         localStorage.setItem(ckeytime, currentTime);
         inject_content(ckey);
@@ -80,9 +81,12 @@ var vanillaAjaxCache = function(settings) {
 
     function inject_content() {
         var value = localStorage.getItem(ckey),
-            item = settings.target;
-        settings.callback_beforeinsert(item, value);
-        item.innerHTML = value;
-        settings.callback_afterinsert(item, value);
+            item = false;
+        for (var i = 0; i < settings.targetlength; i++) {
+            item = settings.target[i];
+            settings.callback_beforeinsert(item, value);
+            item.innerHTML = value;
+            settings.callback_afterinsert(item, value);
+        }
     }
 };
