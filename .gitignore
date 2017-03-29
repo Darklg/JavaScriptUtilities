@@ -2,3 +2,4 @@ _ghpages/
 node_modules/
 build/
 assets/videos
+/.jekyll-metadata
