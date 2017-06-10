@@ -1,6 +1,6 @@
 /*
  * Plugin Name: AJAX Cache
- * Version: 0.4.0
+ * Version: 0.5.0
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities AJAX Cache be freely distributed under the MIT license.
  */
@@ -11,6 +11,7 @@ var vanillaAjaxCache = function(settings) {
     settings.duration = settings.duration || 3600;
     settings.method = settings.method || 'GET';
     settings.target = settings.target || false;
+    settings.cachebuster = settings.cachebuster || false;
     settings.url = settings.url || false;
     settings.key = settings.key || settings.url.replace(/([^a-z]+)/g, '');
     settings.callback_beforeajax = settings.callback_beforeajax || function(item, value) {};
@@ -62,6 +63,9 @@ var vanillaAjaxCache = function(settings) {
             settings.target[i].setAttribute('data-vanillaajaxcacheloading', '1');
         }
         var xhr = new XMLHttpRequest();
+        if (settings.cachebuster) {
+            settings.url = set_url_cachebuster(settings.url);
+        }
         xhr.open(settings.method, settings.url);
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.onload = function() {
@@ -70,6 +74,14 @@ var vanillaAjaxCache = function(settings) {
             }
         };
         xhr.send();
+    }
+
+    function set_url_cachebuster(settingsUrl) {
+        var parser = document.createElement('a'),
+            cachebuster = (new Date()).getTime();
+        parser.href = settingsUrl;
+        parser.search += (parser.search.substr(0, 1) == '?' ? '&' : '?') + 'vanillaajaxcachebuster=' + cachebuster;
+        return parser.href;
     }
 
     function ajax_success(responseText) {
