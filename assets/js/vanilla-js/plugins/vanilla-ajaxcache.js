@@ -1,6 +1,6 @@
 /*
  * Plugin Name: AJAX Cache
- * Version: 0.5.0
+ * Version: 0.5.1
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities AJAX Cache be freely distributed under the MIT license.
  */
@@ -17,6 +17,7 @@ var vanillaAjaxCache = function(settings) {
     settings.callback_beforeajax = settings.callback_beforeajax || function(item, value) {};
     settings.callback_beforeinsert = settings.callback_beforeinsert || function(item, value) {};
     settings.callback_afterinsert = settings.callback_afterinsert || function(item, value) {};
+    settings.callback_afterajaxfail = settings.callback_afterajaxfail || function(xhr) {};
     settings.targetlength = 0;
 
     var currentTime = Math.floor(new Date().getTime() / 1000);
@@ -66,13 +67,20 @@ var vanillaAjaxCache = function(settings) {
         if (settings.cachebuster) {
             settings.url = set_url_cachebuster(settings.url);
         }
-        xhr.open(settings.method, settings.url);
+        xhr.open(settings.method, settings.url, true);
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.onerror = function(e) {
+            settings.callback_afterajaxfail(e.target.status);
+        };
         xhr.onload = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 ajax_success(xhr.responseText);
             }
+            if (xhr.status >= 500) {
+                settings.callback_afterajaxfail(xhr.status);
+            }
         };
+
         xhr.send();
     }
 
