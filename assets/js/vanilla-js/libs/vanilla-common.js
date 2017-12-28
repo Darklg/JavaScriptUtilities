@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.15.1
+ * Version: 1.15.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -286,60 +286,6 @@ var morphCSS = function(element, settings) {
         }
     }
     return element;
-};
-
-/* ----------------------------------------------------------
-  Morph HTML Number
----------------------------------------------------------- */
-
-var morphHTMLNumber = function(options) {
-    var finalValue, intervalValue, interval, startValue;
-    if (!options) {
-        return false;
-    }
-    if (options.innerHTML) {
-        options = {
-            el: options
-        };
-    }
-    if (!options.el) {
-        return false;
-    }
-
-    // Default options
-    options.time = options.time || 1500;
-    options.intervalDelay = options.intervalDelay || 25;
-
-    // Final value
-    if (!options.finalValue) {
-        if (options.el.getAttribute("data-finalvalue")) {
-            options.finalValue = parseInt(options.el.getAttribute("data-finalvalue"), 10);
-        }
-        else {
-            options.finalValue = parseInt(options.el.innerHTML, 10);
-        }
-    }
-
-    // Get values
-    finalValue = options.finalValue;
-    intervalValue = finalValue / (options.time / options.intervalDelay);
-    startValue = 0;
-
-    // Set content to 0
-    options.el.innerHTML = 0;
-
-    // Launch Counter incrementation
-    interval = setInterval(function() {
-        startValue += intervalValue;
-        options.el.innerHTML = Math.ceil(startValue);
-    }, options.intervalDelay);
-
-    setTimeout(function() {
-        // Stop counter
-        clearInterval(interval);
-        // Set content to final value
-        options.el.innerHTML = finalValue;
-    }, options.time);
 };
 
 /* ----------------------------------------------------------
