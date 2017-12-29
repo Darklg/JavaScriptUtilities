@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Common
- * Version: 1.15.2
+ * Version: 1.15.3
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  * Contributors : bloodyowl
@@ -118,9 +118,7 @@ var callOnImgLoad = function(url, callback) {
     var img = new Image();
 
     // Trigger callback on load
-    img.onload = function() {
-        callback();
-    };
+    img.onload = callback;
 
     // Set image load
     img.src = url;
@@ -385,5 +383,13 @@ var setWideText = function(el) {
         dWi = el.parentNode.offsetWidth,
         elStyle = getComputedStyle(el, null),
         elFontSize = parseInt(elStyle.fontSize, 10);
-    el.style.fontSize = (elFontSize * dWi / elWi) + 'px';
+
+    if (elStyle.display == 'block') {
+        el.style.display = 'inline';
+        setWideText(el);
+    }
+    else {
+        el.style.fontSize = (elFontSize * dWi / elWi) + 'px';
+    }
+
 };
