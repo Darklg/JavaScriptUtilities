@@ -22,3 +22,6 @@
 [submodule "modules/vanillaJsuParallax"]
 	path = modules/vanillaJsuParallax
 	url = https://github.com/JavaScriptUtilities/vanillaJsuParallax.git
+[submodule "modules/vanillaMorphHTMLNumber"]
+	path = modules/vanillaMorphHTMLNumber
+	url = https://github.com/JavaScriptUtilities/vanillaMorphHTMLNumber.git
