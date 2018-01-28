@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Events
- * Version: 1.10
+ * Version: 1.11
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -200,3 +200,32 @@ window.watchKeyBoardKeys = function() {
         window.triggerEvent(window, 'keypress_' + charID);
     });
 };
+
+/* ----------------------------------------------------------
+  Test element with callback
+---------------------------------------------------------- */
+
+function test_element_with_callback(el, elementtest, callback, itvDuration, timeoutDuration) {
+    /* Get opts */
+    itvDuration = itvDuration || 50;
+    timeoutDuration = timeoutDuration || 1000;
+
+    /* Execute callback and stop interval */
+    function clear_and_callback() {
+        clearInterval(itv);
+        callback();
+    }
+
+    /* Test if ok */
+    function interval_function() {
+        if (elementtest(el)) {
+            clear_and_callback();
+        }
+    }
+
+    /* Test within an interval */
+    var itv = setInterval(interval_function, itvDuration);
+
+    /* Invalid test after timeout : trigger */
+    setTimeout(clear_and_callback, itvDuration);
+}
