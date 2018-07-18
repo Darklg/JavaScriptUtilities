@@ -1,6 +1,6 @@
 /*
  * Plugin Name: AJAX Cache
- * Version: 0.5.1
+ * Version: 0.5.2
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities AJAX Cache be freely distributed under the MIT license.
  */
@@ -14,6 +14,7 @@ var vanillaAjaxCache = function(settings) {
     settings.cachebuster = settings.cachebuster || false;
     settings.url = settings.url || false;
     settings.key = settings.key || settings.url.replace(/([^a-z]+)/g, '');
+    settings.key = settings.key.replace(/([^a-z]+)/g, '');
     settings.callback_beforeajax = settings.callback_beforeajax || function(item, value) {};
     settings.callback_beforeinsert = settings.callback_beforeinsert || function(item, value) {};
     settings.callback_afterinsert = settings.callback_afterinsert || function(item, value) {};
