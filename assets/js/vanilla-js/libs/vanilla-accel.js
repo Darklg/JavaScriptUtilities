@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Vanilla-JS Accelerometer
- * Version: 0.3
+ * Version: 0.4
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Vanilla-JS may be freely distributed under the MIT license.
  */
@@ -95,20 +95,25 @@ var dkJSUAccelerometer = function(item, settings) {
             y -= prop.offsetY;
         }
 
-        if (self.defaultSettings.moveRadius) {
-            x = x / (prop.endX / self.defaultSettings.moveRadius);
-            y = y / (prop.endY / self.defaultSettings.moveRadius);
+        if (self.settings.moveRadius) {
+            x = x / (prop.endX / self.settings.moveRadius);
+            y = y / (prop.endY / self.settings.moveRadius);
         }
 
         switch (self.settings.property) {
             case 'transform3d':
-                var t = 'translate(' + (0 - x) + 'px, ' + (0 - y) + 'px)';
+            case 'translate3d':
+                var t = 'translate3d(' + (0 - x) + 'px, ' + (0 - y) + 'px,0)';
                 self.item.style.WebkitTransform = t;
                 self.item.style.MozTransform = t;
                 self.item.style.transform = t;
                 break;
             case 'background-position':
                 self.item.style.backgroundPosition = (0 - x) + 'px ' + (0 - y) + 'px';
+                break;
+            case 'pos':
+                self.item.style.left = (0 - x) + 'px';
+                self.item.style.top = (0 - y) + 'px';
                 break;
             default:
         }
