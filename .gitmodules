@@ -25,3 +25,15 @@
 [submodule "modules/vanillaMorphHTMLNumber"]
 	path = modules/vanillaMorphHTMLNumber
 	url = https://github.com/JavaScriptUtilities/vanillaMorphHTMLNumber.git
+[submodule "modules/vanillaJqAlt"]
+	path = modules/vanillaJqAlt
+	url = https://github.com/JavaScriptUtilities/vanillaJqAlt.git
+[submodule "modules/vanillaLoading"]
+	path = modules/vanillaLoading
+	url = https://github.com/JavaScriptUtilities/vanillaLoading.git
+[submodule "modules/vanillaSprite"]
+	path = modules/vanillaSprite
+	url = https://github.com/JavaScriptUtilities/vanillaSprite.git
+[submodule "modules/vanillaMoveCards"]
+	path = modules/vanillaMoveCards
+	url = https://github.com/JavaScriptUtilities/vanillaMoveCards.git
