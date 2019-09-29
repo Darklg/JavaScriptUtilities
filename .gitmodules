@@ -37,3 +37,6 @@
 [submodule "modules/vanillaMoveCards"]
 	path = modules/vanillaMoveCards
 	url = https://github.com/JavaScriptUtilities/vanillaMoveCards.git
+[submodule "modules/vanillaTabs"]
+	path = modules/vanillaTabs
+	url = https://github.com/JavaScriptUtilities/vanillaTabs.git
