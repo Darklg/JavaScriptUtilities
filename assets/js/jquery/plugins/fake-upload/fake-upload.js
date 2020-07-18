@@ -1,6 +1,6 @@
 /*
  * Plugin Name: Fake Upload
- * Version: 1.5
+ * Version: 1.6.0
  * Plugin URL: https://github.com/Darklg/JavaScriptUtilities
  * JavaScriptUtilities Fake Upload may be freely distributed under the MIT license.
  */
@@ -102,7 +102,13 @@ if (!jQuery.fn.FakeUpload) {
                     settings = self.settings;
                 // Change the displayed file name
                 this.el.on('change', function() {
-                    var newValue = $(this).val().replace('C:\\fakepath\\', '');
+                    var $obj = this;
+                    var newValue = $($obj).val().replace('C:\\fakepath\\', '');
+                    if (typeof $obj.files == 'object' && $obj.files.length > 0) {
+                        newValue = Object.keys($obj.files).map(function(obj) {
+                            return $obj.files[obj].name;
+                        }).join(', ');
+                    }
                     if (newValue === '') {
                         self.setDefaultStatus();
                     }
