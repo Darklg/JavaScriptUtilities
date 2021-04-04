@@ -40,3 +40,6 @@
 [submodule "modules/vanillaTabs"]
 	path = modules/vanillaTabs
 	url = https://github.com/JavaScriptUtilities/vanillaTabs.git
+[submodule "modules/vanillaAnimateWords"]
+	path = modules/vanillaAnimateWords
+	url = https://github.com/JavaScriptUtilities/vanillaAnimateWords.git
