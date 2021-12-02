@@ -46,3 +46,6 @@
 [submodule "modules/vanillaSaveNotes"]
 	path = modules/vanillaSaveNotes
 	url = https://github.com/JavaScriptUtilities/vanillaSaveNotes.git
+[submodule "modules/vanillaJsuRange"]
+	path = modules/vanillaJsuRange
+	url = git@github.com:JavaScriptUtilities/vanillaJsuRange.git
