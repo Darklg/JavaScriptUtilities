@@ -49,3 +49,6 @@
 [submodule "modules/vanillaJsuRange"]
 	path = modules/vanillaJsuRange
 	url = git@github.com:JavaScriptUtilities/vanillaJsuRange.git
+[submodule "modules/vanillaHybridScreens"]
+	path = modules/vanillaHybridScreens
+	url = https://github.com/JavaScriptUtilities/vanillaHybridScreens.git
